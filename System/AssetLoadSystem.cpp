@@ -21,7 +21,8 @@ AssetLoadSystem::~AssetLoadSystem()
 void AssetLoadSystem::Initialize()
 {
     IMG_Init(IMG_INIT_PNG);
-    LoadTexture("/Users/haozhi-z/Programs/gamecpp/sprite/Assets/yajuu.png", "senpai");
+    LoadTexture("Assets/yajuu.png", "senpai");
+    LoadTexture("Assets/0x72_DungeonTilesetII_v1.4.png", "dungeon");
 }
 
 SDL_Texture* AssetLoadSystem::GetTexture(const std::string& fileName) const
