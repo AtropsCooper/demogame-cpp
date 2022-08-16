@@ -5,7 +5,7 @@
 class SpriteComponent : public Component
 {
 public:
-    SpriteComponent(class Entity* owner, int order);
+    SpriteComponent(class Entity* owner, int order = 100);
     ~SpriteComponent();
 
     void SetTexture(SDL_Texture* text);

@@ -1,6 +1,6 @@
 #include "SpriteComponent.h"
 
-SpriteComponent::SpriteComponent(class Entity* owner, int drawOrder = 100)
+SpriteComponent::SpriteComponent(class Entity* owner, int drawOrder)
     : Component(owner)
 {
     mDrawOrder = drawOrder;
