@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <utility>
 #include <SDL2/SDL.h>
 #include "MyMath.h"
 
@@ -15,6 +16,8 @@ public:
     void RemoveEntity(class Entity *entity);
     void AddSystem(class System *system);
     void RemoveSystem(class System *system);
+    void ComponentMessage(class Component *component, bool isAdd);
+    const std::vector<std::pair<class Component *, bool>> *GetComponentMessages() const;
 
 private:
     void ProcessInput();
@@ -28,6 +31,7 @@ private:
 
     std::vector<class Entity *> mEntities;
     std::vector<class System *> mSystems;
+    std::vector<std::pair<class Component *, bool>> mMessages;
 
     class AssetLoadSystem *mAssetLoadSystem;
     class DrawSystem *mDrawSystem;

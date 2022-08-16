@@ -3,10 +3,10 @@
 #include "Component.h"
 
 Entity::Entity(class Game* game)
-    : mState(EActive)
-    , mPosition(Vector2::Zero)
+    : mPosition(Vector2::Zero)
     , mScale(1.0f)
     , mRotation(0.0f)
+    , mState(EActive)
     , mGame(game)
 {
     mGame->AddEntity(this);
@@ -34,6 +34,10 @@ void Entity::AddComponent(Component* component)
         }
     }
     mComponents.insert(iter, component);
+    if (mState == EActive)
+    {
+        mGame->ComponentMessage(component, true);
+    }
 }
 
 void Entity::RemoveComponent(Component* component)
@@ -42,6 +46,10 @@ void Entity::RemoveComponent(Component* component)
     if (iter != mComponents.end())
     {
         mComponents.erase(iter);
+        if (mState == EActive)
+        {
+            mGame->ComponentMessage(component, false);
+        }
     }
 }
 
@@ -58,4 +66,29 @@ template<typename T> T* Entity::GetComponent() const
         }
     }
     return nullptr;
+}
+
+void Entity::SetState(enum State state)
+{
+    if (mState == EActive && state != EActive)
+    {
+        for (auto c : mComponents)
+        {
+            mGame->ComponentMessage(c, true);
+        }
+    }
+
+    if (mState != EActive && state == EActive)
+    {
+        for (auto c : mComponents)
+        {
+            mGame->ComponentMessage(c, false);
+        }
+    }
+    mState = state;
+}
+
+Entity::State Entity::GetState() const
+{
+    return mState;
 }

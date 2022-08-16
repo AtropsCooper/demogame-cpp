@@ -3,9 +3,11 @@
 #include "Entity.h"
 #include <SDL_image.h>
 #include "Game.h"
+#include "Helper.h"
 
-DrawSystem::DrawSystem(class Game* game, SDL_Renderer* renderer)
-    : mGame(game)
+
+DrawSystem::DrawSystem(class Game* game, int updateOrder, SDL_Renderer* renderer)
+    : System(game, updateOrder)
     , mRenderer(renderer)
 {
 }
@@ -17,6 +19,26 @@ DrawSystem::~DrawSystem()
         delete sprite;
     }
     mSprites.clear();
+}
+
+void DrawSystem::Update(float deltaTime)
+{
+    auto messages = *(GetGame()->GetComponentMessages());
+    for (auto c : messages)
+    {
+        if (Helper::IsComponent<SpriteComponent>(c.first))
+        {
+            SpriteComponent *sprite = dynamic_cast<SpriteComponent *>(c.first);
+            if(c.second)
+            {
+                AddSprite(sprite);
+            }
+            else
+            {
+                RemoveSprite(sprite);
+            }
+        }
+    }
 }
 
 void DrawSystem::Draw() const

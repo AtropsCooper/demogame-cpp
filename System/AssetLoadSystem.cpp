@@ -2,8 +2,8 @@
 #include <SDL_image.h>
 #include <string>
 
-AssetLoadSystem::AssetLoadSystem(class Game* game, SDL_Renderer* renderer)
-    : mGame(game)
+AssetLoadSystem::AssetLoadSystem(class Game* game, int updateOrder, SDL_Renderer* renderer)
+    : System(game, updateOrder)
     , mRenderer(renderer)
 {
 }

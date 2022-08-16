@@ -12,9 +12,7 @@ public:
         EPaused,
         EDead
     };
-
     // Transform Component
-    State mState;
     Vector2 mPosition;
     float mScale;
     float mRotation; // Radian
@@ -25,8 +23,11 @@ public:
     void AddComponent(class Component* component);
     void RemoveComponent(class Component* component);
     template<typename T> T* GetComponent() const;
+    void SetState(enum State state);
+    enum State GetState() const;
 
 protected:
+    State mState;
     std::vector<class Component*> mComponents;
     class Game* mGame;
 };

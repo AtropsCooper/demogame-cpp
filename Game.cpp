@@ -6,6 +6,7 @@
 #include "AssetLoadSystem.h"
 #include "DrawSystem.h"
 
+
 Game::Game()
     : mWindow(nullptr),
       mRenderer(nullptr),
@@ -38,7 +39,6 @@ void Game::AddSystem(class System* system)
     }
     mSystems.insert(iter, system);
 }
-
 void Game::RemoveSystem(class System* system)
 {
     auto iter = std::find(mSystems.begin(), mSystems.end(), system);
@@ -48,6 +48,15 @@ void Game::RemoveSystem(class System* system)
     }
 }
 
+void Game::ComponentMessage(class Component *component, bool isAdd)
+{
+    mMessages.emplace_back(std::make_pair(component, isAdd));
+}
+
+const std::vector<std::pair<class Component *, bool>> *Game::GetComponentMessages() const
+{
+    return &mMessages;
+}
 
 bool Game::Initialize()
 {
@@ -81,9 +90,9 @@ bool Game::Initialize()
         return false;
     }
     
-    mAssetLoadSystem = new AssetLoadSystem(this, mRenderer);
+    mAssetLoadSystem = new AssetLoadSystem(this, 10, mRenderer);
     mAssetLoadSystem->Initialize();
-    mDrawSystem = new DrawSystem(this, mRenderer);
+    mDrawSystem = new DrawSystem(this, 20, mRenderer);
 
     //  TEST CODE
 
@@ -93,7 +102,6 @@ bool Game::Initialize()
     senpai->mPosition = Vector2(512, 384);
     senpai->mScale = 2.0f;
     senpai->mRotation = MyMath::PiOver2;
-    mDrawSystem->AddSprite(sp);
 
     //  TEST CODE
 
@@ -102,10 +110,6 @@ bool Game::Initialize()
 
 void Game::Shutdown()
 {
-
-
-    delete mDrawSystem;
-    delete mAssetLoadSystem;
 
     while (!mSystems.empty())
     {
@@ -166,7 +170,11 @@ void Game::UpdateGame()
     }
 
     // Update 
-
+    for (auto system : mSystems)
+    {
+        system->Update(deltaTime);
+    }
+    mMessages.clear();
 }
 
 void Game::GenerateOutput()

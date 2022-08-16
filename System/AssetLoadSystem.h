@@ -2,11 +2,12 @@
 #include <SDL_image.h>
 #include <unordered_map>
 #include <string>
+#include "System.h"
 
-class AssetLoadSystem
+class AssetLoadSystem : public System
 {
 public:
-    AssetLoadSystem(class Game* game, SDL_Renderer* renderer);
+    AssetLoadSystem(class Game* game, int updateOrder, SDL_Renderer* renderer);
     ~AssetLoadSystem();
 
     void Initialize();
@@ -14,8 +15,7 @@ public:
 
 private:
     void LoadTexture (const std::string& filename, const std::string& newName);
-    
-    class Game* mGame;
+
     SDL_Renderer* mRenderer;
     std::unordered_map<std::string, SDL_Texture*> mTextures;
     

@@ -3,9 +3,9 @@
 class System
 {
 public:
-    System(class Game* game, int UpdateOrder);
+    System(class Game* game, int updateOrder);
     virtual ~System();
-    virtual void Update(float deltaTime) const;
+    virtual void Update(float deltaTime);
     int GetUpdateOrder() const { return mUpdateOrder; }
     Game* GetGame() const { return mGame; }
 protected:

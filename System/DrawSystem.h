@@ -3,12 +3,13 @@
 # include <vector>
 # include "Game.h"
 
-class DrawSystem
+class DrawSystem : public System
 {
 public:
-    DrawSystem(class Game* game, SDL_Renderer* renderer);
+    DrawSystem(class Game* game, int updateOrder, SDL_Renderer* renderer);
     ~DrawSystem();
 
+    void Update(float deltaTime) override;
     void Draw() const;
     void AddSprite(class SpriteComponent* sprite);
     void RemoveSprite(class SpriteComponent* sprite);
