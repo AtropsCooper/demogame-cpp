@@ -9,7 +9,7 @@ public:
     DrawSystem(class Game* game, int updateOrder, SDL_Renderer* renderer);
     ~DrawSystem();
 
-    void Update(float deltaTime) override;
+    void FetchComponents() override;
     void Draw() const;
     void AddSprite(class SpriteComponent* sprite);
     void RemoveSprite(class SpriteComponent* sprite);

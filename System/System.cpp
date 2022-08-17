@@ -17,11 +17,6 @@ System::~System()
     mGame->RemoveSystem(this);
 }
 
-void System::Update(float deltaTime)
-{
-    return;
-}
-
 template <typename T>
 void System::DetectComponent(std::vector<T *> *container)
 {

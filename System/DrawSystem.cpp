@@ -20,7 +20,7 @@ DrawSystem::~DrawSystem()
     mSprites.clear();
 }
 
-void DrawSystem::Update(float deltaTime)
+void DrawSystem::FetchComponents()
 {
     DetectComponent<SpriteComponent>(&mSprites);
 }

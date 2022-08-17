@@ -170,11 +170,16 @@ void Game::UpdateGame()
     }
 
     // Update 
+
+    for (auto system : mSystems)
+    {
+        system->FetchComponents();
+    }
+    mMessages.clear();
     for (auto system : mSystems)
     {
         system->Update(deltaTime);
     }
-    mMessages.clear();
 }
 
 void Game::GenerateOutput()
