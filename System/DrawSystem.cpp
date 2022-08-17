@@ -30,12 +30,12 @@ void DrawSystem::Draw() const
     for (auto sprite : mSprites)
     {
         auto owner = sprite->GetOwner();
-        SDL_Rect imageRect { 0, 0, sprite->mTexWidth, sprite->mTexHeight };
+        SDL_Rect imageRect = sprite->srcRect;
         SDL_Rect dstRect;
         dstRect.w = static_cast<int>(sprite->mTexWidth * owner->mScale);
         dstRect.h = static_cast<int>(sprite->mTexHeight * owner->mScale);
-        dstRect.x = static_cast<int>(owner->mPosition.x - dstRect.w / 2);
-        dstRect.y = static_cast<int>(owner->mPosition.y - dstRect.h / 2);
+        dstRect.x = static_cast<int>(owner->mPosition.x - dstRect.w / 2 + sprite->mOffset.x);
+        dstRect.y = static_cast<int>(owner->mPosition.y - dstRect.h / 2 + sprite->mOffset.y);
 
         
         SDL_RenderCopyEx(mRenderer, sprite->GetTexture(), 

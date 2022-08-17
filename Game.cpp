@@ -100,8 +100,15 @@ bool Game::Initialize()
     SpriteComponent* sp = new SpriteComponent(senpai, 100);
     sp->SetTexture(mAssetLoadSystem->GetTexture("senpai"));
     senpai->mPosition = Vector2(512, 384);
-    senpai->mScale = 2.0f;
+    senpai->mScale = 0.2f;
     senpai->mRotation = MyMath::PiOver2;
+
+    Entity* heroE = new Entity(this);
+    SpriteComponent* hero = new SpriteComponent(heroE, 200);
+    hero->mOffset.y = 200;
+    heroE->mPosition = Vector2(512, 284);
+    SDL_Rect part = {128, 100, 16, 28};
+    hero->SetTexture(mAssetLoadSystem->GetTexture("dungeon"), &part);
 
     //  TEST CODE
 
