@@ -17,6 +17,7 @@ public:
     int mTexHeight;
     SDL_Rect mSrcRect;
     Vector2 mOffset;
+    bool mFaceRight;
     int mDrawOrder;
 
 private:

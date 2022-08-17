@@ -36,10 +36,10 @@ void DrawSystem::Draw() const
         dstRect.h = static_cast<int>(sprite->mTexHeight * owner->mScale);
         dstRect.x = static_cast<int>(owner->mPosition.x - dstRect.w / 2 + sprite->mOffset.x);
         dstRect.y = static_cast<int>(owner->mPosition.y - dstRect.h / 2 + sprite->mOffset.y);
-
+        SDL_RendererFlip flip = sprite->mFaceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
         
         SDL_RenderCopyEx(mRenderer, sprite->GetTexture(), 
-                        &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), nullptr, SDL_FLIP_NONE);
+                        &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), nullptr, flip);
     }
 }
 

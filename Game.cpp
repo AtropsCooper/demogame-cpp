@@ -99,8 +99,9 @@ bool Game::Initialize()
     Entity* senpai = new Entity(this);
     SpriteComponent* sp = new SpriteComponent(senpai, 100);
     sp->SetTexture(mAssetLoadSystem->GetTexture("senpai"));
+    sp->mFaceRight = false;
     senpai->mPosition = Vector2(512, 384);
-    senpai->mScale = 0.2f;
+    senpai->mScale = 0.5f;
     senpai->mRotation = MyMath::PiOver2;
 
     Entity* heroE = new Entity(this);

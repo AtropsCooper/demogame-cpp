@@ -4,6 +4,7 @@ SpriteComponent::SpriteComponent(class Entity* owner, int drawOrder)
     : Component(owner)
     , mSrcRect({0, 0, 0, 0})
     , mOffset(0.0f, 0.0f)
+    , mFaceRight(true)
 {
     mDrawOrder = drawOrder;
 }
