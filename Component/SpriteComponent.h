@@ -15,7 +15,7 @@ public:
 
     int mTexWidth;
     int mTexHeight;
-    SDL_Rect srcRect;
+    SDL_Rect mSrcRect;
     Vector2 mOffset;
     int mDrawOrder;
 
