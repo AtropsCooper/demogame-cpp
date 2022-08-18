@@ -3,6 +3,8 @@
 #include "System.h"
 #include "Entity.h"
 #include "SpriteComponent.h"
+#include "AnimComponent.h"
+#include "AnimationSystem.h"
 #include "AssetLoadSystem.h"
 #include "DrawSystem.h"
 
@@ -93,6 +95,7 @@ bool Game::Initialize()
     mAssetLoadSystem = new AssetLoadSystem(this, 10, mRenderer);
     mAssetLoadSystem->Initialize();
     mDrawSystem = new DrawSystem(this, 20, mRenderer);
+    AnimationSystem* ani = new AnimationSystem(this, 19);
 
     //  TEST CODE
 
@@ -102,14 +105,22 @@ bool Game::Initialize()
     sp->mFaceRight = false;
     senpai->mPosition = Vector2(512, 384);
     senpai->mScale = 0.5f;
-    senpai->mRotation = MyMath::PiOver2;
+    senpai->mRotation = MyMath::PiOver2 / 2;
 
     Entity* heroE = new Entity(this);
-    SpriteComponent* hero = new SpriteComponent(heroE, 200);
-    hero->mOffset.y = 200;
+    AnimComponent* hero = new AnimComponent(heroE, 200);
+    heroE->mScale = 2.0f;
+    hero->mOffset.y = 100;
     heroE->mPosition = Vector2(512, 284);
-    SDL_Rect part = {128, 100, 16, 28};
-    hero->SetTexture(mAssetLoadSystem->GetTexture("dungeon"), &part);
+    SDL_Rect idle = {128, 196, 16, 28}; //4
+    SDL_Rect run = {192, 196, 16, 28}; //4
+    SDL_Rect hit = {256, 196, 16, 28}; //1
+    // Need fix: SetTexture every time
+    hero->SetState(AnimComponent::EMoving);
+    hero->SetTexture(mAssetLoadSystem->GetTexture("dungeon"), &idle);
+    hero->SetAnimSprites(AnimComponent::EIdle, &idle, 4, 0.15f);
+    hero->SetAnimSprites(AnimComponent::EMoving, &run, 4, 0.15f);
+    hero->SetAnimSprites(AnimComponent::EHit, &hit, 1, 0.15f);
 
     //  TEST CODE
 

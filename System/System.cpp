@@ -2,6 +2,7 @@
 #include "Game.h"
 #include <vector>
 #include "SpriteComponent.h"
+#include "AnimComponent.h"
 #include "Component.h"
 #include "Helper.h"
 
@@ -51,4 +52,7 @@ void System::DetectComponent(std::vector<T *> *container)
     }
 }
 
-template void System::DetectComponent<class SpriteComponent>(std::vector<class SpriteComponent*> *container);
+#define tDetect(type) template void System::DetectComponent<class type>(std::vector<class type*> *container)
+
+tDetect(SpriteComponent);
+tDetect(AnimComponent);

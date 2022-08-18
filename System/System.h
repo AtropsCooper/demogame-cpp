@@ -16,6 +16,5 @@ public:
 
 protected:
     int mUpdateOrder;
-private:
     class Game* mGame;
 };

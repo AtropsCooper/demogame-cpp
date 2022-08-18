@@ -20,7 +20,7 @@ public:
     bool mFaceRight;
     int mDrawOrder;
 
-private:
+protected:
     SDL_Texture* mTexture;
 
 };
