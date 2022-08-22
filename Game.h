@@ -16,6 +16,7 @@ public:
     void RemoveEntity(class Entity *entity);
     void AddSystem(class System *system);
     void RemoveSystem(class System *system);
+    void SetIsRunning(bool isRunning);
     void ComponentMessage(class Component *component, bool isAdd);
     const std::vector<std::pair<class Component *, bool>> *GetComponentMessages() const;
 
@@ -35,4 +36,5 @@ private:
 
     class AssetLoadSystem *mAssetLoadSystem;
     class DrawSystem *mDrawSystem;
+    class InputSystem *mInputSystem;
 };

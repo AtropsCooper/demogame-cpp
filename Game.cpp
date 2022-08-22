@@ -7,6 +7,7 @@
 #include "AnimationSystem.h"
 #include "AssetLoadSystem.h"
 #include "DrawSystem.h"
+#include "InputSystem.h"
 
 
 Game::Game()
@@ -48,6 +49,10 @@ void Game::RemoveSystem(class System* system)
     {
         mSystems.erase(iter);
     }
+}
+void Game::SetIsRunning(bool isRunning)
+{
+    mIsRunning = isRunning;
 }
 
 void Game::ComponentMessage(class Component *component, bool isAdd)
@@ -92,10 +97,12 @@ bool Game::Initialize()
         return false;
     }
     
+    mInputSystem = new InputSystem(this, 0);
+    mInputSystem->Initialize();
     mAssetLoadSystem = new AssetLoadSystem(this, 10, mRenderer);
     mAssetLoadSystem->Initialize();
     mDrawSystem = new DrawSystem(this, 20, mRenderer);
-    AnimationSystem* ani = new AnimationSystem(this, 19);
+    new AnimationSystem(this, 19);
 
     //  TEST CODE
 
@@ -157,22 +164,7 @@ void Game::RunLoop()
 
 void Game::ProcessInput()
 {
-    SDL_Event event;
-    while (SDL_PollEvent(&event))
-    {
-        switch (event.type)
-        {
-        case SDL_QUIT:
-            mIsRunning = false;
-            break;
-        }
-    }
-
-    const Uint8 *state = SDL_GetKeyboardState(NULL);
-    if (state[SDL_SCANCODE_ESCAPE])
-    {
-        mIsRunning = false;
-    }
+    // Do Nothing    
 }
 
 void Game::UpdateGame()
