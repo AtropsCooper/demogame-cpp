@@ -4,10 +4,13 @@
 #include "Entity.h"
 #include "SpriteComponent.h"
 #include "AnimComponent.h"
+#include "MoveComponent.h"
 #include "AnimationSystem.h"
 #include "AssetLoadSystem.h"
 #include "DrawSystem.h"
 #include "InputSystem.h"
+#include "MoveSystem.h"
+#include "PlayerControllerSystem.h"
 
 
 Game::Game()
@@ -99,26 +102,23 @@ bool Game::Initialize()
     
     mInputSystem = new InputSystem(this, 0);
     mInputSystem->Initialize();
+    mInputState = &(mInputSystem->GetState());
     mAssetLoadSystem = new AssetLoadSystem(this, 10, mRenderer);
     mAssetLoadSystem->Initialize();
     mDrawSystem = new DrawSystem(this, 20, mRenderer);
     new AnimationSystem(this, 19);
+    new MoveSystem(this, 18);
+    PlayerControllerSystem *pcs = new PlayerControllerSystem(this, 17);
 
     //  TEST CODE
 
-    Entity* senpai = new Entity(this);
-    SpriteComponent* sp = new SpriteComponent(senpai, 100);
-    sp->SetTexture(mAssetLoadSystem->GetTexture("senpai"));
-    sp->mFaceRight = false;
-    senpai->mPosition = Vector2(512, 384);
-    senpai->mScale = 0.5f;
-    senpai->mRotation = MyMath::PiOver2 / 2;
-
-    Entity* heroE = new Entity(this);
-    AnimComponent* hero = new AnimComponent(heroE, 200);
-    heroE->mScale = 2.0f;
+    mPlayer = new Entity(this);
+    pcs->SetPlayer(mPlayer);
+    AnimComponent* hero = new AnimComponent(mPlayer, 200);
+    new MoveComponent(mPlayer, 100);
+    mPlayer->mScale = 2.0f;
     hero->mOffset.y = 100;
-    heroE->mPosition = Vector2(512, 284);
+    mPlayer->mPosition = Vector2(512, 284);
     SDL_Rect idle = {128, 196, 16, 28}; //4
     SDL_Rect run = {192, 196, 16, 28}; //4
     SDL_Rect hit = {256, 196, 16, 28}; //1

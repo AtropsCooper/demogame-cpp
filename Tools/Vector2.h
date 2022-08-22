@@ -34,6 +34,11 @@ public:
         return this->Equal(v);
     }
 
+    bool operator!=(const Vector2 &v)
+    {
+        return !(this->Equal(v));
+    }
+
     // Vector addition (a + b)
     friend Vector2 operator+(const Vector2 &a, const Vector2 &b)
     {

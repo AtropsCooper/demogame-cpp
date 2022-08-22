@@ -21,6 +21,9 @@ void AnimComponent::SetAnimSprites(AnimComponent::State state,
 
 void AnimComponent::SetState(State state)
 {
-    mState = state;
-    mTime = 0.0f;
+    if(mState != state)
+    {
+        mState = state;
+        mTime = 0.0f;
+    }
 }

@@ -3,6 +3,7 @@
 #include <utility>
 #include <SDL2/SDL.h>
 #include "MyMath.h"
+#include "InputSystem.h"
 
 class Game
 {
@@ -17,8 +18,11 @@ public:
     void AddSystem(class System *system);
     void RemoveSystem(class System *system);
     void SetIsRunning(bool isRunning);
+    const InputState *GetInputState() const { return mInputState; }
     void ComponentMessage(class Component *component, bool isAdd);
     const std::vector<std::pair<class Component *, bool>> *GetComponentMessages() const;
+
+    class Entity *mPlayer;
 
 private:
     void ProcessInput();
@@ -37,4 +41,6 @@ private:
     class AssetLoadSystem *mAssetLoadSystem;
     class DrawSystem *mDrawSystem;
     class InputSystem *mInputSystem;
+
+    const InputState *mInputState;
 };

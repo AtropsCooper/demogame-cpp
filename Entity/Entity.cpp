@@ -1,6 +1,9 @@
 #include "Entity.h"
 #include "Game.h"
 #include "Component.h"
+#include "MoveComponent.h"
+#include "SpriteComponent.h"
+#include "AnimationSystem.h"
 
 Entity::Entity(class Game* game)
     : mPosition(Vector2::Zero)
@@ -92,3 +95,9 @@ Entity::State Entity::GetState() const
 {
     return mState;
 }
+
+#define tGetComponent(type) template type* Entity::GetComponent<type>() const
+
+tGetComponent(SpriteComponent);
+tGetComponent(MoveComponent);
+tGetComponent(AnimComponent);
