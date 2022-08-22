@@ -8,7 +8,7 @@ public:
     int GetUpdateOrder() const;
     Entity* GetOwner() const { return mOwner; }
 
+    int mUpdateOrder;
 protected:
     class Entity* mOwner;
-    int mUpdateOrder;
 };
