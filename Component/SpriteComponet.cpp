@@ -1,18 +1,13 @@
 #include "SpriteComponent.h"
 
 SpriteComponent::SpriteComponent(class Entity* owner, int drawOrder)
-    : Component(owner)
+    : Component(owner, drawOrder)
     , mSrcRect({0, 0, 0, 0})
     , mOffset(0.0f, 0.0f)
     , mFaceRight(true)
 {
-    mDrawOrder = drawOrder;
 }
 
-SpriteComponent::~SpriteComponent()
-{
-
-}
 
 void SpriteComponent::SetTexture(SDL_Texture* text)
 {

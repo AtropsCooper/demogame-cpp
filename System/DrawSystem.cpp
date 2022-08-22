@@ -46,11 +46,11 @@ void DrawSystem::Draw() const
 
 void DrawSystem::AddSprite(class SpriteComponent* sprite)
 {
-    int myOrder = sprite->mDrawOrder;
+    int myOrder = sprite->mUpdateOrder;
     auto iter = mSprites.begin();
     for (; iter != mSprites.end(); iter++)
     {
-        if (myOrder < (*iter)->mDrawOrder)
+        if (myOrder < (*iter)->mUpdateOrder)
         {
             break;
         }

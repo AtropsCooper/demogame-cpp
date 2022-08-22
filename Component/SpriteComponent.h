@@ -7,7 +7,6 @@ class SpriteComponent : public Component
 {
 public:
     SpriteComponent(class Entity* owner, int order = 100);
-    ~SpriteComponent();
 
     void SetTexture(SDL_Texture* text);
     void SetTexture(SDL_Texture* text, SDL_Rect *part);
@@ -18,7 +17,6 @@ public:
     SDL_Rect mSrcRect;
     Vector2 mOffset;
     bool mFaceRight;
-    int mDrawOrder;
 
 protected:
     SDL_Texture* mTexture;

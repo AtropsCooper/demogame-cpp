@@ -1,10 +1,9 @@
 #include "Component.h"
 #include "Entity.h"
 
-
-Component::Component(class Entity* owner)
+Component::Component(class Entity* owner, int updateOrder)
     : mOwner(owner)
-    , mUpdateOrder(100)
+    , mUpdateOrder(updateOrder)
 {
     mOwner->AddComponent(this);
 }

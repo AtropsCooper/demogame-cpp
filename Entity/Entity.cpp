@@ -74,7 +74,7 @@ void Entity::SetState(enum State state)
     {
         for (auto c : mComponents)
         {
-            mGame->ComponentMessage(c, true);
+            mGame->ComponentMessage(c, false);
         }
     }
 
@@ -82,7 +82,7 @@ void Entity::SetState(enum State state)
     {
         for (auto c : mComponents)
         {
-            mGame->ComponentMessage(c, false);
+            mGame->ComponentMessage(c, true);
         }
     }
     mState = state;
