@@ -27,6 +27,17 @@ DrawSystem::~DrawSystem()
     mSprites.clear();
 }
 
+Vector2 DrawSystem::WorldToScreen(const Vector2 &v) const
+{
+    return Vector2((v.x - mCameraPos.x) * mPixelsPerGrid, 
+                    (v.y - mCameraPos.y) * -mPixelsPerGrid + mWindowHeight);
+}
+Vector2 DrawSystem::ScreenToWorld(const Vector2 &v) const
+{
+    return Vector2(v.x / mPixelsPerGrid + mCameraPos.x, 
+                    (v.y - mWindowHeight) / -mPixelsPerGrid + mCameraPos.y);
+}
+
 void DrawSystem::FetchComponents()
 {
     DetectComponent<SpriteComponent>(&mSprites);

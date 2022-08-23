@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Entity.h"
 #include "SpriteComponent.h"
+#include "DrawSystem.h"
 
 void PlayerControllerSystem::SetPlayer(Entity* player)
 {
@@ -31,8 +32,8 @@ void PlayerControllerSystem::Update(float deltaTime)
     {
         mPMC = mPlayer->GetComponent<MoveComponent>();
     }
-    
-    if (state->Mouse.GetMousePosition().x >= mPlayer->mPosition.x)
+    float mousePosX = mGame->GetDrawSystem()->ScreenToWorld(state->Mouse.GetMousePosition()).x;
+    if (mousePosX >= mPlayer->mPosition.x)
     {
         mPlayer->GetComponent<SpriteComponent>()->mFaceRight = true;
     }
