@@ -9,7 +9,7 @@ public:
     SpriteComponent(class Entity* owner, int order = 100);
 
     void SetTexture(SDL_Texture* text);
-    void SetTexture(SDL_Texture* text, SDL_Rect *part);
+    void SetTexture(SDL_Texture* text, const SDL_Rect *part);
     SDL_Texture* GetTexture() const { return mTexture; }
 
     int mTexWidth;

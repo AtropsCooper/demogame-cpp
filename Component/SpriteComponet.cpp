@@ -19,7 +19,7 @@ void SpriteComponent::SetTexture(SDL_Texture* text)
     mSrcRect.h = mTexHeight;
 }
 
-void SpriteComponent::SetTexture(SDL_Texture* text, SDL_Rect* part)
+void SpriteComponent::SetTexture(SDL_Texture* text, const SDL_Rect* part)
 {
     mTexture = text;
     mSrcRect = *part;
