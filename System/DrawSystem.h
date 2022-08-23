@@ -10,12 +10,19 @@ public:
     ~DrawSystem();
 
     void FetchComponents() override;
+    void Update(float deltaTime) override;
     void Draw() const;
-    void AddSprite(class SpriteComponent* sprite);
-    void RemoveSprite(class SpriteComponent* sprite);
+    void SetPlayer(class Entity* player);
 
 private:
     class Game* mGame;
     SDL_Renderer* mRenderer;
     std::vector<class SpriteComponent*> mSprites;
+
+    int mWindowWidth;
+    int mWindowHeight;
+    Vector2 mCameraPos;
+    float mPixelsPerGrid;
+
+    class Entity* mPlayer;
 };

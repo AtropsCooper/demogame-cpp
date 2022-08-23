@@ -19,12 +19,12 @@ void PlayerControllerSystem::Update(float deltaTime)
     {
         Vector2 movement;
         movement.x = (state->KeyBoard.GetKeyValue(SDL_SCANCODE_D) - state->KeyBoard.GetKeyValue(SDL_SCANCODE_A));
-        movement.y = (state->KeyBoard.GetKeyValue(SDL_SCANCODE_S) - state->KeyBoard.GetKeyValue(SDL_SCANCODE_W));
+        movement.y = (state->KeyBoard.GetKeyValue(SDL_SCANCODE_W) - state->KeyBoard.GetKeyValue(SDL_SCANCODE_S));
         if (movement.x !=0 && movement.y != 0)
         {
             movement.Normalize();
         }
-        movement *= 100.0f;
+        movement *= 2.0f;
         mPMC->mVelocity = movement;
     }
     else
