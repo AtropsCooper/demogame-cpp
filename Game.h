@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <utility>
+#include <string>
 #include <SDL2/SDL.h>
 #include "MyMath.h"
 #include "InputSystem.h"
@@ -18,12 +19,14 @@ public:
     void AddSystem(class System *system);
     void RemoveSystem(class System *system);
     void SetIsRunning(bool isRunning);
+    const class DrawSystem* GetDrawSystem() const { return mDrawSystem; }
     const InputState *GetInputState() const { return mInputState; }
+    SDL_Texture *GetTexture(const std::string &fileName) const;
     void ComponentMessage(class Component *component, bool isAdd);
     const std::vector<std::pair<class Component *, bool>> *GetComponentMessages() const;
 
     class Entity *mPlayer;
-
+      class TileMapManager *mTMM;
 private:
     void ProcessInput();
     void UpdateGame();
@@ -43,4 +46,6 @@ private:
     class InputSystem *mInputSystem;
 
     const InputState *mInputState;
+
+ 
 };

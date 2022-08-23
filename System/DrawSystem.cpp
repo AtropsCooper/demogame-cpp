@@ -5,8 +5,6 @@
 #include <SDL_image.h>
 #include "Game.h"
 
-#include <iostream>
-
 DrawSystem::DrawSystem(class Game* game, int updateOrder, SDL_Renderer* renderer)
     : System(game, updateOrder)
     , mRenderer(renderer)
@@ -16,15 +14,6 @@ DrawSystem::DrawSystem(class Game* game, int updateOrder, SDL_Renderer* renderer
     , mPixelsPerGrid(32.0f)
     , mPlayer(nullptr)
 {
-}
-
-DrawSystem::~DrawSystem()
-{
-    for (auto sprite : mSprites)
-    {
-        delete sprite;
-    }
-    mSprites.clear();
 }
 
 Vector2 DrawSystem::WorldToScreen(const Vector2 &v) const

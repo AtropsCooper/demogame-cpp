@@ -12,6 +12,8 @@
 #include "MoveSystem.h"
 #include "PlayerControllerSystem.h"
 
+#include "TileMapManager.h"
+
 
 Game::Game()
     : mWindow(nullptr),
@@ -25,7 +27,8 @@ void Game::AddEntity(class Entity* entity)
 {
     mEntities.insert(mEntities.begin(), entity);
 }
-void Game::RemoveEntity(class Entity* entity){
+void Game::RemoveEntity(class Entity* entity)
+{
     auto iter = std::find(mEntities.begin(), mEntities.end(), entity);
     if (iter != mEntities.end())
     {
@@ -57,6 +60,11 @@ void Game::SetIsRunning(bool isRunning)
 {
     mIsRunning = isRunning;
 }
+SDL_Texture* Game::GetTexture(const std::string &fileName) const
+{
+    return mAssetLoadSystem->GetTexture(fileName);
+}
+
 
 void Game::ComponentMessage(class Component *component, bool isAdd)
 {
@@ -111,14 +119,19 @@ bool Game::Initialize()
     PlayerControllerSystem *pcs = new PlayerControllerSystem(this, 17);
 
     //  TEST CODE
+    mTMM = new TileMapManager(this);
+    mTMM->Initialize();
+    mTMM->GenerateMap();
+    mTMM->Instanciate();
 
     mPlayer = new Entity(this);
     pcs->SetPlayer(mPlayer);
+    mDrawSystem->SetPlayer(mPlayer);
     AnimComponent* hero = new AnimComponent(mPlayer, 200);
     new MoveComponent(mPlayer, 100);
-    mPlayer->mScale = 2.0f;
-    hero->mOffset.y = 100;
-    mPlayer->mPosition = Vector2(512, 284);
+    mPlayer->mScale = 1.0f;
+    hero->mOffset.y = 1.0f;
+    mPlayer->mPosition = Vector2(0, 0);
     SDL_Rect idle = {128, 196, 16, 28}; //4
     SDL_Rect run = {192, 196, 16, 28}; //4
     SDL_Rect hit = {256, 196, 16, 28}; //1
@@ -136,6 +149,7 @@ bool Game::Initialize()
 
 void Game::Shutdown()
 {
+    delete mTMM;
 
     while (!mSystems.empty())
     {
@@ -144,6 +158,7 @@ void Game::Shutdown()
     while (!mEntities.empty())
     {
         delete mEntities.back();
+        mEntities.pop_back();
     }
 
     SDL_DestroyWindow(mWindow);
@@ -181,16 +196,30 @@ void Game::UpdateGame()
     }
 
     // Update 
-
     for (auto system : mSystems)
     {
         system->FetchComponents();
     }
     mMessages.clear();
+    // Delete Dead Entities
+    for (auto entity = mEntities.begin(); entity != mEntities.end();)
+    {
+        if ((*entity)->GetState() == Entity::EDead)
+        {
+            delete *entity;
+            entity = mEntities.erase(entity);
+        }
+        else
+        {
+            entity++;
+        }
+    }
+
     for (auto system : mSystems)
     {
         system->Update(deltaTime);
     }
+
 }
 
 void Game::GenerateOutput()

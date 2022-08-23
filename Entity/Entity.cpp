@@ -17,12 +17,10 @@ Entity::Entity(class Game* game)
 
 Entity::~Entity()
 {
-    mGame->RemoveEntity(this);
     while (!mComponents.empty())
     {
         delete mComponents.back();
     }
-
 }
 
 void Entity::AddComponent(Component* component)

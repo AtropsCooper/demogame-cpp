@@ -8,7 +8,6 @@ class DrawSystem : public System
 {
 public:
     DrawSystem(class Game *game, int updateOrder, SDL_Renderer *renderer);
-    ~DrawSystem();
 
     Vector2 WorldToScreen(const Vector2 &v) const;
     Vector2 ScreenToWorld(const Vector2 &v) const;
