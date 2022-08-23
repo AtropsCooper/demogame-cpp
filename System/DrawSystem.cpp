@@ -67,10 +67,12 @@ void DrawSystem::Draw() const
         dstRect.h = static_cast<int>(hightInGrid * mPixelsPerGrid);
         dstRect.x = static_cast<int>((owner->mPosition.x + sprite->mOffset.x - mCameraPos.x) * mPixelsPerGrid - 0.5f * dstRect.w);
         dstRect.y = static_cast<int>((owner->mPosition.y + sprite->mOffset.y - mCameraPos.y) * -mPixelsPerGrid + 0.5f * dstRect.h + mWindowHeight);
+        SDL_Point center;
+        center.x = owner->mPosition.x;
+        center.y = owner->mPosition.y;
         SDL_RendererFlip flip = sprite->mFaceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
-
         SDL_RenderCopyEx(mRenderer, sprite->GetTexture(), 
-                        &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), nullptr, flip);
+                        &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), &center, flip);
     }
 }
 
