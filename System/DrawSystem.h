@@ -18,7 +18,6 @@ public:
     void SetPlayer(class Entity *player);
 
 private:
-    class Game *mGame;
     SDL_Renderer *mRenderer;
     std::vector<class SpriteComponent *> mSprites;
 

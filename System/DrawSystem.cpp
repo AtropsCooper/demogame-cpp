@@ -4,6 +4,8 @@
 #include "Entity.h"
 #include <SDL_image.h>
 #include "Game.h"
+#include "InputSystem.h"
+#include "MyMath.h"
 
 DrawSystem::DrawSystem(class Game* game, int updateOrder, SDL_Renderer* renderer)
     : System(game, updateOrder)
@@ -12,7 +14,6 @@ DrawSystem::DrawSystem(class Game* game, int updateOrder, SDL_Renderer* renderer
     , mWindowHeight(768)
     , mCameraPos(0, 0)
     , mPixelsPerGrid(32.0f)
-    , mPlayer(nullptr)
 {
 }
 
@@ -34,12 +35,35 @@ void DrawSystem::FetchComponents()
 
 void DrawSystem::Update(float deltaTime)
 {
-    // Camera Follows Player
+    // Camera Follows player
     if (mPlayer != nullptr)
     {
         mCameraPos.x = mPlayer->mPosition.x - 0.5f * mWindowWidth / mPixelsPerGrid;
         mCameraPos.y = mPlayer->mPosition.y - 0.5f * mWindowHeight / mPixelsPerGrid; // Left Top Corner of the Window, By Grid
-        // TODO: prevent of moving out of map
+        const InputState *mInputState = mGame->GetInputState();
+        if (mInputState != nullptr)
+        {
+           Vector2 mousePos = ScreenToWorld(mInputState->Mouse.GetMousePosition());
+           float diffX = (mousePos.x - mPlayer->mPosition.x) * 0.4f;
+           float diffY = (mousePos.y - mPlayer->mPosition.y) * 0.4f;
+           if (diffX >= 0.0f)
+           {
+                mCameraPos.x += log(diffX + 1) * 0.5f;
+           }
+           else
+           {
+                mCameraPos.x -= log(MyMath::Abs(diffX - 1)) * 0.5f;
+           }
+            if (diffY >= 0.0f)
+           {
+                mCameraPos.y += log(diffY + 1) * 0.5f;
+           }
+           else
+           {
+                mCameraPos.y -= log(MyMath::Abs(diffY - 1)) * 0.5f;
+           }
+        } 
+
     }
 }
 
