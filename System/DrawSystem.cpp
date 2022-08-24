@@ -44,8 +44,8 @@ void DrawSystem::Update(float deltaTime)
         if (mInputState != nullptr)
         {
            Vector2 mousePos = ScreenToWorld(mInputState->Mouse.GetMousePosition());
-           float diffX = (mousePos.x - mPlayer->mPosition.x) * 0.4f;
-           float diffY = (mousePos.y - mPlayer->mPosition.y) * 0.4f;
+           float diffX = (mousePos.x - mPlayer->mPosition.x) * 0.3f;
+           float diffY = (mousePos.y - mPlayer->mPosition.y) * 0.3f;
            if (diffX >= 0.0f)
            {
                 mCameraPos.x += log(diffX + 1) * 0.5f;
@@ -71,21 +71,32 @@ void DrawSystem::Draw() const
 {
     for (auto sprite : mSprites)
     {
-        auto owner = sprite->GetOwner();
+        Entity *owner = sprite->GetOwner();
+        const Vector2 &position = owner->mPosition;
         SDL_Rect imageRect = sprite->mSrcRect;
         SDL_Rect dstRect;
-        float widthInGrid = sprite->mTexWidth * owner->mScale / 16;
-        float hightInGrid = sprite->mTexHeight * owner->mScale / 16;
-        dstRect.w = static_cast<int>(widthInGrid * mPixelsPerGrid);
-        dstRect.h = static_cast<int>(hightInGrid * mPixelsPerGrid);
-        dstRect.x = static_cast<int>((owner->mPosition.x + sprite->mOffset.x - mCameraPos.x) * mPixelsPerGrid - 0.5f * dstRect.w);
-        dstRect.y = static_cast<int>((owner->mPosition.y + sprite->mOffset.y - mCameraPos.y) * -mPixelsPerGrid + 0.5f * dstRect.h + mWindowHeight);
-        SDL_Point center;
-        center.x = owner->mPosition.x;
-        center.y = owner->mPosition.y;
-        SDL_RendererFlip flip = sprite->mFaceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
-        SDL_RenderCopyEx(mRenderer, sprite->GetTexture(), 
-                        &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), &center, flip);
+        
+        float widthInGrid = sprite->mTexWidth * owner->mScale / 16.0f;
+        float heightInGrid = sprite->mTexHeight * owner->mScale / 16.0f;
+
+        if ((position.x + widthInGrid ) > mCameraPos.x &&
+            (position.y + heightInGrid ) > mCameraPos.y &&
+            (position.x - widthInGrid ) < mCameraPos.x + mWindowWidth / mPixelsPerGrid &&
+            (position.y - heightInGrid ) < mCameraPos.y + mWindowHeight / mPixelsPerGrid)
+        {
+            dstRect.w = static_cast<int>(floor(widthInGrid * mPixelsPerGrid));
+            dstRect.h = static_cast<int>(floor(heightInGrid * mPixelsPerGrid));
+            Vector2 dstVec = WorldToScreen(position);
+            dstRect.x = static_cast<int>(floor(dstVec.x));
+            dstRect.y = static_cast<int>(floor(dstVec.y));
+            SDL_Point center;
+            center.x = position.x;
+            center.y = position.y;
+            SDL_RendererFlip flip = sprite->mFaceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
+            SDL_RenderCopyEx(mRenderer, sprite->GetTexture(), 
+                            &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), &center, flip);
+        }
+
     }
 }
 
