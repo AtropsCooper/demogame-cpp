@@ -27,5 +27,4 @@ private:
     float mPixelsPerGrid;
 
     class Entity *mPlayer;
-    class TileMapSystem *mTileMap;
 };
