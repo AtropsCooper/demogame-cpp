@@ -125,12 +125,12 @@ bool Game::Initialize()
     mTMM->Instanciate();
 
     mPlayer = new Entity(this);
-    pcs->SetPlayer(mPlayer);
+
     mDrawSystem->SetPlayer(mPlayer);
     AnimComponent* hero = new AnimComponent(mPlayer, 200);
     new MoveComponent(mPlayer, 100);
     mPlayer->mScale = 1.0f;
-    hero->mOffset.y = 1.0f;
+    hero->mOffset.y = 0.8f;
     mPlayer->mPosition = Vector2(0, 0);
     SDL_Rect idle = {128, 196, 16, 28}; //4
     SDL_Rect run = {192, 196, 16, 28}; //4
@@ -142,6 +142,7 @@ bool Game::Initialize()
     hero->SetAnimSprites(AnimComponent::EMoving, &run, 4, 0.15f);
     hero->SetAnimSprites(AnimComponent::EHit, &hit, 1, 0.15f);
 
+    pcs->SetPlayer(mPlayer);
     //  TEST CODE
 
     return true;

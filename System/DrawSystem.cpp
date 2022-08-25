@@ -86,15 +86,13 @@ void DrawSystem::Draw() const
         {
             dstRect.w = static_cast<int>(floor(widthInGrid * mPixelsPerGrid));
             dstRect.h = static_cast<int>(floor(heightInGrid * mPixelsPerGrid));
-            Vector2 dstVec = WorldToScreen(position);
-            dstRect.x = static_cast<int>(floor(dstVec.x));
-            dstRect.y = static_cast<int>(floor(dstVec.y));
-            SDL_Point center;
-            center.x = position.x;
-            center.y = position.y;
+            Vector2 dstVec = WorldToScreen(position + sprite->mOffset);
+            dstRect.x = static_cast<int>(floor(dstVec.x - 0.5f * dstRect.w));
+            dstRect.y = static_cast<int>(floor(dstVec.y - 0.5f * dstRect.h));
+
             SDL_RendererFlip flip = sprite->mFaceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
             SDL_RenderCopyEx(mRenderer, sprite->GetTexture(), 
-                            &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), &center, flip);
+                            &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), nullptr, flip);
         }
 
     }

@@ -7,10 +7,45 @@
 #include "SpriteComponent.h"
 #include "DrawSystem.h"
 
+const SDL_Rect REGULAR_SWORD = {323, 26, 10, 21};
+
+PlayerControllerSystem::~PlayerControllerSystem()
+{
+    if (mWeapon != nullptr)
+    {
+        mGame->RemoveEntity(mWeapon);
+        delete mWeapon;
+    }
+}
+
 void PlayerControllerSystem::SetPlayer(Entity* player)
 {
     mPlayer = player;
     mPMC = mPlayer->GetComponent<MoveComponent>();
+    SetupWeapon(0);
+}
+
+void PlayerControllerSystem::SetupWeapon(int playerJob)
+{
+    if (mWeapon == nullptr)
+    {
+        mWeapon = new Entity(mGame);
+        SpriteComponent *weaponSprite = new SpriteComponent(mWeapon, mPlayer->GetComponent<SpriteComponent>()->GetUpdateOrder() - 1);
+        weaponSprite->SetTexture(mGame->GetTexture("dungeon"), &REGULAR_SWORD);
+        weaponSprite->mOffset.y = 1.17f;
+        mWeapon->mPosition.x = mPlayer->mPosition.x;
+        mWeapon->mPosition.y = mPlayer->mPosition.y + 0.5f;
+        mWMC = new MoveComponent(mWeapon, 100);
+    }
+}
+
+void PlayerControllerSystem::DestroyWeapon()
+{
+    if (mWeapon != nullptr)
+    {
+        mWeapon->SetState(Entity::EDead);
+        mWeapon = nullptr;
+    }
 }
 
 void PlayerControllerSystem::Update(float deltaTime)
@@ -25,20 +60,32 @@ void PlayerControllerSystem::Update(float deltaTime)
         {
             movement.Normalize();
         }
-        movement *= 2.0f;
+        movement *= 8.0f;
         mPMC->mVelocity = movement;
+        if (mWMC != nullptr)
+        {
+            mWMC->mVelocity = movement;
+        }
     }
     else
     {
         mPMC = mPlayer->GetComponent<MoveComponent>();
     }
-    float mousePosX = mGame->GetDrawSystem()->ScreenToWorld(state->Mouse.GetMousePosition()).x;
-    if (mousePosX >= mPlayer->mPosition.x)
+
+    Vector2 mousePos = mGame->GetDrawSystem()->ScreenToWorld(state->Mouse.GetMousePosition());
+    if (mousePos.x >= mPlayer->mPosition.x)
     {
         mPlayer->GetComponent<SpriteComponent>()->mFaceRight = true;
     }
     else
     {
         mPlayer->GetComponent<SpriteComponent>()->mFaceRight = false;
+    }
+
+    if (mWeapon != nullptr)
+    {
+        Vector2 orientation = Vector2::Normalize(mousePos - mPlayer->mPosition);
+        mWeapon->GetComponent<SpriteComponent>()->mOffset = orientation * 0.87f;
+        mWeapon->mRotation = MyMath::Atan2(orientation.y, orientation.x) - MyMath::PiOver2;
     }
 }
