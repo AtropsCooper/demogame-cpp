@@ -4,6 +4,7 @@
 #include "SpriteComponent.h"
 #include "AnimComponent.h"
 #include "MoveComponent.h"
+#include "AttackComponent.h"
 #include "Component.h"
 #include "Helper.h"
 
@@ -58,3 +59,4 @@ void System::DetectComponent(std::vector<T *> *container)
 tDetect(SpriteComponent);
 tDetect(AnimComponent);
 tDetect(MoveComponent);
+tDetect(AttackComponent);

@@ -16,4 +16,5 @@ private:
     class Entity* mWeapon;
     class MoveComponent* mPMC;
     class MoveComponent* mWMC;
+    class AttackComponent* mAttackComponent;
 };

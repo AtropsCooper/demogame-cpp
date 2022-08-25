@@ -10,6 +10,7 @@
 #include "DrawSystem.h"
 #include "InputSystem.h"
 #include "MoveSystem.h"
+#include "BattleSystem.h"
 #include "PlayerControllerSystem.h"
 
 #include "TileMapManager.h"
@@ -117,6 +118,7 @@ bool Game::Initialize()
     new AnimationSystem(this, 19);
     new MoveSystem(this, 18);
     PlayerControllerSystem *pcs = new PlayerControllerSystem(this, 17);
+    new BattleSystem(this, 17);
 
     //  TEST CODE
     mTMM = new TileMapManager(this);

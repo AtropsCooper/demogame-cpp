@@ -6,6 +6,7 @@
 #include "Entity.h"
 #include "SpriteComponent.h"
 #include "DrawSystem.h"
+#include "AttackComponent.h"
 
 const SDL_Rect REGULAR_SWORD = {323, 26, 10, 21};
 
@@ -30,6 +31,7 @@ void PlayerControllerSystem::SetupWeapon(int playerJob)
     if (mWeapon == nullptr)
     {
         mWeapon = new Entity(mGame);
+        mAttackComponent = new AttackComponent(mWeapon, 120);
         SpriteComponent *weaponSprite = new SpriteComponent(mWeapon, mPlayer->GetComponent<SpriteComponent>()->GetUpdateOrder() - 1);
         weaponSprite->SetTexture(mGame->GetTexture("dungeon"), &REGULAR_SWORD);
         weaponSprite->mOffset.y = 1.17f;
@@ -82,10 +84,21 @@ void PlayerControllerSystem::Update(float deltaTime)
         mPlayer->GetComponent<SpriteComponent>()->mFaceRight = false;
     }
 
-    if (mWeapon != nullptr)
+    if (mWeapon != nullptr && mAttackComponent->cooldown <= 0.0f)
     {
-        Vector2 orientation = Vector2::Normalize(mousePos - mPlayer->mPosition);
+        Vector2 orientation = Vector2::Normalize(mousePos - mWeapon->mPosition);
         mWeapon->GetComponent<SpriteComponent>()->mOffset = orientation * 0.87f;
         mWeapon->mRotation = MyMath::Atan2(orientation.y, orientation.x) - MyMath::PiOver2;
     }
+    
+    if (state->Mouse.GetButtonValue(SDL_BUTTON_LEFT))
+    {
+        if (mAttackComponent->cooldown <= 0.0f)
+        {
+            mAttackComponent->cooldown = mAttackComponent->interval;
+            mAttackComponent->rotation = mAttackComponent->GetOwner()->mRotation;
+        }
+    }
+
+
 }
