@@ -5,6 +5,7 @@
 #include "AnimComponent.h"
 #include "MoveComponent.h"
 #include "AttackComponent.h"
+#include "TransientComponent.h"
 #include "Component.h"
 #include "Helper.h"
 
@@ -60,3 +61,4 @@ tDetect(SpriteComponent);
 tDetect(AnimComponent);
 tDetect(MoveComponent);
 tDetect(AttackComponent);
+tDetect(TransientComponent);

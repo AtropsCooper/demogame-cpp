@@ -11,6 +11,7 @@
 #include "InputSystem.h"
 #include "MoveSystem.h"
 #include "BattleSystem.h"
+#include "TransientSystem.h"
 #include "PlayerControllerSystem.h"
 
 #include "TileMapManager.h"
@@ -114,11 +115,12 @@ bool Game::Initialize()
     mInputState = &(mInputSystem->GetState());
     mAssetLoadSystem = new AssetLoadSystem(this, 10, mRenderer);
     mAssetLoadSystem->Initialize();
-    mDrawSystem = new DrawSystem(this, 20, mRenderer);
-    new AnimationSystem(this, 19);
-    new MoveSystem(this, 18);
-    PlayerControllerSystem *pcs = new PlayerControllerSystem(this, 17);
-    new BattleSystem(this, 17);
+    mDrawSystem = new DrawSystem(this, 200, mRenderer);
+    new AnimationSystem(this, 190);
+    new MoveSystem(this, 180);
+    PlayerControllerSystem *pcs = new PlayerControllerSystem(this, 170);
+    new TransientSystem(this, 199);
+    //new BattleSystem(this, 17);
 
     //  TEST CODE
     mTMM = new TileMapManager(this);

@@ -7,8 +7,10 @@
 #include "SpriteComponent.h"
 #include "DrawSystem.h"
 #include "AttackComponent.h"
+#include "TransientComponent.h"
 
-const SDL_Rect REGULAR_SWORD = {323, 26, 10, 21};
+const SDL_Rect SRRITE_BOW = {325, 180, 7, 25};
+const SDL_Rect SPRITE_ARROW = {308, 186, 7, 21};
 
 PlayerControllerSystem::~PlayerControllerSystem()
 {
@@ -33,7 +35,7 @@ void PlayerControllerSystem::SetupWeapon(int playerJob)
         mWeapon = new Entity(mGame);
         mAttackComponent = new AttackComponent(mWeapon, 120);
         SpriteComponent *weaponSprite = new SpriteComponent(mWeapon, mPlayer->GetComponent<SpriteComponent>()->GetUpdateOrder() - 1);
-        weaponSprite->SetTexture(mGame->GetTexture("dungeon"), &REGULAR_SWORD);
+        weaponSprite->SetTexture(mGame->GetTexture("dungeon"), &SRRITE_BOW);
         weaponSprite->mOffset.y = 1.17f;
         mWeapon->mPosition.x = mPlayer->mPosition.x;
         mWeapon->mPosition.y = mPlayer->mPosition.y + 0.5f;
@@ -84,21 +86,26 @@ void PlayerControllerSystem::Update(float deltaTime)
         mPlayer->GetComponent<SpriteComponent>()->mFaceRight = false;
     }
 
-    if (mWeapon != nullptr && mAttackComponent->cooldown <= 0.0f)
-    {
-        Vector2 orientation = Vector2::Normalize(mousePos - mWeapon->mPosition);
-        mWeapon->GetComponent<SpriteComponent>()->mOffset = orientation * 0.87f;
-        mWeapon->mRotation = MyMath::Atan2(orientation.y, orientation.x) - MyMath::PiOver2;
-    }
-    
-    if (state->Mouse.GetButtonValue(SDL_BUTTON_LEFT))
-    {
-        if (mAttackComponent->cooldown <= 0.0f)
-        {
-            mAttackComponent->cooldown = mAttackComponent->interval;
-            mAttackComponent->rotation = mAttackComponent->GetOwner()->mRotation;
-        }
-    }
+    Vector2 orientation = Vector2::Normalize(mousePos - mWeapon->mPosition);
+    mWeapon->GetComponent<SpriteComponent>()->mOffset = orientation * 0.87f;
+    mWeapon->mRotation = MyMath::Atan2(orientation.y, orientation.x) ;
 
+    mAttackComponent->cooldown -= deltaTime;
+
+    if (state->Mouse.GetButtonValue(SDL_BUTTON_LEFT) == 1 && mAttackComponent->cooldown <= 0.0f)
+    {
+        mAttackComponent->cooldown = mAttackComponent->interval;
+        Entity *arrow = new Entity(mGame);
+        arrow->mPosition = mWeapon->mPosition + orientation * 0.87f;
+        arrow->mRotation = mWeapon->mRotation - MyMath::PiOver2;
+        SpriteComponent *arrowSprite = new SpriteComponent(arrow, 190);
+        arrowSprite->SetTexture(mGame->GetTexture("dungeon"), &SPRITE_ARROW);
+        MoveComponent *arrowMoveComponent = new MoveComponent(arrow, 10);
+        // Would be varied by items
+        float range = 10.0f;
+        float speed = 20.0f;
+        arrowMoveComponent->mVelocity = orientation * speed;
+        new TransientComponent(arrow, 1, range/speed, Entity::EDead);
+    }
 
 }
