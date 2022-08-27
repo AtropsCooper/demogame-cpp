@@ -7,7 +7,7 @@
 #include "SpriteComponent.h"
 #include "DrawSystem.h"
 #include "AttackComponent.h"
-#include "TransientComponent.h"
+#include "ArrowPrefab.h"
 #include "Constants.h"
 
 
@@ -94,17 +94,13 @@ void PlayerControllerSystem::Update(float deltaTime)
     if (state->Mouse.GetButtonValue(SDL_BUTTON_LEFT) == 1 && mAttackComponent->cooldown <= 0.0f)
     {
         mAttackComponent->cooldown = mAttackComponent->interval;
-        Entity *arrow = new Entity(mGame);
-        arrow->mPosition = mWeapon->mPosition + orientation * 0.87f;
-        arrow->mRotation = mWeapon->mRotation - MyMath::PiOver2;
-        SpriteComponent *arrowSprite = new SpriteComponent(arrow, 190);
-        arrowSprite->SetTexture(mGame->GetTexture("dungeon"), &SPRITE_ARROW);
-        MoveComponent *arrowMoveComponent = new MoveComponent(arrow, 10);
         // Would be varied by items
         float range = 10.0f;
         float speed = 20.0f;
-        arrowMoveComponent->mVelocity = orientation * speed;
-        new TransientComponent(arrow, 1, range/speed, Entity::EDead);
+        Vector2 arrowPos = mWeapon->mPosition + orientation * 0.87f;
+        ArrowPrefab *arrow = new ArrowPrefab(mGame, arrowPos, range/speed);
+        arrow->mRotation = mWeapon->mRotation - MyMath::PiOver2;
+        arrow->GetComponent<MoveComponent>()->mVelocity = orientation * speed;
     }
 
 }

@@ -8,7 +8,7 @@ AnimComponent::AnimComponent(class Entity *owner, int order)
 }
 
 void AnimComponent::SetAnimSprites(AnimComponent::State state,
-                                   SDL_Rect *firstSprite, int sprites, float frameRate)
+                                   const SDL_Rect *firstSprite, int sprites, float frameRate)
 {
     mAnims[state].firstSprite = *firstSprite;
     mTexWidth = firstSprite->w;
