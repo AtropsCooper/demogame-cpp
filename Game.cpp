@@ -10,9 +10,10 @@
 #include "DrawSystem.h"
 #include "InputSystem.h"
 #include "MoveSystem.h"
-#include "BattleSystem.h"
 #include "TransientSystem.h"
 #include "PlayerControllerSystem.h"
+#include "EnemySpawnSystem.h"
+#include "PlayerPrefab.h"
 
 #include "TileMapManager.h"
 
@@ -120,7 +121,7 @@ bool Game::Initialize()
     new MoveSystem(this, 180);
     PlayerControllerSystem *pcs = new PlayerControllerSystem(this, 170);
     new TransientSystem(this, 199);
-    //new BattleSystem(this, 17);
+    new EnemySpawnSystem(this, 100);
 
     //  TEST CODE
     mTMM = new TileMapManager(this);
@@ -128,23 +129,9 @@ bool Game::Initialize()
     mTMM->GenerateMap();
     mTMM->Instanciate();
 
-    mPlayer = new Entity(this);
+    mPlayer = new PlayerPrefab(this, Vector2(0, 0));
 
     mDrawSystem->SetPlayer(mPlayer);
-    AnimComponent* hero = new AnimComponent(mPlayer, 200);
-    new MoveComponent(mPlayer, 100);
-    mPlayer->mScale = 1.0f;
-    hero->mOffset.y = 0.8f;
-    mPlayer->mPosition = Vector2(0, 0);
-    SDL_Rect idle = {128, 196, 16, 28}; //4
-    SDL_Rect run = {192, 196, 16, 28}; //4
-    SDL_Rect hit = {256, 196, 16, 28}; //1
-    // Need fix: SetTexture every time
-    hero->SetState(AnimComponent::EMoving);
-    hero->SetTexture(mAssetLoadSystem->GetTexture("dungeon"), &idle);
-    hero->SetAnimSprites(AnimComponent::EIdle, &idle, 4, 0.15f);
-    hero->SetAnimSprites(AnimComponent::EMoving, &run, 4, 0.15f);
-    hero->SetAnimSprites(AnimComponent::EHit, &hit, 1, 0.15f);
 
     pcs->SetPlayer(mPlayer);
     //  TEST CODE

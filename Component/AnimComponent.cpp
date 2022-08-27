@@ -11,6 +11,8 @@ void AnimComponent::SetAnimSprites(AnimComponent::State state,
                                    SDL_Rect *firstSprite, int sprites, float frameRate)
 {
     mAnims[state].firstSprite = *firstSprite;
+    mTexWidth = firstSprite->w;
+    mTexHeight = firstSprite->h;
     mAnims[state].sprites = sprites;
     mAnims[state].frameRate = frameRate;
     if (mSrcRect.w == 0)

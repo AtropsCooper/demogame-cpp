@@ -8,9 +8,8 @@
 #include "DrawSystem.h"
 #include "AttackComponent.h"
 #include "TransientComponent.h"
+#include "Constants.h"
 
-const SDL_Rect SRRITE_BOW = {325, 180, 7, 25};
-const SDL_Rect SPRITE_ARROW = {308, 186, 7, 21};
 
 PlayerControllerSystem::~PlayerControllerSystem()
 {

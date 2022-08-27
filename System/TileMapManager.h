@@ -3,8 +3,8 @@
 #include <vector>
 #include <SDL.h>
 #include <SDL_image.h>
+#include "Constants.h"
 
-const int MAPSIZE = 128;
 
 class TileMapManager
 {
