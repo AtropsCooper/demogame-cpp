@@ -13,6 +13,8 @@
 #include "TransientSystem.h"
 #include "PlayerControllerSystem.h"
 #include "EnemySpawnSystem.h"
+#include "CollisionSystem.h"
+#include "DamageSystem.h"
 #include "PlayerPrefab.h"
 
 #include "TileMapManager.h"
@@ -71,12 +73,22 @@ SDL_Texture* Game::GetTexture(const std::string &fileName) const
 
 void Game::ComponentMessage(class Component *component, bool isAdd)
 {
-    mMessages.emplace_back(std::make_pair(component, isAdd));
+    mComponentMessages.emplace_back(std::make_pair(component, isAdd));
 }
 
 const std::vector<std::pair<class Component *, bool>> *Game::GetComponentMessages() const
 {
-    return &mMessages;
+    return &mComponentMessages;
+}
+
+void Game::CollisionMessage(class Entity *first, class Entity *second)
+{
+    mCollisionMessages.emplace_back(std::make_pair(first, second));
+}
+
+const std::vector<std::pair<class Entity*, class Entity*>> *Game::GetCollisionMessages() const
+{
+    return &mCollisionMessages;
 }
 
 bool Game::Initialize()
@@ -122,6 +134,8 @@ bool Game::Initialize()
     PlayerControllerSystem *pcs = new PlayerControllerSystem(this, 170);
     new TransientSystem(this, 199);
     new EnemySpawnSystem(this, 100);
+    new CollisionSystem(this, 181);
+    new DamageSystem(this, 179);
 
     //  TEST CODE
     mTMM = new TileMapManager(this);
@@ -187,12 +201,15 @@ void Game::UpdateGame()
         deltaTime = 0.05f;
     }
 
-    // Update 
+    // Refresh Messages 
+
     for (auto system : mSystems)
     {
         system->FetchComponents();
     }
-    mMessages.clear();
+    mComponentMessages.clear();
+    mCollisionMessages.clear();
+
     // Delete Dead Entities
     for (auto entity = mEntities.begin(); entity != mEntities.end();)
     {
@@ -206,11 +223,14 @@ void Game::UpdateGame()
             entity++;
         }
     }
+    SDL_Log("entity: %d", mEntities.size());
 
+    // Update
     for (auto system : mSystems)
     {
         system->Update(deltaTime);
     }
+
 
 }
 

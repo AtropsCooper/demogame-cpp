@@ -1,11 +1,19 @@
 #include "ArrowPrefab.h"
 #include "Constants.h"
 #include "TransientComponent.h"
+#include "DamageComponent.h"
+#include "Constants.h"
 
 ArrowPrefab::ArrowPrefab(class Game *game, Vector2 position, float life)
-    : MovablePrefab(game, position)
+    : Entity(game)
 {
-    mAnimComponent->SetTexture(mGame->GetTexture("dungeon"), &SPRITE_ARROW);
-    MoveComponent *arrowMoveComponent = new MoveComponent(this, 10);
+    mPosition = position;
+    mSpriteComponent = new SpriteComponent(this, 200);
+    mMoveComponent = new MoveComponent(this, 100);
+    mCollisionBox = new CollisionBoxComponent(this, 100);
+    mCollisionBox->mHeight = 0.6f;
+    mCollisionBox->mWidth = 0.6f;
+    mSpriteComponent->SetTexture(mGame->GetTexture("dungeon"), &SPRITE_ARROW);
     new TransientComponent(this, 1, life, Entity::EDead);
+    new DamageComponent(this, 10.0f);
 }

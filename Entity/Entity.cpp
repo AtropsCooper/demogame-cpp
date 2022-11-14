@@ -3,6 +3,9 @@
 #include "Component.h"
 #include "MoveComponent.h"
 #include "SpriteComponent.h"
+#include "DamageComponent.h"
+#include "StatusComponent.h"
+#include "CollisionBoxComponent.h"
 #include "AnimationSystem.h"
 
 Entity::Entity(class Game* game)
@@ -99,3 +102,6 @@ Entity::State Entity::GetState() const
 tGetComponent(SpriteComponent);
 tGetComponent(MoveComponent);
 tGetComponent(AnimComponent);
+tGetComponent(DamageComponent);
+tGetComponent(StatusComponent);
+tGetComponent(CollisionBoxComponent);

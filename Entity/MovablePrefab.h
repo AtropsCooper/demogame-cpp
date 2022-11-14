@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "AnimComponent.h"
 #include "MoveComponent.h"
+#include "CollisionBoxComponent.h"
 
 class MovablePrefab : public Entity
 {
@@ -11,6 +12,7 @@ public:
 protected:
     class AnimComponent *mAnimComponent;
     class MoveComponent *mMoveComponent;
+    class CollisionBoxComponent *mCollisionBox;
 };
 
 inline MovablePrefab::MovablePrefab(class Game *game, Vector2 position)
@@ -20,4 +22,5 @@ inline MovablePrefab::MovablePrefab(class Game *game, Vector2 position)
     mAnimComponent = new AnimComponent(this, 200);
     mMoveComponent = new MoveComponent(this, 100);
     mAnimComponent->SetTexture(mGame->GetTexture("dungeon"));
+    mCollisionBox = new CollisionBoxComponent(this, 100);
 }

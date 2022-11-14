@@ -24,6 +24,8 @@ public:
     SDL_Texture *GetTexture(const std::string &fileName) const;
     void ComponentMessage(class Component *component, bool isAdd);
     const std::vector<std::pair<class Component *, bool>> *GetComponentMessages() const;
+    void CollisionMessage(class Entity *first, class Entity *second);
+    const std::vector<std::pair<class Entity*, class Entity*>> *GetCollisionMessages() const;
 
     class Entity *mPlayer;
       class TileMapManager *mTMM;
@@ -39,7 +41,8 @@ private:
 
     std::vector<class Entity *> mEntities;
     std::vector<class System *> mSystems;
-    std::vector<std::pair<class Component *, bool>> mMessages;
+    std::vector<std::pair<class Component *, bool>> mComponentMessages;
+    std::vector<std::pair<class Entity*, class Entity*>> mCollisionMessages;
 
     class AssetLoadSystem *mAssetLoadSystem;
     class DrawSystem *mDrawSystem;

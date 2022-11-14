@@ -5,7 +5,7 @@ const float ANIM_FRAMERATE = 0.15f;
 const int MAPSIZE = 128;
 
 const float HEALTH_PLAYER = 20.0f;
-const float HEALTH_SKELET = 10.0f;
+const float HEALTH_SKELET = 20.0f;
 const float HEALTH_GOBLIN = 15.0f;
 
 const float ENEMY_SPAWN_RANGE = 10.0f;

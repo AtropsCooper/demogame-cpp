@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "InputSystem.h"
 #include "MyMath.h"
+#include "CollisionBoxComponent.h"
 
 DrawSystem::DrawSystem(class Game* game, int updateOrder, SDL_Renderer* renderer)
     : System(game, updateOrder)
@@ -93,6 +94,24 @@ void DrawSystem::Draw() const
             SDL_RendererFlip flip = sprite->mFaceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
             SDL_RenderCopyEx(mRenderer, sprite->GetTexture(), 
                             &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), nullptr, flip);
+            
+            CollisionBoxComponent *CBC = owner->GetComponent<CollisionBoxComponent>();
+
+            if (CBC != nullptr)
+            {
+                Vector2 cPos(position.x + CBC->mOffset.x - CBC->mWidth * 0.5f, position.y + CBC->mOffset.y + CBC->mHeight * 0.5f);
+                Vector2 cSize(CBC->mWidth, CBC->mHeight);
+                cPos = WorldToScreen(cPos);
+                cSize = cSize * mPixelsPerGrid;
+                SDL_Rect CollisionBox = {
+                    static_cast<int>(cPos.x),
+                    static_cast<int>(cPos.y),
+                    static_cast<int>(cSize.x),
+                    static_cast<int>(cSize.y)};
+                SDL_SetRenderDrawColor(mRenderer, 255, 0, 0, 255);
+                SDL_RenderDrawRect(mRenderer, &CollisionBox);
+            }
+
         }
 
     }

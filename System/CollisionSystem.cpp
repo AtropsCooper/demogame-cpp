@@ -1,0 +1,83 @@
+#include "CollisionSystem.h"
+#include "CollisionBoxComponent.h"
+#include "MoveComponent.h"
+#include "Entity.h"
+#include "Game.h"
+#include "MyMath.h"
+
+CollisionSystem::CollisionSystem(Game *game, int order)
+    : System(game, order)
+{
+
+}
+
+void CollisionSystem::FetchComponents()
+{
+    DetectComponent<CollisionBoxComponent>(&mCollisionBoxes);
+}
+
+void CollisionSystem::Update(float deltaTime)
+{
+    for (auto first = mCollisionBoxes.begin();
+         first != mCollisionBoxes.end() - 1;
+         first++)
+    {
+        for (auto second = first + 1;
+                second != mCollisionBoxes.end();
+                second++)
+        {
+            Entity *firstEntity = (*first)->GetOwner();
+            Entity *secondEntity = (*second)->GetOwner();
+            if(Collides(firstEntity, *first, secondEntity, *second))
+            {
+                mGame->CollisionMessage(firstEntity, secondEntity);
+            }
+        }
+    }
+}
+
+bool CollisionSystem::Collides(Entity* first, CollisionBoxComponent *FCB , Entity* second, CollisionBoxComponent *SCB)
+{
+    MoveComponent *MC = first->GetComponent<MoveComponent>();
+    MoveComponent *SMC = second->GetComponent<MoveComponent>();
+    Vector2 firstPos(first->mPosition.x + FCB->mOffset.x - FCB->mWidth * 0.5f, first->mPosition.y + FCB->mOffset.y + FCB->mHeight * 0.5f);
+    Vector2 secondPos(second->mPosition.x + SCB->mOffset.x - SCB->mWidth * 0.5f, second->mPosition.y + SCB->mOffset.y + SCB->mHeight * 0.5f);
+    
+    if ((MC != nullptr && MC->mVelocity != Vector2::Zero) || (SMC != nullptr && SMC->mVelocity != Vector2::Zero))
+    {
+        SDL_FRect fstBox = {firstPos.x, firstPos.y, FCB->mWidth, FCB->mHeight};
+        SDL_FRect secBox = {secondPos.x, secondPos.y, SCB->mWidth, SCB->mHeight};
+        if (Contains(secBox, firstPos.x, firstPos.y) || 
+            Contains(secBox, firstPos.x + FCB->mWidth, firstPos.y) ||
+            Contains(secBox, firstPos.x, firstPos.y - FCB->mHeight) || 
+            Contains(secBox, firstPos.x + FCB->mWidth, firstPos.y - FCB->mHeight) ||
+            Contains(fstBox, secondPos.x, secondPos.y) || 
+            Contains(fstBox, secondPos.x + SCB->mWidth, secondPos.y) ||
+            Contains(fstBox, secondPos.x, secondPos.y - SCB->mHeight) || 
+            Contains(fstBox, secondPos.x + SCB->mWidth, secondPos.y - SCB->mHeight)) 
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool CollisionSystem::Contains(SDL_FRect &box, float pointX, float pointY)
+{
+    if (pointX > box.x && pointX < box.x + box.h && pointY < box.y && pointY > box.y - box.h)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
