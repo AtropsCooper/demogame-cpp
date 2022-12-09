@@ -7,6 +7,7 @@
 #include "StatusComponent.h"
 #include "CollisionBoxComponent.h"
 #include "AnimationSystem.h"
+#include "HittedComponent.h"
 
 Entity::Entity(class Game* game)
     : mPosition(Vector2::Zero)
@@ -105,3 +106,4 @@ tGetComponent(AnimComponent);
 tGetComponent(DamageComponent);
 tGetComponent(StatusComponent);
 tGetComponent(CollisionBoxComponent);
+tGetComponent(HittedComponent);

@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "DamageComponent.h"
 #include "StatusComponent.h"
+#include "HittedComponent.h"
 #include "AnimComponent.h"
 
 DamageSystem::DamageSystem(Game *game, int order)
@@ -50,6 +51,7 @@ void DamageSystem::Update(float deltaTime)
             enemyAnimComp->GetState() != AnimComponent::EHit)
         {
             enemyState->mHealth -= damage;
+            new HittedComponent(enemy, 2, 0.5f);
             if (enemyState->mHealth <= 0.0f)
             {
                 enemyState->GetOwner()->SetState(Entity::EDead);

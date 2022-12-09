@@ -1,6 +1,7 @@
 #include "MoveSystem.h"
 #include "Entity.h"
 #include "AnimComponent.h"
+#include "HittedComponent.h"
 
 void MoveSystem::FetchComponents()
 {
@@ -14,7 +15,7 @@ void MoveSystem::Update(float deltaTime)
     {
         c->GetOwner()->mPosition += c->mVelocity * deltaTime;
         AnimComponent* anim = c->GetOwner()->GetComponent<AnimComponent>();
-        if (anim != nullptr)
+        if (anim != nullptr && c->GetOwner()->GetComponent<HittedComponent>() == nullptr)
         {
             if (c->mVelocity != Vector2::Zero)
             {
