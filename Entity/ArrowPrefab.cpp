@@ -1,6 +1,7 @@
 #include "ArrowPrefab.h"
 #include "Constants.h"
 #include "TransientComponent.h"
+#include "SuicideComponent.h"
 #include "DamageComponent.h"
 #include "Constants.h"
 
@@ -14,6 +15,6 @@ ArrowPrefab::ArrowPrefab(class Game *game, Vector2 position, float life)
     mCollisionBox->mHeight = 0.6f;
     mCollisionBox->mWidth = 0.6f;
     mSpriteComponent->SetTexture(mGame->GetTexture("dungeon"), &SPRITE_ARROW);
-    new TransientComponent(this, 1, life, Entity::EDead);
+    new SuicideComponent(this, 1, life);
     new DamageComponent(this, 10.0f);
 }

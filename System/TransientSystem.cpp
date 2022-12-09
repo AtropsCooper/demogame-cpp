@@ -12,7 +12,7 @@ void TransientSystem::Update(float deltaTime)
     {
         if (c->mLifespan <= 0.0f)
         {
-            c->GetOwner()->SetState(c->mBury);
+            c->Bury();
         }
         c->mLifespan -= deltaTime;
     }

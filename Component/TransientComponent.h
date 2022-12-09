@@ -5,7 +5,10 @@
 class TransientComponent : public Component
 {
 public:
-    explicit TransientComponent(Entity *owner, int order, float life, Entity::State bury) : Component(owner, order), mLifespan(life), mBury(bury) {}
+    TransientComponent(Entity *owner, int order, float life) : Component(owner, order), mLifespan(life) {}
     float mLifespan;
-    Entity::State mBury;
+    virtual void Bury()
+    {
+        delete this;
+    };
 };

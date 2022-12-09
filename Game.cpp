@@ -223,7 +223,6 @@ void Game::UpdateGame()
             entity++;
         }
     }
-    SDL_Log("entity: %d", mEntities.size());
 
     // Update
     for (auto system : mSystems)
