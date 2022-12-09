@@ -25,3 +25,5 @@ const SDL_Rect SKELET_IDLE_ANIM = {368, 80, 16, 16};
 const int SKELET_IDLE_LENGTH = 4;
 const SDL_Rect SKELET_RUN_ANIM = {432, 80, 16, 16};
 const int SKELET_RUN_LENGTH = 4;
+const SDL_Rect SKELET_HIT_ANIM = {480, 80, 16, 16};
+const int SKELET_HIT_LENGTH = 2;

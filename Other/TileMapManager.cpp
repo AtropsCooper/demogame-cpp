@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Entity.h"
 #include "SpriteComponent.h"
+#include "CollisionBoxComponent.h"
 #include <cstdlib>
 
 const int MIN_ROOM_SIZE = 8;
@@ -58,8 +59,8 @@ void TileMapManager::GenerateMap()
     {
         int roomW = rand() % (MAX_ROOM_SIZE - MIN_ROOM_SIZE) + MIN_ROOM_SIZE;
         int roomH = rand() % (MAX_ROOM_SIZE - MIN_ROOM_SIZE) + MIN_ROOM_SIZE;
-        int roomX = rand() % (MAPSIZE - roomW);
-        int roomY = rand() % (MAPSIZE - roomH);
+        int roomX = rand() % (MAPSIZE - roomW - 1);
+        int roomY = rand() % (MAPSIZE - roomH - 1);
         unconnectedRoomVec.emplace_back(SDL_Rect{roomX, roomY, roomW, roomH});
     }
 
@@ -191,6 +192,56 @@ void TileMapManager::GenerateMap()
             }
         }
     }
+
+    // Iterate over the elements of the mTiles for Adding WALL.
+    for (int row = 0; row < MAPSIZE; row++) {
+        for (int col = 0; col < MAPSIZE; col++) {
+
+            // If the current element has a value of FLOOR, check its adjacent elements.
+            if (mTiles[row][col] == FLOOR_NORMAL) {
+
+            // Check the element above.
+            if (row > 0 && mTiles[row-1][col] == 0) {
+                mTiles[row-1][col] = WALL_MID;
+            }
+
+            // Check the element below.
+            if (row < MAPSIZE - 1 && mTiles[row+1][col] == 0) {
+                mTiles[row+1][col] = WALL_MID;
+            }
+
+            // Check the element to the left.
+            if (col > 0 && mTiles[row][col-1] == 0) {
+                mTiles[row][col-1] = WALL_MID;
+            }
+
+            // Check the element to the right.
+            if (col < MAPSIZE - 1 && mTiles[row][col+1] == 0) {
+                mTiles[row][col+1] = WALL_MID;
+            }
+
+            // Check the top-left diagonal element.
+            if (row > 0 && col > 0 && mTiles[row-1][col-1] == 0) {
+                mTiles[row-1][col-1] = WALL_MID;
+            }
+
+            // Check the top-right diagonal element.
+            if (row > 0 && col < MAPSIZE - 1 && mTiles[row-1][col+1] == 0) {
+                mTiles[row-1][col+1] = WALL_MID;
+            }
+
+            // Check the bottom-left diagonal element.
+            if (row < MAPSIZE - 1 && col > 0 && mTiles[row+1][col-1] == 0) {
+                mTiles[row+1][col-1] = WALL_MID;
+            }
+
+            // Check the bottom-right diagonal element.
+            if (row < MAPSIZE - 1 && col < MAPSIZE - 1 && mTiles[row+1][col+1] == 0) {
+                mTiles[row+1][col+1] = WALL_MID;
+            }
+            }
+        }
+    }
 }
 
 void TileMapManager::Instanciate()
@@ -213,7 +264,8 @@ void TileMapManager::Instanciate()
                     sprite->SetTexture(mTileTexture, &R_FLOOR_NORMAL);
                     break;
                 case WALL_MID:
-                    sprite->SetTexture(mTileTexture, &R_CORNER_LEFT);
+                    sprite->SetTexture(mTileTexture, &R_WALL_MID);
+                    //new CollisionBoxComponent(tile, 4);
                     break;
 
                 default:
