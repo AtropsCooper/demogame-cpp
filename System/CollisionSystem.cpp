@@ -1,4 +1,5 @@
 #include "CollisionSystem.h"
+#include "DrawSystem.h"
 #include "CollisionBoxComponent.h"
 #include "MoveComponent.h"
 #include "Entity.h"
@@ -14,16 +15,37 @@ CollisionSystem::CollisionSystem(Game *game, int order)
 void CollisionSystem::FetchComponents()
 {
     DetectComponent<CollisionBoxComponent>(&mCollisionBoxes);
+    // Compute only for nearby entities
+    mBoxesNearby.clear();
+    auto player = mGame->mPlayer;
+    auto drawSys = mGame->GetDrawSystem();
+    if (player == nullptr || drawSys == nullptr)
+    {
+        return;
+    }
+    for (auto box : mCollisionBoxes)
+    {
+        auto entity = box->GetOwner();
+
+        if (entity != nullptr && (entity->mPosition - player->mPosition).Length() < 15.0f)
+        {
+            mBoxesNearby.emplace_back(box);
+        }  
+    }
 }
 
 void CollisionSystem::Update(float deltaTime)
 {
-    for (auto first = mCollisionBoxes.begin();
-         first != mCollisionBoxes.end() - 1;
+    if (mBoxesNearby.size() < 2)
+    {
+        return;
+    }
+    for (auto first = mBoxesNearby.begin();
+         first != mBoxesNearby.end() - 1;
          first++)
     {
         for (auto second = first + 1;
-                second != mCollisionBoxes.end();
+                second != mBoxesNearby.end();
                 second++)
         {
             Entity *firstEntity = (*first)->GetOwner();

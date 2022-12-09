@@ -24,7 +24,9 @@ Game::Game()
     : mWindow(nullptr),
       mRenderer(nullptr),
       mIsRunning(true),
+      mPlayer(nullptr),
       mTicksCount(0)
+
 {
 }
 
