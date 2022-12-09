@@ -3,7 +3,7 @@
 #include "Entity.h"
 #include "DamageComponent.h"
 #include "StatusComponent.h"
-
+#include "AnimComponent.h"
 
 DamageSystem::DamageSystem(Game *game, int order)
     : System(game, order)
@@ -37,14 +37,25 @@ void DamageSystem::Update(float deltaTime)
 {
     for (auto collidePairs : mColliders)
     {
-        float damage = collidePairs.second->GetComponent<DamageComponent>()->mDamage;
-        auto injured = collidePairs.first->GetComponent<StatusComponent>();
-        injured->mHealth -= damage;
-        collidePairs.second->SetState(Entity::EDead);
-        if (injured->mHealth <= 0.0f)
+        auto arrow = collidePairs.second;
+        auto enemy = collidePairs.first;
+        float damage = arrow->GetComponent<DamageComponent>()->mDamage;
+        auto enemyState = enemy->GetComponent<StatusComponent>();
+        
+        arrow->SetState(Entity::EDead);
+
+        auto enemyAnimComp = enemy->GetComponent<AnimComponent>();
+        if (enemy->GetState() == Entity::EActive &&
+            enemyAnimComp != nullptr &&
+            enemyAnimComp->GetState() != AnimComponent::EHit)
         {
-            injured->GetOwner()->SetState(Entity::EDead);
-            SDL_Log("Dead!");
+            enemyState->mHealth -= damage;
+            if (enemyState->mHealth <= 0.0f)
+            {
+                enemyState->GetOwner()->SetState(Entity::EDead);
+                SDL_Log("Dead!");
+            }
         }
+
     }
 }
