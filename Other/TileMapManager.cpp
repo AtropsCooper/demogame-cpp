@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "SpriteComponent.h"
 #include "CollisionBoxComponent.h"
+#include "HostilityComponent.h"
 #include <cstdlib>
 
 const int MIN_ROOM_SIZE = 8;
@@ -258,18 +259,17 @@ void TileMapManager::Instanciate()
                 tile->mPosition.y = static_cast<float>(j);
                 mTileEntities.emplace_back(tile);
                 SpriteComponent* sprite = new SpriteComponent(tile, 0);
-                switch (mTiles[i][j])
+                if (mTiles[i][j] == FLOOR_NORMAL)
                 {
-                case FLOOR_NORMAL:
                     sprite->SetTexture(mTileTexture, &R_FLOOR_NORMAL);
-                    break;
-                case WALL_MID:
+                }
+                else if (mTiles[i][j] == WALL_MID)
+                {
                     sprite->SetTexture(mTileTexture, &R_WALL_MID);
-                    //new CollisionBoxComponent(tile, 4);
-                    break;
-
-                default:
-                    break;
+                    auto collider = new CollisionBoxComponent(tile, 4);
+                    collider->mHeight = 1;
+                    collider->mWidth = 1;
+                    new HostilityComponent(tile, HostilityComponent::ENeutral);
                 }
             }
         }

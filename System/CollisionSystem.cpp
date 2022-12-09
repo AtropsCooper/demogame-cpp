@@ -65,31 +65,24 @@ bool CollisionSystem::Collides(Entity* first, CollisionBoxComponent *FCB , Entit
     Vector2 firstPos(first->mPosition.x + FCB->mOffset.x - FCB->mWidth * 0.5f, first->mPosition.y + FCB->mOffset.y + FCB->mHeight * 0.5f);
     Vector2 secondPos(second->mPosition.x + SCB->mOffset.x - SCB->mWidth * 0.5f, second->mPosition.y + SCB->mOffset.y + SCB->mHeight * 0.5f);
     
-    if ((MC != nullptr && MC->mVelocity != Vector2::Zero) || (SMC != nullptr && SMC->mVelocity != Vector2::Zero))
+    SDL_FRect fstBox = {firstPos.x, firstPos.y, FCB->mWidth, FCB->mHeight};
+    SDL_FRect secBox = {secondPos.x, secondPos.y, SCB->mWidth, SCB->mHeight};
+    if (Contains(secBox, firstPos.x, firstPos.y) || 
+        Contains(secBox, firstPos.x + FCB->mWidth, firstPos.y) ||
+        Contains(secBox, firstPos.x, firstPos.y - FCB->mHeight) || 
+        Contains(secBox, firstPos.x + FCB->mWidth, firstPos.y - FCB->mHeight) ||
+        Contains(fstBox, secondPos.x, secondPos.y) || 
+        Contains(fstBox, secondPos.x + SCB->mWidth, secondPos.y) ||
+        Contains(fstBox, secondPos.x, secondPos.y - SCB->mHeight) || 
+        Contains(fstBox, secondPos.x + SCB->mWidth, secondPos.y - SCB->mHeight)) 
     {
-        SDL_FRect fstBox = {firstPos.x, firstPos.y, FCB->mWidth, FCB->mHeight};
-        SDL_FRect secBox = {secondPos.x, secondPos.y, SCB->mWidth, SCB->mHeight};
-        if (Contains(secBox, firstPos.x, firstPos.y) || 
-            Contains(secBox, firstPos.x + FCB->mWidth, firstPos.y) ||
-            Contains(secBox, firstPos.x, firstPos.y - FCB->mHeight) || 
-            Contains(secBox, firstPos.x + FCB->mWidth, firstPos.y - FCB->mHeight) ||
-            Contains(fstBox, secondPos.x, secondPos.y) || 
-            Contains(fstBox, secondPos.x + SCB->mWidth, secondPos.y) ||
-            Contains(fstBox, secondPos.x, secondPos.y - SCB->mHeight) || 
-            Contains(fstBox, secondPos.x + SCB->mWidth, secondPos.y - SCB->mHeight)) 
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    
+        return true;
     }
     else
     {
         return false;
     }
+ 
 }
 
 bool CollisionSystem::Contains(SDL_FRect &box, float pointX, float pointY)

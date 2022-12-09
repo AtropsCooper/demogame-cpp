@@ -4,7 +4,7 @@
 const float ANIM_FRAMERATE = 0.15f;
 const int MAPSIZE = 128;
 
-const float HEALTH_PLAYER = 20.0f;
+const float HEALTH_PLAYER = 6.0f;
 const float HEALTH_SKELET = 20.0f;
 const float HEALTH_GOBLIN = 15.0f;
 
@@ -20,7 +20,7 @@ const int PLAYER_IDLE_LENGTH = 4;
 const SDL_Rect PLAYER_RUN_ANIM = {192, 196, 16, 28};
 const int PLAYER_RUN_LENGTH = 4;
 const SDL_Rect PLAYER_HIT_ANIM = {256, 196, 16, 28};  
-const int PLAYER_HIT_LENGTH = 1;
+const int PLAYER_HIT_LENGTH = 2;
 const SDL_Rect SKELET_IDLE_ANIM = {368, 80, 16, 16};
 const int SKELET_IDLE_LENGTH = 4;
 const SDL_Rect SKELET_RUN_ANIM = {432, 80, 16, 16};

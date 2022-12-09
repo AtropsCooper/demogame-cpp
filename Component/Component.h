@@ -3,6 +3,7 @@
 class Component
 {
 public:
+    friend class TransientSystem;
     Component(class Entity* owner, int updateOrder);
     virtual ~Component();
     int GetUpdateOrder() const;

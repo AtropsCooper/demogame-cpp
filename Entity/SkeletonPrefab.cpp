@@ -12,4 +12,5 @@ SkeletonPrefab::SkeletonPrefab(Game* game, Vector2 position)
     mAnimComponent->SetAnimSprites(AnimComponent::EHit, &SKELET_HIT_ANIM, SKELET_HIT_LENGTH, ANIM_FRAMERATE / 2);
     StatusComponent *status = new StatusComponent(this, 19);
     status->mHealth = HEALTH_SKELET;
+    mHostilityComponent = new HostilityComponent(this, HostilityComponent::EEnemy);
 }

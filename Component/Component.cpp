@@ -10,7 +10,10 @@ Component::Component(class Entity* owner, int updateOrder)
 
 Component::~Component()
 {
-    mOwner->RemoveComponent(this);
+    if (mOwner != nullptr)
+    {
+        mOwner->RemoveComponent(this);
+    }
 }
 
 int Component::GetUpdateOrder() const

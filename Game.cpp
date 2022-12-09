@@ -23,8 +23,8 @@
 Game::Game()
     : mWindow(nullptr),
       mRenderer(nullptr),
-      mIsRunning(true),
       mPlayer(nullptr),
+      mIsRunning(true),
       mTicksCount(0)
 
 {
@@ -134,7 +134,7 @@ bool Game::Initialize()
     new AnimationSystem(this, 190);
     new MoveSystem(this, 180);
     PlayerControllerSystem *pcs = new PlayerControllerSystem(this, 170);
-    new TransientSystem(this, 199);
+    new TransientSystem(this, 101);
     new EnemySpawnSystem(this, 100);
     new CollisionSystem(this, 181);
     new DamageSystem(this, 179);
@@ -215,7 +215,7 @@ void Game::UpdateGame()
     // Delete Dead Entities
     for (auto entity = mEntities.begin(); entity != mEntities.end();)
     {
-        if ((*entity)->GetState() == Entity::EDead)
+        if ((*entity)->GetState() == Entity::EDead && (*entity) != mPlayer)
         {
             delete *entity;
             entity = mEntities.erase(entity);

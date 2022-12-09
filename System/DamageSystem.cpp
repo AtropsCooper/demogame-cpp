@@ -5,6 +5,9 @@
 #include "StatusComponent.h"
 #include "HittedComponent.h"
 #include "AnimComponent.h"
+#include "HostilityComponent.h"
+#include "PlayerPrefab.h"
+#include "SkeletonPrefab.h"
 
 DamageSystem::DamageSystem(Game *game, int order)
     : System(game, order)
@@ -20,15 +23,10 @@ void DamageSystem::FetchComponents()
     {
         if (msg.first->GetState() == Entity::EActive && msg.second->GetState() == Entity::EActive)
         {
-            if (msg.second->GetComponent<DamageComponent>() != nullptr &&
-                msg.first->GetComponent<StatusComponent>() != nullptr)
+            if (msg.first->GetComponent<HostilityComponent>()->mHostility
+                + msg.second->GetComponent<HostilityComponent>()->mHostility == 3)
             {
                 mColliders.emplace_back(std::make_pair(msg.first, msg.second));
-            }
-            else if (msg.first->GetComponent<DamageComponent>() != nullptr &&
-                     msg.second->GetComponent<StatusComponent>() != nullptr)
-            {
-                mColliders.emplace_back(std::make_pair(msg.second, msg.first));
             }
         }
     }
@@ -36,28 +34,44 @@ void DamageSystem::FetchComponents()
 
 void DamageSystem::Update(float deltaTime)
 {
-    for (auto collidePairs : mColliders)
+    auto TakeDamage = [](Entity *attacker, Entity* sufferer)
     {
-        auto arrow = collidePairs.second;
-        auto enemy = collidePairs.first;
-        float damage = arrow->GetComponent<DamageComponent>()->mDamage;
-        auto enemyState = enemy->GetComponent<StatusComponent>();
         
-        arrow->SetState(Entity::EDead);
-
-        auto enemyAnimComp = enemy->GetComponent<AnimComponent>();
-        if (enemy->GetState() == Entity::EActive &&
-            enemyAnimComp != nullptr &&
-            enemyAnimComp->GetState() != AnimComponent::EHit)
+        float damage = attacker->GetComponent<DamageComponent>()->mDamage;
+        auto suffererState = sufferer->GetComponent<StatusComponent>();
+        SDL_Log("Called, %f", suffererState->mHealth);
+        if (sufferer->GetState() == Entity::EActive &&
+            sufferer->GetComponent<HittedComponent>() == nullptr)
         {
-            enemyState->mHealth -= damage;
-            new HittedComponent(enemy, 2, 0.5f);
-            if (enemyState->mHealth <= 0.0f)
+            suffererState->mHealth -= damage;
+            SDL_Log("%f", suffererState->mHealth);
+            if (suffererState->mHealth <= 0.0f)
             {
-                enemyState->GetOwner()->SetState(Entity::EDead);
+                suffererState->GetOwner()->SetState(Entity::EDead);
                 SDL_Log("Dead!");
             }
+            else
+            {
+                new HittedComponent(sufferer, 2, 0.6f);
+            }
         }
+    };
 
+    for (auto collidePairs : mColliders)
+    {
+        if (collidePairs.first->GetComponent<DamageComponent>() != nullptr &&
+            collidePairs.second->GetComponent<StatusComponent>() != nullptr)
+        {
+            auto attacker = collidePairs.first;
+            auto sufferer = collidePairs.second;
+            TakeDamage(attacker, sufferer);
+        }
+        if (collidePairs.second->GetComponent<DamageComponent>() != nullptr &&
+            collidePairs.first->GetComponent<StatusComponent>() != nullptr)
+        {
+            auto attacker = collidePairs.second;
+            auto sufferer = collidePairs.first;
+            TakeDamage(attacker, sufferer);
+        }
     }
 }

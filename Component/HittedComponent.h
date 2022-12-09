@@ -18,6 +18,7 @@ public:
         { 
             mAnimComponent->SetState(AnimComponent::EIdle);
         }
+        mOwner->RemoveComponent(this);
     }
 private:
     class AnimComponent* mAnimComponent;

@@ -4,6 +4,7 @@
 #include "SpriteComponent.h"
 #include "MoveComponent.h"
 #include "CollisionBoxComponent.h"
+#include "HostilityComponent.h"
 
 class ArrowPrefab : public Entity
 {
@@ -13,4 +14,5 @@ private:
     class SpriteComponent *mSpriteComponent;
     class MoveComponent *mMoveComponent;
     class CollisionBoxComponent *mCollisionBox;
+    class HostilityComponent *mHostilityComponent;
 };
