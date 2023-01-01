@@ -5,6 +5,7 @@
 #include "DamageComponent.h"
 #include "Constants.h"
 #include "StatusComponent.h"
+#include "DeadOnCollisionComponent.h"
 
 ArrowPrefab::ArrowPrefab(class Game *game, Vector2 position, float life)
     : Entity(game)
@@ -19,6 +20,5 @@ ArrowPrefab::ArrowPrefab(class Game *game, Vector2 position, float life)
     mSpriteComponent->SetTexture(mGame->GetTexture("dungeon"), &SPRITE_ARROW);
     new SuicideComponent(this, 1, life);
     new DamageComponent(this, 10.0f);
-    StatusComponent *status = new StatusComponent(this, 19);
-    status->mHealth = 0.1f;
+    new DeadOnCollisionComponent(this);
 }

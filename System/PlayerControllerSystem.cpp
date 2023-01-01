@@ -100,7 +100,7 @@ void PlayerControllerSystem::Update(float deltaTime)
     {
         mAttackComponent->cooldown = mAttackComponent->interval;
         // Would be varied by items
-        float range = 10.0f;
+        float range = 12.0f;
         float speed = 20.0f;
         Vector2 arrowPos = mWeapon->mPosition + orientation * 0.87f;
         ArrowPrefab *arrow = new ArrowPrefab(mGame, arrowPos, range/speed);

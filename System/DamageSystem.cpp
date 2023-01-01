@@ -6,6 +6,7 @@
 #include "HittedComponent.h"
 #include "AnimComponent.h"
 #include "HostilityComponent.h"
+#include "DeadOnCollisionComponent.h"
 #include "PlayerPrefab.h"
 #include "SkeletonPrefab.h"
 
@@ -23,8 +24,8 @@ void DamageSystem::FetchComponents()
     {
         if (msg.first->GetState() == Entity::EActive && msg.second->GetState() == Entity::EActive)
         {
-            if (msg.first->GetComponent<HostilityComponent>()->mHostility
-                + msg.second->GetComponent<HostilityComponent>()->mHostility == 3)
+            if (MyMath::Abs(msg.first->GetComponent<HostilityComponent>()->mHostility
+                + msg.second->GetComponent<HostilityComponent>()->mHostility) != 2)
             {
                 mColliders.emplace_back(std::make_pair(msg.first, msg.second));
             }
@@ -36,19 +37,15 @@ void DamageSystem::Update(float deltaTime)
 {
     auto TakeDamage = [](Entity *attacker, Entity* sufferer)
     {
-        
         float damage = attacker->GetComponent<DamageComponent>()->mDamage;
         auto suffererState = sufferer->GetComponent<StatusComponent>();
-        SDL_Log("Called, %f", suffererState->mHealth);
         if (sufferer->GetState() == Entity::EActive &&
             sufferer->GetComponent<HittedComponent>() == nullptr)
         {
             suffererState->mHealth -= damage;
-            SDL_Log("%f", suffererState->mHealth);
             if (suffererState->mHealth <= 0.0f)
             {
                 suffererState->GetOwner()->SetState(Entity::EDead);
-                SDL_Log("Dead!");
             }
             else
             {
@@ -72,6 +69,16 @@ void DamageSystem::Update(float deltaTime)
             auto attacker = collidePairs.second;
             auto sufferer = collidePairs.first;
             TakeDamage(attacker, sufferer);
+        }
+
+        // Kill Entities with DeadOnCollisionComponent
+        if (collidePairs.first->GetComponent<DeadOnCollisionComponent>() != nullptr)
+        {
+            collidePairs.first->SetState(Entity::EDead);
+        }
+        if (collidePairs.second->GetComponent<DeadOnCollisionComponent>() != nullptr)
+        {
+            collidePairs.second->SetState(Entity::EDead);
         }
     }
 }

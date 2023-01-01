@@ -145,7 +145,7 @@ bool Game::Initialize()
     mTMM->GenerateMap();
     mTMM->Instanciate();
 
-    mPlayer = new PlayerPrefab(this, Vector2(0, 0));
+    mPlayer = new PlayerPrefab(this, Vector2(12, 10));
 
     mDrawSystem->SetPlayer(mPlayer);
 

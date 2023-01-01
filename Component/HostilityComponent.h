@@ -8,7 +8,7 @@ public:
     {
         ENeutral = 0,
         EFriend = 1,
-        EEnemy = 2
+        EEnemy = -1
     };
     HostilityComponent(Entity* owner, Hostility hostility) : Component(owner, 500), mHostility(hostility){}
     Hostility mHostility;

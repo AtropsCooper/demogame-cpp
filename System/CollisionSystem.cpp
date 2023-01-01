@@ -135,6 +135,7 @@ void CollisionSystem::Update(float deltaTime)
                         moveComponent2->mVelocity.y = 0;
                     }
                 } 
+                // Collision Message
                 mGame->CollisionMessage(entity1, entity2);
             }
         }
