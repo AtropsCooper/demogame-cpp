@@ -48,6 +48,8 @@ void CollisionSystem::Update(float deltaTime)
                 itColBox2 != mBoxesNearby.end();
                 itColBox2++)
         {
+            CollisionBoxComponent *colBox1 = *itColBox1;
+            CollisionBoxComponent *colBox2 = *itColBox2;
             Entity *entity1 = (*itColBox1)->GetOwner();
             Entity *entity2 = (*itColBox2)->GetOwner();
             MoveComponent *moveComponent1 = entity1->GetComponent<MoveComponent>();
@@ -57,18 +59,60 @@ void CollisionSystem::Update(float deltaTime)
                 // Static entities will not collide
                 continue;
             }
-            if(Collides(*itColBox1, *itColBox2))
-            {
-                // if enemy vs. friend -> damage
-                // else -> move velocity
 
+            // Judge if collision will happen
+            auto Collides = [&]() -> bool
+            {
+
+                Vector2 firstPos;
+                Vector2 secondPos;
+                if (moveComponent1 == nullptr)
+                {
+                    firstPos = colBox1->GetPosition();
+                    secondPos = colBox2->GetPosition() + moveComponent2->mVelocity * deltaTime;
+                }
+                else if (moveComponent2 == nullptr)
+                {
+                    firstPos = colBox1->GetPosition() + moveComponent1->mVelocity * deltaTime;
+                    secondPos = colBox2->GetPosition();
+                }
+                else
+                {
+                    firstPos = colBox1->GetPosition() + moveComponent1->mVelocity * deltaTime;
+                    secondPos = colBox2->GetPosition() + moveComponent2->mVelocity * deltaTime;
+                }
+
+            
+                SDL_FRect fstBox = {firstPos.x, firstPos.y, colBox1->mWidth, colBox1->mHeight};
+                SDL_FRect secBox = {secondPos.x, secondPos.y, colBox2->mWidth, colBox2->mHeight};
+                if (Contains(secBox, firstPos.x, firstPos.y) ||     
+                    Contains(secBox, firstPos.x + colBox1->mWidth, firstPos.y) ||
+                    Contains(secBox, firstPos.x, firstPos.y - colBox1->mHeight) || 
+                    Contains(secBox, firstPos.x + colBox1->mWidth, firstPos.y - colBox1->mHeight) ||
+                    Contains(fstBox, secondPos.x, secondPos.y) || 
+                    Contains(fstBox, secondPos.x + colBox2->mWidth, secondPos.y) ||
+                    Contains(fstBox, secondPos.x, secondPos.y - colBox2->mHeight) || 
+                    Contains(fstBox, secondPos.x + colBox2->mWidth, secondPos.y - colBox2->mHeight)) 
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            };
+
+            // When collides
+            if(Collides())
+            {
                 // Calculate the distance between the two entities on the x and y axes
                 Vector2 d = (*itColBox1)->GetPosition() - (*itColBox2)->GetPosition();
                 float dx = d.x;
                 float dy = d.y;
 
                 // Check if the collision is more horizontal or vertical
-                if (abs(dx) > abs(dy)) {
+                if (MyMath::Abs(dx) > MyMath::Abs(dy))
+                {
                 // The collision is more horizontal, so stop the movement on the x axis
                     if (moveComponent1 != nullptr && dx * moveComponent1->mVelocity.x < 0)
                     {
@@ -78,7 +122,9 @@ void CollisionSystem::Update(float deltaTime)
                     {
                         moveComponent2->mVelocity.x = 0;
                     }
-                } else {
+                }
+                else
+                {
                 // The collision is more vertical, so stop the movement on the y axis
                     if (moveComponent1 != nullptr && dy * moveComponent1->mVelocity.y < 0)
                     {
@@ -88,37 +134,13 @@ void CollisionSystem::Update(float deltaTime)
                     {
                         moveComponent2->mVelocity.y = 0;
                     }
-                }
+                } 
                 mGame->CollisionMessage(entity1, entity2);
             }
         }
     }
 }
 
-bool CollisionSystem::Collides(CollisionBoxComponent *FCB, CollisionBoxComponent *SCB)
-{
-    Vector2 firstPos = FCB->GetPosition();
-    Vector2 secondPos = SCB->GetPosition();
- 
-    SDL_FRect fstBox = {firstPos.x, firstPos.y, FCB->mWidth, FCB->mHeight};
-    SDL_FRect seitColBox = {secondPos.x, secondPos.y, SCB->mWidth, SCB->mHeight};
-    if (Contains(seitColBox, firstPos.x, firstPos.y) ||     
-        Contains(seitColBox, firstPos.x + FCB->mWidth, firstPos.y) ||
-        Contains(seitColBox, firstPos.x, firstPos.y - FCB->mHeight) || 
-        Contains(seitColBox, firstPos.x + FCB->mWidth, firstPos.y - FCB->mHeight) ||
-        Contains(fstBox, secondPos.x, secondPos.y) || 
-        Contains(fstBox, secondPos.x + SCB->mWidth, secondPos.y) ||
-        Contains(fstBox, secondPos.x, secondPos.y - SCB->mHeight) || 
-        Contains(fstBox, secondPos.x + SCB->mWidth, secondPos.y - SCB->mHeight)) 
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
- 
-}
 
 bool CollisionSystem::Contains(SDL_FRect &box, float pointX, float pointY)
 {
