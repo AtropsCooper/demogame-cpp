@@ -132,8 +132,8 @@ bool Game::Initialize()
     mAssetLoadSystem->Initialize();
     mDrawSystem = new DrawSystem(this, 200, mRenderer);
     new AnimationSystem(this, 190);
-    new MoveSystem(this, 180);
-    PlayerControllerSystem *pcs = new PlayerControllerSystem(this, 170);
+    new MoveSystem(this, 182);
+    mPlayerControllerSystem = new PlayerControllerSystem(this, 170);
     new TransientSystem(this, 101);
     new EnemySpawnSystem(this, 100);
     new CollisionSystem(this, 181);
@@ -149,7 +149,7 @@ bool Game::Initialize()
 
     mDrawSystem->SetPlayer(mPlayer);
 
-    pcs->SetPlayer(mPlayer);
+    mPlayerControllerSystem->SetPlayer(mPlayer);
     //  TEST CODE
 
     return true;

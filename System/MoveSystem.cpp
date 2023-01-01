@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "AnimComponent.h"
 #include "HittedComponent.h"
+#include "PlayerControllerSystem.h"
 
 void MoveSystem::FetchComponents()
 {
@@ -10,6 +11,14 @@ void MoveSystem::FetchComponents()
 
 void MoveSystem::Update(float deltaTime)
 {
+    // Set weapon speed to match player
+    auto player = mGame->mPlayer;
+    auto weapon = mGame->GetPlayerControllerSystem()->GetWeapon();
+    if (player != nullptr && weapon != nullptr)
+    {
+        weapon->GetComponent<MoveComponent>()->mVelocity = player->GetComponent<MoveComponent>()->mVelocity;
+    }
+
     // Move Every Entity
     for (auto c : mMoveComponents)
     {

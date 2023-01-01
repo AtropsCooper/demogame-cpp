@@ -12,7 +12,7 @@ public:
     void Update(float deltaTime) override;
 
 private:
-    bool Collides(class Entity* first, class CollisionBoxComponent *FCB , class Entity* second, class CollisionBoxComponent *SCB);
+    bool Collides(class CollisionBoxComponent *FCB, class CollisionBoxComponent *SCB);
     bool Contains(SDL_FRect &box, float pointX, float pointY);
     std::vector<class CollisionBoxComponent *> mCollisionBoxes;
     std::vector<class CollisionBoxComponent *> mBoxesNearby;

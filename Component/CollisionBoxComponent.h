@@ -6,6 +6,11 @@ class CollisionBoxComponent : public Component
 {
 public:
     CollisionBoxComponent(class Entity* owner, int order);
+    Vector2 GetPosition();
+    float GetLeft();
+    float GetRight();
+    float GetTop();
+    float GetBottom();
 
     float mWidth;
     float mHeight;

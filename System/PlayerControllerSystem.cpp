@@ -42,6 +42,11 @@ void PlayerControllerSystem::SetupWeapon(int playerJob)
     }
 }
 
+const Entity* PlayerControllerSystem::GetWeapon() const
+{
+    return mWeapon;
+}
+
 void PlayerControllerSystem::DestroyWeapon()
 {
     if (mWeapon != nullptr)

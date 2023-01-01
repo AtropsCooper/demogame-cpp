@@ -8,6 +8,7 @@ public:
     ~PlayerControllerSystem();
     void SetPlayer(class Entity* player);
     void SetupWeapon(int playerJob);
+    const class Entity* GetWeapon() const;
     void DestroyWeapon();
     void Update(float deltaTime) override;
 

@@ -40,37 +40,72 @@ void CollisionSystem::Update(float deltaTime)
     {
         return;
     }
-    for (auto first = mBoxesNearby.begin();
-         first != mBoxesNearby.end() - 1;
-         first++)
+    for (auto itColBox1 = mBoxesNearby.begin();
+         itColBox1 != mBoxesNearby.end() - 1;
+         itColBox1++)
     {
-        for (auto second = first + 1;
-                second != mBoxesNearby.end();
-                second++)
+        for (auto itColBox2 = itColBox1 + 1;
+                itColBox2 != mBoxesNearby.end();
+                itColBox2++)
         {
-            Entity *firstEntity = (*first)->GetOwner();
-            Entity *secondEntity = (*second)->GetOwner();
-            if(Collides(firstEntity, *first, secondEntity, *second))
+            Entity *entity1 = (*itColBox1)->GetOwner();
+            Entity *entity2 = (*itColBox2)->GetOwner();
+            MoveComponent *moveComponent1 = entity1->GetComponent<MoveComponent>();
+            MoveComponent *moveComponent2 = entity2->GetComponent<MoveComponent>();
+            if (moveComponent1 == nullptr && moveComponent2 == nullptr)
             {
-                mGame->CollisionMessage(firstEntity, secondEntity);
+                // Static entities will not collide
+                continue;
+            }
+            if(Collides(*itColBox1, *itColBox2))
+            {
+                // if enemy vs. friend -> damage
+                // else -> move velocity
+
+                // Calculate the distance between the two entities on the x and y axes
+                Vector2 d = (*itColBox1)->GetPosition() - (*itColBox2)->GetPosition();
+                float dx = d.x;
+                float dy = d.y;
+
+                // Check if the collision is more horizontal or vertical
+                if (abs(dx) > abs(dy)) {
+                // The collision is more horizontal, so stop the movement on the x axis
+                    if (moveComponent1 != nullptr && dx * moveComponent1->mVelocity.x < 0)
+                    {
+                        moveComponent1->mVelocity.x = 0;
+                    }
+                    if (moveComponent2 != nullptr && dx * moveComponent2->mVelocity.x > 0)
+                    {
+                        moveComponent2->mVelocity.x = 0;
+                    }
+                } else {
+                // The collision is more vertical, so stop the movement on the y axis
+                    if (moveComponent1 != nullptr && dy * moveComponent1->mVelocity.y < 0)
+                    {
+                        moveComponent1->mVelocity.y = 0;
+                    }
+                    if (moveComponent2 != nullptr && dy * moveComponent2->mVelocity.y > 0)
+                    {
+                        moveComponent2->mVelocity.y = 0;
+                    }
+                }
+                mGame->CollisionMessage(entity1, entity2);
             }
         }
     }
 }
 
-bool CollisionSystem::Collides(Entity* first, CollisionBoxComponent *FCB , Entity* second, CollisionBoxComponent *SCB)
+bool CollisionSystem::Collides(CollisionBoxComponent *FCB, CollisionBoxComponent *SCB)
 {
-    MoveComponent *MC = first->GetComponent<MoveComponent>();
-    MoveComponent *SMC = second->GetComponent<MoveComponent>();
-    Vector2 firstPos(first->mPosition.x + FCB->mOffset.x - FCB->mWidth * 0.5f, first->mPosition.y + FCB->mOffset.y + FCB->mHeight * 0.5f);
-    Vector2 secondPos(second->mPosition.x + SCB->mOffset.x - SCB->mWidth * 0.5f, second->mPosition.y + SCB->mOffset.y + SCB->mHeight * 0.5f);
-    
+    Vector2 firstPos = FCB->GetPosition();
+    Vector2 secondPos = SCB->GetPosition();
+ 
     SDL_FRect fstBox = {firstPos.x, firstPos.y, FCB->mWidth, FCB->mHeight};
-    SDL_FRect secBox = {secondPos.x, secondPos.y, SCB->mWidth, SCB->mHeight};
-    if (Contains(secBox, firstPos.x, firstPos.y) || 
-        Contains(secBox, firstPos.x + FCB->mWidth, firstPos.y) ||
-        Contains(secBox, firstPos.x, firstPos.y - FCB->mHeight) || 
-        Contains(secBox, firstPos.x + FCB->mWidth, firstPos.y - FCB->mHeight) ||
+    SDL_FRect seitColBox = {secondPos.x, secondPos.y, SCB->mWidth, SCB->mHeight};
+    if (Contains(seitColBox, firstPos.x, firstPos.y) ||     
+        Contains(seitColBox, firstPos.x + FCB->mWidth, firstPos.y) ||
+        Contains(seitColBox, firstPos.x, firstPos.y - FCB->mHeight) || 
+        Contains(seitColBox, firstPos.x + FCB->mWidth, firstPos.y - FCB->mHeight) ||
         Contains(fstBox, secondPos.x, secondPos.y) || 
         Contains(fstBox, secondPos.x + SCB->mWidth, secondPos.y) ||
         Contains(fstBox, secondPos.x, secondPos.y - SCB->mHeight) || 
