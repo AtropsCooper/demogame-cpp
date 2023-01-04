@@ -1,7 +1,13 @@
 #include "Game.h"
 
-int main(int argc, char** argv)
-{
+#ifdef _WIN32
+#include <Windows.h>
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+#else
+int main(int argc, char** argv) {
+#endif
+
 	Game game;
 	bool success = game.Initialize();
 	if (success)
