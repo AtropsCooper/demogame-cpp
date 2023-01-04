@@ -30,7 +30,7 @@ void AssetLoadSystem::Initialize()
     SDL_Surface* surf = IMG_Load("Assets/cursor.png");
     if (surf != nullptr)
     {
-        mCursor = SDL_CreateColorCursor(surf, 27, 27);
+        mCursor = SDL_CreateColorCursor(surf, 18, 18);
         SDL_SetCursor(mCursor);
         SDL_FreeSurface(surf);
     }
