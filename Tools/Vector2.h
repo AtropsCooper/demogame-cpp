@@ -12,7 +12,7 @@ public:
     {
     }
 
-    explicit Vector2(float inX, float inY)
+    Vector2(float inX, float inY)
         : x(inX), y(inY)
     {
     }

@@ -2,36 +2,38 @@
 #include "Constants.h"
 #include "Game.h"
 #include "Entity.h"
+#include "TileMapManager.h"
 #include "AnimComponent.h"
 #include "SkeletonPrefab.h"
 
 EnemySpawnSystem::EnemySpawnSystem(class Game* game, int order)
     : System(game, order)
     , mTimeUntilSpawn(0.0f)
+    , mPlayer(nullptr)
+    , mPlayerPos()
 {
 
+}
+
+void EnemySpawnSystem::SetPlayer(const Entity* player)
+{
+    mPlayer = player;
 }
 
 
 void EnemySpawnSystem::Update(float deltaTime)
 {
-    mPlayer = mGame->mPlayer;
-
-    auto PickSpawnPoint = [](float playerX, float playerY) -> Vector2
+    if (mPlayer != nullptr)
     {
-        Vector2 spawnPoint;
-        spawnPoint.x = playerX + static_cast<float>(rand() % static_cast<int>(ENEMY_SPAWN_RANGE)) * ((rand() % 2) * 2 - 1);
-        spawnPoint.y = playerY + static_cast<float>(rand() % static_cast<int>(ENEMY_SPAWN_RANGE)) * ((rand() % 2) * 2 - 1);
-        return spawnPoint;
-    };
+        mPlayerPos = mPlayer->mPosition;
+    }
 
     mTimeUntilSpawn -= deltaTime;
     if (mTimeUntilSpawn <= 0)
     {
         if ( static_cast<float>(rand()) / static_cast<float>(RAND_MAX) < 1.0f )
         {
-            Vector2 spawnPoint = PickSpawnPoint(mPlayer->mPosition.x, mPlayer->mPosition.y);
-            new SkeletonPrefab(mGame, spawnPoint);
+            new SkeletonPrefab(mGame, mGame->mTMM->GetSpawnPointAwayFrom(mPlayerPos, 10.0f));
         }
 
         mTimeUntilSpawn += ENEMY_SPAWN_INTERVAL;

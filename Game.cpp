@@ -106,11 +106,11 @@ bool Game::Initialize()
     }
 
     mWindow = SDL_CreateWindow(
-        "Awesome Title",
+        "Dino Dungeon",
         100,
         100,
-        1024,
-        768,
+        WINDOW_WIDTH,
+        WINDOW_HEIGHT,
         0);
     if (!mWindow)
     {

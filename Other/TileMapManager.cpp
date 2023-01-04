@@ -13,23 +13,10 @@ const int GENERATE_TRYS = 20;
 
 const char FLOOR_NORMAL = 1;
 const char WALL_MID = 11;
-const char WALL_TOP = 12;
-const char WALL_LEFT = 13;
-const char WALL_LEFT_TOP = 14;
-const char WALL_RIGHT = 15;
-const char WALL_RIGHT_TOP = 16;
-const char CORNER_TL = 21;
-const char CORNER_BL = 22;
-const char CORNER_TR = 23;
-const char CORNER_BR = 24;
 
 const SDL_Rect R_FLOOR_NORMAL = {16, 64, 16, 16};
 const SDL_Rect R_WALL_MID = {32, 16, 16, 16};
-const SDL_Rect R_WALL_LEFT = {0, 128, 16, 16};
-const SDL_Rect R_WALL_RIGHT = {16, 128, 16, 16};
-const SDL_Rect R_CORNER_TOP_LEFT = {32, 112, 16, 16};
-const SDL_Rect R_CORNER_LEFT = {32, 128, 16, 16};
-const SDL_Rect R_CORNER_BOTTOM_LEFT = {32, 144, 16, 16};
+
 
 TileMapManager::TileMapManager(Game *game) : mGame(game)
 {
@@ -283,4 +270,45 @@ void TileMapManager::ClearTileEntities()
         t->SetState(Entity::EDead);
     }
     mTileEntities.clear();
+}
+
+Vector2 TileMapManager::GetSpawnPoint()
+{
+    int x, y;
+    do
+    {
+        x = rand() % (MAPSIZE - 1);
+        y = rand() % (MAPSIZE - 1);
+    } while (mTiles[x][y] != FLOOR_NORMAL);
+    return Vector2 (static_cast<float>(x), static_cast<float>(y));
+}
+
+Vector2 TileMapManager::GetSpawnPointAwayFrom(Vector2 pos, float distance)
+{
+    Vector2 spawnPoint;
+    if (distance < MAPSIZE / 4.0f && distance > 0.0f)
+    {
+        int x, y;
+        Vector2 xbound ( pos.x - distance, pos.x + distance );
+        Vector2 ybound ( pos.y - distance, pos.y + distance );
+        do
+        {
+            x = MyMath::Fmod(static_cast<float>(rand()), static_cast<float>(MAPSIZE - 1) - 2 * distance);
+            y = MyMath::Fmod(static_cast<float>(rand()), static_cast<float>(MAPSIZE - 1) - 2 * distance);
+            if (x > xbound.x && x < xbound.y)
+            {
+                x = static_cast<int>(x + 2 * distance);
+            }
+            if (y > ybound.x && y < ybound.y)
+            {
+                y = static_cast<int>(y + 2 * distance);
+            }
+        } while (mTiles[x][y] != FLOOR_NORMAL);
+        spawnPoint = {static_cast<float>(x), static_cast<float>(y)};
+    }
+    else
+    {
+        spawnPoint = GetSpawnPoint();
+    }
+    return spawnPoint;
 }
