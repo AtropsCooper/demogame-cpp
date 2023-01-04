@@ -1,7 +1,7 @@
 MKDIR   := mkdir -p
 RMDIR   := rm -rf
 CC      := clang++
-PROJECT := sprite
+PROJECT := DinoDungeon
 MODULES := Component Entity System Tools Other UserInterface
 SRC     := .
 BIN     := build/bin
@@ -11,7 +11,7 @@ OBJ_DIR := $(addprefix $(OBJ)/,$(MODULES))
 INCLUDE := $(addprefix -I,$(SRC_DIR)) -IAssets
 SRCS    := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJS    := $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(SRCS)) 
-EXE     := $(BIN)/$(PROJECT)
+EXE     := $(BIN)/$(PROJECT).app
 CFLAGS  := $(INCLUDE) `sdl2-config --cflags` -std=c++17 -Wall -g
 LDLIBS  := `sdl2-config --libs` -lSDL2_image -lSDL2_ttf
 

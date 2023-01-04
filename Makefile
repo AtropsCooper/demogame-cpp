@@ -1,7 +1,7 @@
 MKDIR   := mkdir
 RMDIR   := rd /s /q 
 CC      := g++
-PROJECT := sprite
+PROJECT := DinoDungeon
 MODULES := Component Entity System Tools Other UserInterface
 SRC     := .
 BIN     := build\bin
