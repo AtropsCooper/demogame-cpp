@@ -15,6 +15,7 @@ public:
 
 private:
     void LoadTexture (const std::string& filename, const std::string& newName);
+    void LoadTexture (const unsigned char* resource, int size, const std::string& newName);
 
     SDL_Renderer* mRenderer;
     std::unordered_map<std::string, SDL_Texture*> mTextures;

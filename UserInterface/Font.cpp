@@ -15,17 +15,17 @@ Font::~Font()
 	}
 }
 
-bool Font::LoadFont(const std::string& fileName)
+bool Font::LoadFont(const unsigned char* fontData, int dataSize)
 {
 	// For each font size, make a TTF_Font
 	std::vector<int> fontSizes = { 24, 32, 48, 72, 96 };
 	for (auto& size : fontSizes)
 	{
-		TTF_Font* font = TTF_OpenFont(fileName.c_str(), size);
+		TTF_Font* font = TTF_OpenFontRW(SDL_RWFromMem((void*)fontData, dataSize), 1, size);
 		printf("%s", TTF_GetError());
 		if (font == nullptr)
 		{
-			SDL_Log("Failed to load font %s.", fileName.c_str());
+			SDL_Log("Failed to load font.");
 			return false;
 		}
 		// Add font to mFontData

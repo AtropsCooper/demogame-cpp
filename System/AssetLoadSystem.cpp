@@ -2,6 +2,13 @@
 #include <SDL_image.h>
 #include <string>
 
+// Assets
+#include "cursor.h"
+#include "dungeonfont.h"
+#include "help.h"
+#include "tiles.h"
+#include "UI.h"
+
 AssetLoadSystem::AssetLoadSystem(class Game* game, int updateOrder, SDL_Renderer* renderer)
     : System(game, updateOrder)
     , mRenderer(renderer)
@@ -23,11 +30,14 @@ AssetLoadSystem::~AssetLoadSystem()
 void AssetLoadSystem::Initialize()
 {
     IMG_Init(IMG_INIT_PNG);
-    LoadTexture("Assets/0x72_DungeonTilesetII_v1.4.png", "dungeon");
-    LoadTexture("Assets/UI.png", "UI");
-    LoadTexture("Assets/help.png", "help");
+    // LoadTexture("Assets/bin/0x72_DungeonTilesetII_v1.4.png", "dungeon");
+    // LoadTexture("Assets/bin/UI.png", "UI");
+    // LoadTexture("Assets/bin/help.png", "help");
+    LoadTexture(TILES, TILES_length, "dungeon");
+    LoadTexture(UI, UI_length, "UI");
+    LoadTexture(HELP, HELP_length, "help");
 
-    SDL_Surface* surf = IMG_Load("Assets/cursor.png");
+    SDL_Surface* surf = IMG_LoadPNG_RW(SDL_RWFromMem((void*)CURSOR, CURSOR_length));
     if (surf != nullptr)
     {
         mCursor = SDL_CreateColorCursor(surf, 18, 18);
@@ -68,6 +78,32 @@ void AssetLoadSystem::LoadTexture (const std::string& filename, const std::strin
     if (!text)
     {
         SDL_Log ("Failed to convert surface to texture for %s", filename.c_str());
+        return;
+    }
+    mTextures.emplace(newName, text);
+}
+
+void AssetLoadSystem::LoadTexture (const unsigned char* resource, int size, const std::string& newName)
+{
+    auto iter = mTextures.find(newName);
+	if (iter != mTextures.end())
+	{
+		SDL_DestroyTexture(iter->second);
+		mTextures.erase(iter);
+	}
+
+    SDL_Surface* surf = IMG_LoadPNG_RW(SDL_RWFromMem((void*)resource, size));
+    if (!surf)
+    {
+        SDL_Log("Failed to load texture %s", newName.c_str());
+        return;
+    }
+
+    SDL_Texture* text = SDL_CreateTextureFromSurface(mRenderer, surf);
+    SDL_FreeSurface(surf);
+    if (!text)
+    {
+        SDL_Log ("Failed to convert surface to texture for %s", newName.c_str());
         return;
     }
     mTextures.emplace(newName, text);

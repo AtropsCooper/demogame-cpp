@@ -12,7 +12,7 @@ public:
 	Font(class Game* game);
 	~Font();
 
-	bool LoadFont(const std::string& fileName);
+	bool LoadFont(const unsigned char* fontData, int size);
 	SDL_Surface* CreateText(const std::string& text, 
                             const Color::Color& color = Color::White,
                             int size = 30);

@@ -27,6 +27,9 @@
 #include "TitleScreen.h"
 #include "EndScreen.h"
 
+// font
+#include "dungeonfont.h"
+
 
 Game::Game()
     : mWindow(nullptr),
@@ -138,7 +141,7 @@ bool Game::Initialize()
 	}
     // LoadFont
     Font* font = new Font(this);
-	if (font->LoadFont("./Assets/DungeonFont.ttf"))
+	if (font->LoadFont(FONT, FONT_length))
 	{
 		mFont = font;
 	}
