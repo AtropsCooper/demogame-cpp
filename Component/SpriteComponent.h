@@ -1,6 +1,6 @@
 #pragma once
 #include "Component.h"
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 #include "Vector2.h"
 
 class SpriteComponent : public Component

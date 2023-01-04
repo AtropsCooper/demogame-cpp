@@ -1,7 +1,7 @@
 #include "InputSystem.h"
 #include "Game.h"
 #include "Menu.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 ButtonState KeyBoardState::GetKeyState(SDL_Scancode keyCode) const
 {

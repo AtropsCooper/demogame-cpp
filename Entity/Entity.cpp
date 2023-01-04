@@ -10,6 +10,7 @@
 #include "HittedComponent.h"
 #include "HostilityComponent.h"
 #include "DeadOnCollisionComponent.h"
+#include <algorithm>
 
 Entity::Entity(class Game* game)
     : mPosition(Vector2::Zero)

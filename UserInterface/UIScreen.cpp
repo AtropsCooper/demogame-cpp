@@ -6,14 +6,14 @@ UIScreen::UIScreen(Game* game):
 	mGame(game),
 	mState(UIState::EActive),
     mInputState(nullptr),
-	mBackPos(Vector2::Zero),
 	mTexBackground(nullptr),
+	mBackPos(Vector2::Zero),
+	mBackSrcRect(),
+	mText(nullptr),
 	mTextPos(Vector2::Zero),
 	mButtonText(nullptr),
-    mBackSrcRect(),
 	mButtonOnRect(),
     mButtonOffRect(),
-	mText(nullptr),
 	mTextCenter(true),
 	mCurButton(nullptr)
 {
@@ -206,8 +206,8 @@ Button::Button(UIScreen* ui):
 	mOnClick(nullptr),
 	mText(nullptr),
 	mPosition(Vector2::Zero),
-	mHeight(0),
 	mWidth(0),
+	mHeight(0),
 	mFont(nullptr),
 	mIsSelected(false)
 {

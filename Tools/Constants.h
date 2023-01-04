@@ -1,5 +1,5 @@
 #pragma once
-#include "SDL.h"
+#include <SDL2/SDL.h>
 
 const static char GAME_TITLE[] = "Dino Dungeon";
 

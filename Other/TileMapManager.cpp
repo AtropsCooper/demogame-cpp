@@ -54,7 +54,7 @@ void TileMapManager::GenerateMap()
 
     Connect(unconnectedRoomVec.begin());
     // Helper func for generating hallways
-    auto Hallway = [&map=mTiles](int fromX, int fromY, int toX, int toY) -> void
+    auto Hallway = [map=mTiles](int fromX, int fromY, int toX, int toY) -> void
     {
         if (fromX != toX || fromY != toY)
         {

@@ -1,6 +1,6 @@
 #pragma once
 #include "System.h"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <vector>
 
 class CollisionSystem : public System

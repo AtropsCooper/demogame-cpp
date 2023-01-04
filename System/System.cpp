@@ -11,6 +11,7 @@
 #include "AIComponent.h"
 #include "Component.h"
 #include "Helper.h"
+#include <algorithm>
 
 System::System(Game* game, int updateOrder)
     : mUpdateOrder(updateOrder)

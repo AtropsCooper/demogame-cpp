@@ -2,7 +2,7 @@
 #include "SpriteComponent.h"
 #include "AnimComponent.h"
 #include "Entity.h"
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 #include "Game.h"
 #include "InputSystem.h"
 #include "MyMath.h"

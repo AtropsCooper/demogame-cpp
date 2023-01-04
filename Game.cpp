@@ -1,6 +1,7 @@
-#include <SDL_image.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <time.h>
+#include <algorithm>
 #include "Game.h"
 #include "System.h"
 #include "Entity.h"
@@ -32,10 +33,10 @@
 
 
 Game::Game()
-    : mWindow(nullptr),
-      mRenderer(nullptr),
-      mPlayer(nullptr),
+    : mPlayer(nullptr),
       mBoss(nullptr),
+      mWindow(nullptr),
+      mRenderer(nullptr),
       mGameState(EGameplay),
       mTicksCount(0)
 
@@ -114,7 +115,7 @@ bool Game::Initialize()
     mWindow = SDL_CreateWindow(
         "Dino Dungeon",
         100,
-        100,
+        30,
         WINDOW_WIDTH,
         WINDOW_HEIGHT,
         0);
