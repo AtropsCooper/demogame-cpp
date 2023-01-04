@@ -1,4 +1,5 @@
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include "Game.h"
 #include "System.h"
 #include "Entity.h"
@@ -16,15 +17,18 @@
 #include "CollisionSystem.h"
 #include "DamageSystem.h"
 #include "PlayerPrefab.h"
-
 #include "TileMapManager.h"
+#include "UIScreen.h"
+#include "HUD.h"
+#include "Font.h"
+#include "Menu.h"
 
 
 Game::Game()
     : mWindow(nullptr),
       mRenderer(nullptr),
       mPlayer(nullptr),
-      mIsRunning(true),
+      mGameState(EGameplay),
       mTicksCount(0)
 
 {
@@ -63,10 +67,7 @@ void Game::RemoveSystem(class System* system)
         mSystems.erase(iter);
     }
 }
-void Game::SetIsRunning(bool isRunning)
-{
-    mIsRunning = isRunning;
-}
+
 SDL_Texture* Game::GetTexture(const std::string &fileName) const
 {
     return mAssetLoadSystem->GetTexture(fileName);
@@ -124,6 +125,18 @@ bool Game::Initialize()
         SDL_Log("Failed to create renderer: %s", SDL_GetError());
         return false;
     }
+
+    if (TTF_Init())
+	{
+		SDL_Log("Failed to initialize SDL_ttf");
+		return false;
+	}
+    // LoadFont
+    Font* font = new Font(this);
+	if (font->LoadFont("./Assets/DungeonFont.ttf"))
+	{
+		mFont = font;
+	}
     
     mInputSystem = new InputSystem(this, 0);
     mInputSystem->Initialize();
@@ -150,6 +163,7 @@ bool Game::Initialize()
     mDrawSystem->SetPlayer(mPlayer);
 
     mPlayerControllerSystem->SetPlayer(mPlayer);
+    new HUD(this);
     //  TEST CODE
 
     return true;
@@ -177,17 +191,22 @@ void Game::Shutdown()
 
 void Game::RunLoop()
 {
-    while (mIsRunning)
+    while (mGameState != EQuit)
     {
         ProcessInput();
-        UpdateGame();
+        if (mGameState == EGameplay)
+        {
+            UpdateGame();
+        }
+        UpdateUI();
         GenerateOutput();
     }
 }
 
 void Game::ProcessInput()
 {
-    // Do Nothing    
+    mInputSystem->PreProcess();
+    mInputSystem->ProcessInput();
 }
 
 void Game::UpdateGame()
@@ -202,7 +221,6 @@ void Game::UpdateGame()
     {
         deltaTime = 0.05f;
     }
-
     // Refresh Messages 
 
     for (auto system : mSystems)
@@ -226,25 +244,50 @@ void Game::UpdateGame()
         }
     }
 
-    // Update
+    // Update systems
     for (auto system : mSystems)
     {
         system->Update(deltaTime);
     }
+    
+}
 
-
+void Game::UpdateUI()
+{
+	// Update active UIs
+	for (auto ui : mUIStack)
+	{
+		if (ui->GetState() == UIScreen::UIState::EActive)
+		{
+			ui->Update();
+		}
+	}
+	// Free all dead UIs
+	for (auto iter = mUIStack.begin(); iter != mUIStack.end(); iter++)
+	{
+		if ((*iter)->GetState() == UIScreen::UIState::EDead)
+		{
+			delete *iter;
+			iter = mUIStack.erase(iter);
+			iter--;
+		}
+	}
 }
 
 void Game::GenerateOutput()
 {
-    // Temperary processes
     SDL_SetRenderDrawColor(
         mRenderer,
-        0, 0, 255, 255);
+        34, 34, 34, 255);
 
     SDL_RenderClear(mRenderer);
 
     mDrawSystem->Draw();
+
+    	for (auto ui : mUIStack)
+	{
+		ui->Draw(mRenderer);
+	}
 
     SDL_RenderPresent(mRenderer);
 }

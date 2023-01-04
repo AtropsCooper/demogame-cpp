@@ -22,6 +22,7 @@ void AssetLoadSystem::Initialize()
 {
     IMG_Init(IMG_INIT_PNG);
     LoadTexture("Assets/0x72_DungeonTilesetII_v1.4.png", "dungeon");
+    LoadTexture("Assets/UI.png", "UI");
 }
 
 SDL_Texture* AssetLoadSystem::GetTexture(const std::string& fileName) const

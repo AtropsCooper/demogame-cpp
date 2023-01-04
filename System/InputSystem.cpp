@@ -1,5 +1,6 @@
 #include "InputSystem.h"
 #include "Game.h"
+#include "Menu.h"
 #include <SDL.h>
 
 ButtonState KeyBoardState::GetKeyState(SDL_Scancode keyCode) const
@@ -68,31 +69,32 @@ void InputSystem::Initialize()
     // SDL_ShowCursor(SDL_FALSE);
 }
 
-void InputSystem::PreUpdate()
+void InputSystem::PreProcess()
 {
     memcpy(mState.KeyBoard.mPrevState, mState.KeyBoard.mCurrState, SDL_NUM_SCANCODES);
 
     mState.Mouse.mPrevButtons = mState.Mouse.mCurrButtons;
 }
 
-void InputSystem::Update(float deltaTime)
+void InputSystem::ProcessInput()
 {
-    PreUpdate();
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
        switch (event.type)
        {
         case SDL_QUIT:
-            mGame->SetIsRunning(false);
+            mGame->SetGameState(Game::EQuit);
             break;
+
         default:
             break;
+
        }
     }
-    if (mState.KeyBoard.GetKeyState(SDL_SCANCODE_ESCAPE) == EReleased)
+    if (mState.KeyBoard.GetKeyState(SDL_SCANCODE_ESCAPE) == EPressed && mGame->GetGameState() == Game::EGameplay)
     {
-        mGame->SetIsRunning(false);
+        new Menu(mGame);
     }
     
     int x = 0, y = 0;

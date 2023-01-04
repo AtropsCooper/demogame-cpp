@@ -51,8 +51,8 @@ class InputSystem : public System
 public:
     InputSystem(Game* game, int updateOrder);
     void Initialize();
-    void PreUpdate();
-    void Update(float deltaTime) override;
+    void PreProcess();
+    void ProcessInput();
 
     const InputState& GetState() const { return mState; }
 
