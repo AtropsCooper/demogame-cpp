@@ -27,7 +27,7 @@ void CollisionSystem::FetchComponents()
     {
         auto entity = box->GetOwner();
 
-        if (entity != nullptr && (entity->mPosition - player->mPosition).Length() < 26.0f)
+        if (entity != nullptr && (entity->mPosition - player->mPosition).Length() < 22.0f)
         {
             mBoxesNearby.emplace_back(box);
         }  

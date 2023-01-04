@@ -34,7 +34,7 @@ const static float PLAYER_MOVE_SPEED = 8.0f;
 const static float SKELETON_MOVE_SPEED = 7.0f;
 const static float GOBLIN_MOVE_SPEED = 4.5f;
 const static float DEMON_MOVE_SPEED = 10.0f;
-const static float BOSS_MOVE_SPEED = 5.6f;
+const static float BOSS_MOVE_SPEED = 7.6f;
 
 // 0x72_DungeonTilesetII_v1.4.png
 const static SDL_Rect SRRITE_BOW = {325, 180, 7, 25};

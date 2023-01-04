@@ -21,6 +21,7 @@ EnemySpawnSystem::EnemySpawnSystem(class Game* game, int order)
 void EnemySpawnSystem::SetPlayer(const Entity* player)
 {
     mPlayer = player;
+    mPlayerPos = mPlayer->mPosition;
 }
 
 

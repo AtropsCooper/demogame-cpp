@@ -297,11 +297,11 @@ Vector2 TileMapManager::GetSpawnPointAwayFrom(Vector2 pos, float distance)
             y = rand() % static_cast<int>(MAPSIZE - 1 - (2 * distance));
             if (x > xbound.x && x < xbound.y)
             {
-                x = static_cast<int>(x + 2 * distance);
+                x = static_cast<int>(x + (2 * distance));
             }
             if (y > ybound.x && y < ybound.y)
             {
-                y = static_cast<int>(y + 2 * distance);
+                y = static_cast<int>(y + (2 * distance));
             }
         } while (mTiles[x][y] != FLOOR_NORMAL);
         spawnPoint = {static_cast<float>(x), static_cast<float>(y)};
