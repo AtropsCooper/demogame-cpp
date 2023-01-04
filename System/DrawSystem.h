@@ -16,6 +16,7 @@ public:
     void Update(float deltaTime) override;
     void Draw() const;
     void SetPlayer(class Entity *player);
+    void CleanUp() override { mSprites.clear(); }
 
 private:
     SDL_Renderer *mRenderer;

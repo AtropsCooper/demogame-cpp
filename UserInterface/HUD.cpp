@@ -8,7 +8,8 @@
 
 HUD::HUD(Game* game) :
 	UIScreen(game),
-	mCurHp(6)
+	mCurHp(6),
+	mPlayer(nullptr)
 {
 	mTexBackground = game->GetTexture("UI");
 	mBackWidth = UI_HUD_WIDTH;
@@ -22,9 +23,9 @@ HUD::HUD(Game* game) :
 
 void HUD::Update()
 {
-	if (mGame->mPlayer != nullptr && mGame->mPlayer->GetState() == Entity::EActive)
+	if (mPlayer != nullptr && mPlayer->GetState() == Entity::EActive)
 	{
-		mCurHp = static_cast<int>(mGame->mPlayer->GetComponent<StatusComponent>()->mHealth);
+		mCurHp = static_cast<int>(mPlayer->GetComponent<StatusComponent>()->mHealth);
 	}
 	else
 	{

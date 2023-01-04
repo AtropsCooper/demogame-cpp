@@ -11,6 +11,7 @@ public:
     const class Entity* GetWeapon() const;
     void DestroyWeapon();
     void Update(float deltaTime) override;
+    void CleanUp() override { mWeapon = nullptr; }
 
 private:
     class Entity* mPlayer;

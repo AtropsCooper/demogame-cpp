@@ -13,6 +13,7 @@ public:
 
     template <typename T>
     void DetectComponent(std::vector<T *> *container);
+    virtual void CleanUp() {}
 
 protected:
     int mUpdateOrder;

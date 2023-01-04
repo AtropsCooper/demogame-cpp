@@ -19,6 +19,7 @@ public:
     void ClearTileEntities();
     Vector2 GetSpawnPoint();
     Vector2 GetSpawnPointAwayFrom(Vector2 pos, float distance);
+    void CleanUp() { mTileEntities.clear(); }
 
 private:
     SDL_Texture* mTileTexture;

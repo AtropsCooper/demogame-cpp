@@ -22,6 +22,9 @@ public:
     void RunLoop();
     void Shutdown();
 
+    void ClearEntities();
+    void MakeLevel();
+    void Replay();
     void AddEntity(class Entity *entity);
     void RemoveEntity(class Entity *entity);
     void AddSystem(class System *system);
@@ -43,7 +46,7 @@ public:
     const std::vector<std::pair<class Entity*, class Entity*>> *GetCollisionMessages() const;
 
     class Entity *mPlayer;
-    class TileMapManager *mTMM;
+    class TileMapManager *mTileMapManager;
 private:
     void ProcessInput();
     void UpdateGame();
@@ -65,6 +68,7 @@ private:
     class AssetLoadSystem *mAssetLoadSystem;
     class DrawSystem *mDrawSystem;
     class InputSystem *mInputSystem;
+    class EnemySpawnSystem *mEnemySpawnSystem;
     class Font* mFont;
 	class HUD* mHUD;
 

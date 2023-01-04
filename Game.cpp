@@ -150,41 +150,68 @@ bool Game::Initialize()
     new MoveSystem(this, 182);
     mPlayerControllerSystem = new PlayerControllerSystem(this, 170);
     new TransientSystem(this, 101);
-    new EnemySpawnSystem(this, 100);
+    mEnemySpawnSystem = new EnemySpawnSystem(this, 100);
     new CollisionSystem(this, 181);
     new DamageSystem(this, 179);
-
-    //  TEST CODE
-    mTMM = new TileMapManager(this);
-    mTMM->Initialize();
-    mTMM->GenerateMap();
-    mTMM->Instanciate();
-
-    mPlayer = new PlayerPrefab(this, Vector2(12, 10));
-
-    mDrawSystem->SetPlayer(mPlayer);
-
-    mPlayerControllerSystem->SetPlayer(mPlayer);
-    new HUD(this);
+    mTileMapManager = new TileMapManager(this);
+    mHUD =  new HUD(this);
     new TitleScreen(this);
-    //  TEST CODE
+
+    MakeLevel();
 
     return true;
 }
 
-void Game::Shutdown()
+void Game::ClearEntities()
 {
-    delete mTMM;
-
-    while (!mSystems.empty())
-    {
-        delete mSystems.back();
-    }
     while (!mEntities.empty())
     {
         delete mEntities.back();
         mEntities.pop_back();
+    }    
+}
+
+void Game::MakeLevel()
+{
+    mComponentMessages.clear();
+    mCollisionMessages.clear();
+    mTileMapManager->Initialize();
+    mTileMapManager->GenerateMap();
+    mTileMapManager->Instanciate();
+    mPlayer = new PlayerPrefab(this, mTileMapManager->GetSpawnPoint());
+    mDrawSystem->SetPlayer(mPlayer);
+    mEnemySpawnSystem->SetPlayer(mPlayer);
+    mPlayerControllerSystem->SetPlayer(mPlayer);
+    mHUD->SetPlayer(mPlayer);
+}
+
+void Game::Replay()
+{
+    // Clean Up
+    for (auto sys : mSystems)
+    {
+        sys->CleanUp();
     }
+    mTileMapManager->CleanUp();
+    ClearEntities();
+    mCollisionMessages.clear();
+    mComponentMessages.clear();
+    MakeLevel();
+}
+
+void Game::Shutdown()
+{
+    delete mTileMapManager;
+
+    while (!mUIStack.empty())
+    {
+        delete mUIStack.back();
+    }
+    while (!mSystems.empty())
+    {
+        delete mSystems.back();
+    }
+    ClearEntities();
 
     SDL_DestroyWindow(mWindow);
     SDL_DestroyRenderer(mRenderer);
@@ -232,6 +259,12 @@ void Game::UpdateGame()
     }
     mComponentMessages.clear();
     mCollisionMessages.clear();
+
+    // If Player is Dead
+    if (mPlayer->GetState() == Entity::EDead)
+    {
+        new EndScreen(this, false);
+    }
 
     // Delete Dead Entities
     for (auto entity = mEntities.begin(); entity != mEntities.end();)

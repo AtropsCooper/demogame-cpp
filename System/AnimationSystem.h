@@ -10,6 +10,7 @@ public:
 
     void FetchComponents() override;
     void Update(float deltaTime) override;
+    void CleanUp() override { mAnimComponents.clear(); }
 private:
     std::vector<AnimComponent *> mAnimComponents;
 };

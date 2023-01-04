@@ -49,6 +49,9 @@ EndScreen::~EndScreen()
 
 void EndScreen::Draw(SDL_Renderer* renderer)
 {
+    SDL_SetRenderDrawColor(
+        renderer,
+        34, 34, 34, 255);
     SDL_RenderClear(renderer);
     UIScreen::Draw(renderer);
 }
@@ -58,7 +61,9 @@ std::function<void()> EndScreen::RetryOnClick()
 	return [this]()
 	{
 		//Mix_PlayChannel(-1, mGame->GetSound("Menu"), 0);
-		Close();
+		mGame->Replay();
+        mGame->SetGameState(Game::EGameplay);
+        Close();
 	};
 }
 

@@ -33,7 +33,7 @@ void EnemySpawnSystem::Update(float deltaTime)
     {
         if ( static_cast<float>(rand()) / static_cast<float>(RAND_MAX) < 1.0f )
         {
-            new SkeletonPrefab(mGame, mGame->mTMM->GetSpawnPointAwayFrom(mPlayerPos, 10.0f));
+            new SkeletonPrefab(mGame, mGame->mTileMapManager->GetSpawnPointAwayFrom(mPlayerPos, 10.0f));
         }
 
         mTimeUntilSpawn += ENEMY_SPAWN_INTERVAL;

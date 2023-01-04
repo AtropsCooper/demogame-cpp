@@ -20,6 +20,7 @@ const SDL_Rect R_WALL_MID = {32, 16, 16, 16};
 
 TileMapManager::TileMapManager(Game *game) : mGame(game)
 {
+    mTileTexture = mGame->GetTexture("dungeon");
 }
 
 TileMapManager::~TileMapManager()
@@ -29,7 +30,6 @@ TileMapManager::~TileMapManager()
 
 void TileMapManager::Initialize()
 {
-    mTileTexture = mGame->GetTexture("dungeon");
     memset(mTiles, 0, sizeof(mTiles));
 }
 
