@@ -5,6 +5,9 @@
 #include "TileMapManager.h"
 #include "AnimComponent.h"
 #include "SkeletonPrefab.h"
+#include "GoblinPrefab.h"
+#include "DemonPrefab.h"
+#include "BossPrefab.h"
 
 EnemySpawnSystem::EnemySpawnSystem(class Game* game, int order)
     : System(game, order)
@@ -31,11 +34,35 @@ void EnemySpawnSystem::Update(float deltaTime)
     mTimeUntilSpawn -= deltaTime;
     if (mTimeUntilSpawn <= 0)
     {
-        if ( static_cast<float>(rand()) / static_cast<float>(RAND_MAX) < 1.0f )
+        if ( static_cast<float>(rand()) / static_cast<float>(RAND_MAX) < ENEMY_SPAWN_RATE )
         {
-            new SkeletonPrefab(mGame, mGame->mTileMapManager->GetSpawnPointAwayFrom(mPlayerPos, 10.0f));
+            SpawnEnemies(1);
         }
 
         mTimeUntilSpawn += ENEMY_SPAWN_INTERVAL;
     }
+}
+
+void EnemySpawnSystem::SpawnEnemies(int number)
+{
+    for (int counter = 0; counter < number; counter ++)
+    {
+        int roll = rand() % 6;
+        switch (roll)
+        {
+        case 0:
+        case 1:
+        case 2:
+            new SkeletonPrefab(mGame, mGame->mTileMapManager->GetSpawnPointAwayFrom(mPlayerPos, ENEMY_SPAWN_RANGE));
+            break;
+        case 3:
+        case 4:
+            new GoblinPrefab(mGame, mGame->mTileMapManager->GetSpawnPointAwayFrom(mPlayerPos, ENEMY_SPAWN_RANGE));
+            break;
+        case 5:
+            new DemonPrefab(mGame, mGame->mTileMapManager->GetSpawnPointAwayFrom(mPlayerPos, ENEMY_SPAWN_RANGE));
+            break;
+        }
+    }
+
 }

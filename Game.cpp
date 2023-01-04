@@ -1,5 +1,6 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <time.h>
 #include "Game.h"
 #include "System.h"
 #include "Entity.h"
@@ -157,6 +158,7 @@ bool Game::Initialize()
     mHUD =  new HUD(this);
     new TitleScreen(this);
 
+    srand((unsigned)clock());
     MakeLevel();
 
     return true;
@@ -181,6 +183,7 @@ void Game::MakeLevel()
     mPlayer = new PlayerPrefab(this, mTileMapManager->GetSpawnPoint());
     mDrawSystem->SetPlayer(mPlayer);
     mEnemySpawnSystem->SetPlayer(mPlayer);
+    mEnemySpawnSystem->SpawnEnemies(20);
     mPlayerControllerSystem->SetPlayer(mPlayer);
     mHUD->SetPlayer(mPlayer);
 }

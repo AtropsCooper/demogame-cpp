@@ -8,6 +8,7 @@ public:
     EnemySpawnSystem(class Game* game, int order);
     void Update(float deltaTime);
     void SetPlayer(const class Entity* player);
+    void SpawnEnemies(int number);
 
 private:
     float mTimeUntilSpawn;
