@@ -47,8 +47,8 @@ void TileMapManager::GenerateMap()
     {
         int roomW = rand() % (MAX_ROOM_SIZE - MIN_ROOM_SIZE) + MIN_ROOM_SIZE;
         int roomH = rand() % (MAX_ROOM_SIZE - MIN_ROOM_SIZE) + MIN_ROOM_SIZE;
-        int roomX = rand() % (MAPSIZE - roomW - 1);
-        int roomY = rand() % (MAPSIZE - roomH - 1);
+        int roomX = rand() % (MAPSIZE - roomW - 2) + 1;
+        int roomY = rand() % (MAPSIZE - roomH - 2) + 1;
         unconnectedRoomVec.emplace_back(SDL_Rect{roomX, roomY, roomW, roomH});
     }
 
@@ -286,15 +286,15 @@ Vector2 TileMapManager::GetSpawnPoint()
 Vector2 TileMapManager::GetSpawnPointAwayFrom(Vector2 pos, float distance)
 {
     Vector2 spawnPoint;
-    if (distance < MAPSIZE / 4.0f && distance > 0.0f)
+    if (distance < MAPSIZE / 2.0f && distance > 0.0f)
     {
         int x, y;
         Vector2 xbound ( pos.x - distance, pos.x + distance );
         Vector2 ybound ( pos.y - distance, pos.y + distance );
         do
         {
-            x = MyMath::Fmod(static_cast<float>(rand()), static_cast<float>(MAPSIZE - 1) - 2 * distance);
-            y = MyMath::Fmod(static_cast<float>(rand()), static_cast<float>(MAPSIZE - 1) - 2 * distance);
+            x = rand() % static_cast<int>(MAPSIZE - 1 - (2 * distance));
+            y = rand() % static_cast<int>(MAPSIZE - 1 - (2 * distance));
             if (x > xbound.x && x < xbound.y)
             {
                 x = static_cast<int>(x + 2 * distance);

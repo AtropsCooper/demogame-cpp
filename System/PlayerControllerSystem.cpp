@@ -68,7 +68,7 @@ void PlayerControllerSystem::Update(float deltaTime)
         {
             movement.Normalize();
         }
-        movement *= 8.0f;
+        movement *= PLAYER_MOVE_SPEED;
         mPMC->mVelocity = movement;
         if (mWMC != nullptr)
         {

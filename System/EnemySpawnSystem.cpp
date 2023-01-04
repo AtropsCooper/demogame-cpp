@@ -66,3 +66,8 @@ void EnemySpawnSystem::SpawnEnemies(int number)
     }
 
 }
+
+Entity* EnemySpawnSystem::SpawnBoss()
+{
+    return new BossPrefab(mGame, mGame->mTileMapManager->GetSpawnPointAwayFrom(mPlayerPos, ENEMY_SPAWN_RANGE * 2));
+}

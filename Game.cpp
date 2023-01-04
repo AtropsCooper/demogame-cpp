@@ -17,6 +17,7 @@
 #include "EnemySpawnSystem.h"
 #include "CollisionSystem.h"
 #include "DamageSystem.h"
+#include "AISystem.h"
 #include "PlayerPrefab.h"
 #include "TileMapManager.h"
 #include "UIScreen.h"
@@ -31,6 +32,7 @@ Game::Game()
     : mWindow(nullptr),
       mRenderer(nullptr),
       mPlayer(nullptr),
+      mBoss(nullptr),
       mGameState(EGameplay),
       mTicksCount(0)
 
@@ -148,7 +150,8 @@ bool Game::Initialize()
     mAssetLoadSystem->Initialize();
     mDrawSystem = new DrawSystem(this, 200, mRenderer);
     new AnimationSystem(this, 190);
-    new MoveSystem(this, 182);
+    mAISystem = new AISystem(this, 180);
+    new MoveSystem(this, 185);
     mPlayerControllerSystem = new PlayerControllerSystem(this, 170);
     new TransientSystem(this, 101);
     mEnemySpawnSystem = new EnemySpawnSystem(this, 100);
@@ -182,8 +185,10 @@ void Game::MakeLevel()
     mTileMapManager->Instanciate();
     mPlayer = new PlayerPrefab(this, mTileMapManager->GetSpawnPoint());
     mDrawSystem->SetPlayer(mPlayer);
+    mAISystem->SetPlayer(mPlayer);
     mEnemySpawnSystem->SetPlayer(mPlayer);
     mEnemySpawnSystem->SpawnEnemies(20);
+    mBoss = mEnemySpawnSystem->SpawnBoss();
     mPlayerControllerSystem->SetPlayer(mPlayer);
     mHUD->SetPlayer(mPlayer);
 }
@@ -260,9 +265,14 @@ void Game::UpdateGame()
     mCollisionMessages.clear();
 
     // If Player is Dead
-    if (mPlayer->GetState() == Entity::EDead)
+    if (mPlayer != nullptr && mPlayer->GetState() == Entity::EDead)
     {
         new EndScreen(this, false);
+    }
+    // If Boss is Dead
+    if (mBoss != nullptr && mBoss->GetState() == Entity::EDead)
+    {
+        new EndScreen(this, true);
     }
 
     // Delete Dead Entities

@@ -46,6 +46,7 @@ public:
     const std::vector<std::pair<class Entity*, class Entity*>> *GetCollisionMessages() const;
 
     class Entity *mPlayer;
+    class Entity *mBoss;
     class TileMapManager *mTileMapManager;
 private:
     void ProcessInput();
@@ -69,6 +70,7 @@ private:
     class DrawSystem *mDrawSystem;
     class InputSystem *mInputSystem;
     class EnemySpawnSystem *mEnemySpawnSystem;
+    class AISystem *mAISystem;
     class Font* mFont;
 	class HUD* mHUD;
 

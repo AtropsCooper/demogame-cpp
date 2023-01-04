@@ -28,9 +28,9 @@ UIScreen::~UIScreen()
 	{
 		SDL_DestroyTexture(mText);
 	}
-	while (!mButtons.empty())
+	for (auto b : mButtons)
 	{
-		delete mButtons.back();
+		delete b;
 	}
 	mButtons.clear();
 }

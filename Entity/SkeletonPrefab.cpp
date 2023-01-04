@@ -1,5 +1,6 @@
 #include "SkeletonPrefab.h"
 #include "StatusComponent.h"
+#include "AIComponent.h"
 #include "Constants.h"
 
 SkeletonPrefab::SkeletonPrefab(Game* game, Vector2 position)
@@ -13,4 +14,5 @@ SkeletonPrefab::SkeletonPrefab(Game* game, Vector2 position)
     StatusComponent *status = new StatusComponent(this, 19);
     status->mHealth = HEALTH_SKELET;
     mHostilityComponent = new HostilityComponent(this, HostilityComponent::EEnemy);
+    new AIComponent(this, SKELETON_MOVE_SPEED, AIComponent::ERevHelix);
 }

@@ -1,5 +1,6 @@
 #include "GoblinPrefab.h"
 #include "StatusComponent.h"
+#include "AIComponent.h"
 #include "Constants.h"
 
 GoblinPrefab::GoblinPrefab(Game* game, Vector2 position)
@@ -13,4 +14,5 @@ GoblinPrefab::GoblinPrefab(Game* game, Vector2 position)
     StatusComponent *status = new StatusComponent(this, 19);
     status->mHealth = HEALTH_GOBLIN;
     mHostilityComponent = new HostilityComponent(this, HostilityComponent::EEnemy);
+    new AIComponent(this, GOBLIN_MOVE_SPEED, AIComponent::EFollow);
 }

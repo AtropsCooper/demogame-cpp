@@ -1,5 +1,6 @@
 #include "DemonPrefab.h"
 #include "StatusComponent.h"
+#include "AIComponent.h"
 #include "Constants.h"
 
 DemonPrefab::DemonPrefab(Game* game, Vector2 position)
@@ -13,4 +14,5 @@ DemonPrefab::DemonPrefab(Game* game, Vector2 position)
     StatusComponent *status = new StatusComponent(this, 19);
     status->mHealth = HEALTH_DEMON;
     mHostilityComponent = new HostilityComponent(this, HostilityComponent::EEnemy);
+    new AIComponent(this, DEMON_MOVE_SPEED, AIComponent::EHelix);
 }

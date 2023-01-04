@@ -9,6 +9,7 @@ public:
     void Update(float deltaTime);
     void SetPlayer(const class Entity* player);
     void SpawnEnemies(int number);
+    class Entity* SpawnBoss();
 
 private:
     float mTimeUntilSpawn;

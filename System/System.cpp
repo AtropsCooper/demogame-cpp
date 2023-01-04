@@ -8,6 +8,7 @@
 #include "TransientComponent.h"
 #include "SuicideComponent.h"
 #include "CollisionBoxComponent.h"
+#include "AIComponent.h"
 #include "Component.h"
 #include "Helper.h"
 
@@ -66,3 +67,4 @@ tDetect(AttackComponent);
 tDetect(TransientComponent);
 tDetect(SuicideComponent);
 tDetect(CollisionBoxComponent);
+tDetect(AIComponent);
