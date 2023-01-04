@@ -10,6 +10,8 @@ public:
 
 private:
 
-	float mCurHp;
-	float mMaxHp;
+	int mCurHp;
+	SDL_Rect mHeartRect;
+	SDL_Rect mHalfHeartRect;
+	SDL_Rect mEmptyHeartRect;
 };
