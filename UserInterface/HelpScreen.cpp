@@ -18,7 +18,7 @@ HelpScreen::HelpScreen(Game* game) : UIScreen(game)
 	b1->SetPosition(Vector2(WINDOW_WIDTH / 2, 580));
     b1->SetWidthHeight(UI_BUTTON_WIDTH / 2, UI_BUTTON_HEIGHT / 2);
     SDL_Renderer* renderer = mGame->GetRenderer();
-	b1->SetText("OK",renderer, Color::White, 32);
+	b1->SetText("OK", renderer, Color::White, 32);
 	b1->SetOnClick(OkOnClick());
 }
 

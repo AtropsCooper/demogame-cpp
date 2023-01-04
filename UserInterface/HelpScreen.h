@@ -2,7 +2,7 @@
 #include "UIScreen.h"
 #include "Game.h"
 
-class HelpScreen : UIScreen
+class HelpScreen : public UIScreen
 {
 public:
     HelpScreen(class Game* game);

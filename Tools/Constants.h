@@ -1,6 +1,8 @@
 #pragma once
 #include "SDL.h"
 
+const static char GAME_TITLE[] = "Dino Dungeon";
+
 const static int WINDOW_WIDTH = 1024;
 const static int WINDOW_HEIGHT = 768;
 

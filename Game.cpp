@@ -22,6 +22,8 @@
 #include "HUD.h"
 #include "Font.h"
 #include "Menu.h"
+#include "TitleScreen.h"
+#include "EndScreen.h"
 
 
 Game::Game()
@@ -164,6 +166,7 @@ bool Game::Initialize()
 
     mPlayerControllerSystem->SetPlayer(mPlayer);
     new HUD(this);
+    new TitleScreen(this);
     //  TEST CODE
 
     return true;
@@ -254,14 +257,6 @@ void Game::UpdateGame()
 
 void Game::UpdateUI()
 {
-	// Update active UIs
-	// for (auto ui : mUIStack)
-	// {
-	// 	if (ui->GetState() == UIScreen::UIState::EActive)
-	// 	{
-	// 		ui->Update();
-	// 	}
-	// }
     if (!mUIStack.empty())
     {
         mUIStack.back()->Update();

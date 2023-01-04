@@ -18,7 +18,7 @@ Font::~Font()
 bool Font::LoadFont(const std::string& fileName)
 {
 	// For each font size, make a TTF_Font
-	std::vector<int> fontSizes = { 24, 28, 32, 48 };
+	std::vector<int> fontSizes = { 24, 32, 48, 72, 96 };
 	for (auto& size : fontSizes)
 	{
 		TTF_Font* font = TTF_OpenFont(fileName.c_str(), size);
