@@ -18,5 +18,5 @@ private:
 
     SDL_Renderer* mRenderer;
     std::unordered_map<std::string, SDL_Texture*> mTextures;
-    
+    SDL_Cursor* mCursor;
 };

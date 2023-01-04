@@ -5,6 +5,7 @@
 AssetLoadSystem::AssetLoadSystem(class Game* game, int updateOrder, SDL_Renderer* renderer)
     : System(game, updateOrder)
     , mRenderer(renderer)
+    , mCursor(nullptr)
 {
 }
 
@@ -16,6 +17,7 @@ AssetLoadSystem::~AssetLoadSystem()
         SDL_DestroyTexture(tex.second);
     }
     mTextures.clear();
+    SDL_FreeCursor(mCursor);
 }
 
 void AssetLoadSystem::Initialize()
@@ -24,6 +26,14 @@ void AssetLoadSystem::Initialize()
     LoadTexture("Assets/0x72_DungeonTilesetII_v1.4.png", "dungeon");
     LoadTexture("Assets/UI.png", "UI");
     LoadTexture("Assets/help.png", "help");
+
+    SDL_Surface* surf = IMG_Load("Assets/cursor.png");
+    if (surf != nullptr)
+    {
+        mCursor = SDL_CreateColorCursor(surf, 27, 27);
+        SDL_SetCursor(mCursor);
+        SDL_FreeSurface(surf);
+    }
 }
 
 SDL_Texture* AssetLoadSystem::GetTexture(const std::string& fileName) const

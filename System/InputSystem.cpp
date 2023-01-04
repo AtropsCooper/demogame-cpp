@@ -65,8 +65,6 @@ void InputSystem::Initialize()
     mState.Mouse.mPrevButtons = 0;
     mState.Mouse.mCurrButtons = 0;
 
-    // Hide the cursor
-    // SDL_ShowCursor(SDL_FALSE);
 }
 
 void InputSystem::PreProcess()
