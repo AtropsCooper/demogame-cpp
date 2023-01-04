@@ -255,13 +255,17 @@ void Game::UpdateGame()
 void Game::UpdateUI()
 {
 	// Update active UIs
-	for (auto ui : mUIStack)
-	{
-		if (ui->GetState() == UIScreen::UIState::EActive)
-		{
-			ui->Update();
-		}
-	}
+	// for (auto ui : mUIStack)
+	// {
+	// 	if (ui->GetState() == UIScreen::UIState::EActive)
+	// 	{
+	// 		ui->Update();
+	// 	}
+	// }
+    if (!mUIStack.empty())
+    {
+        mUIStack.back()->Update();
+    }
 	// Free all dead UIs
 	for (auto iter = mUIStack.begin(); iter != mUIStack.end(); iter++)
 	{

@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Constants.h"
 #include "Color.h"
+#include "HelpScreen.h"
 
 Menu::Menu(Game* game):
 	UIScreen(game), mEscape(0)
@@ -78,8 +79,8 @@ std::function<void()> Menu::HelpOnClick()
 	return [this]()
 	{
 		//Mix_PlayChannel(-1, mGame->GetSound("Menu"), 0);
-		//new TutorialUI(mGame);
-        Close();
+		new HelpScreen(mGame);
+        //Close();
 	};
 }
 
