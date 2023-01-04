@@ -206,10 +206,6 @@ void Game::Shutdown()
 {
     delete mTileMapManager;
 
-    while (!mUIStack.empty())
-    {
-        delete mUIStack.back();
-    }
     while (!mSystems.empty())
     {
         delete mSystems.back();

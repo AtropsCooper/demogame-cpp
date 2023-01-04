@@ -28,9 +28,9 @@ UIScreen::~UIScreen()
 	{
 		SDL_DestroyTexture(mText);
 	}
-	for (auto b : mButtons)
+	while (!mButtons.empty())
 	{
-		delete b;
+		delete mButtons.back();
 	}
 	mButtons.clear();
 }
@@ -216,10 +216,7 @@ Button::Button(UIScreen* ui):
 
 Button::~Button()
 {
-	if (mText)
-	{
-		SDL_DestroyTexture(mText);
-	}
+
 }
 
 void Button::SetText(const std::string& text, SDL_Renderer* renderer, const Color::Color& color, int size)
