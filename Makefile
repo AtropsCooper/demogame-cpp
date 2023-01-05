@@ -13,7 +13,7 @@ SRCS    := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJS    := $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(SRCS)) 
 EXE     := $(BIN)/$(PROJECT).exe
 CFLAGS  := $(INCLUDE) -std=c++17 -Wall -g
-LDFLAGS = -LC:\MinGW\lib -LC:\MinGW\bin
+LDFLAGS = -LC:\MinGW\lib
 LDLIBS  := -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer
 
 .PHONY: all run clean
@@ -21,11 +21,10 @@ LDLIBS  := -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer
 all: $(EXE)
 
 $(EXE): $(OBJS) | $(BIN)
-	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS) res.res
+	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
 $(OBJ)/%.o: $(SRC)/%.cpp | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-	windres res.rc -O coff -o res.res
 
 $(BIN) $(OBJ_DIR):
 	$(MKDIR) "$@"
