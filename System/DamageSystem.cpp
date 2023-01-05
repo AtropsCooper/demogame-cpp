@@ -35,7 +35,7 @@ void DamageSystem::FetchComponents()
 
 void DamageSystem::Update(float deltaTime)
 {
-    auto TakeDamage = [](Entity *attacker, Entity* sufferer)
+    auto TakeDamage = [&game=mGame](Entity *attacker, Entity* sufferer)
     {
         float damage = attacker->GetComponent<DamageComponent>()->mDamage;
         auto suffererState = sufferer->GetComponent<StatusComponent>();
@@ -51,6 +51,14 @@ void DamageSystem::Update(float deltaTime)
             {
                 new HittedComponent(sufferer, 2, 0.6f);
             }
+        }
+        if (sufferer == game->mPlayer)
+        {
+            Mix_PlayChannel(-1, game->GetChunk("damage"), 0);
+        }
+        else
+        {
+            Mix_PlayChannel(-1, game->GetChunk("hit"), 0);
         }
     };
 

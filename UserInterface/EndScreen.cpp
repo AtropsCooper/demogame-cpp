@@ -60,7 +60,7 @@ std::function<void()> EndScreen::RetryOnClick()
 {
 	return [this]()
 	{
-		//Mix_PlayChannel(-1, mGame->GetSound("Menu"), 0);
+		Mix_PlayChannel(-1, mGame->GetChunk("button"), 0);
 		mGame->Replay();
         mGame->SetGameState(Game::EGameplay);
         Close();

@@ -20,6 +20,7 @@ public:
     void ClearTileEntities();
     Vector2 GetSpawnPoint();
     Vector2 GetSpawnPointAwayFrom(Vector2 pos, float distance);
+    Vector2 MoveToMiddle(Vector2 vec);
     void CleanUp() { mTileEntities.clear(); }
 
 private:

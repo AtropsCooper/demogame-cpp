@@ -1,5 +1,6 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include <time.h>
 #include <algorithm>
 #include "Game.h"
@@ -82,6 +83,15 @@ SDL_Texture* Game::GetTexture(const std::string &fileName) const
     return mAssetLoadSystem->GetTexture(fileName);
 }
 
+Mix_Chunk* Game::GetChunk(const std::string& soundName) const
+{
+    return mAssetLoadSystem->GetChunk(soundName);
+}
+
+Mix_Music* Game::GetMusic(const std::string& musicName) const
+{
+    return mAssetLoadSystem->GetMusic(musicName);
+}
 
 void Game::ComponentMessage(class Component *component, bool isAdd)
 {
@@ -140,6 +150,11 @@ bool Game::Initialize()
 		SDL_Log("Failed to initialize SDL_ttf");
 		return false;
 	}
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
+	{
+		SDL_Log("Failed to initialize SDL_mixer");
+		return false;
+	}
     // LoadFont
     Font* font = new Font(this);
 	if (font->LoadFont(FONT, FONT_length))
@@ -195,10 +210,13 @@ void Game::MakeLevel()
     mBoss = mEnemySpawnSystem->SpawnBoss();
     mPlayerControllerSystem->SetPlayer(mPlayer);
     mHUD->SetPlayer(mPlayer);
+    Mix_PlayMusic(GetMusic("bgm"), -1);
+	Mix_VolumeMusic(60);
 }
 
 void Game::Replay()
 {
+    Mix_PlayChannel(-1, GetChunk("button"), 0);
     // Clean Up
     for (auto sys : mSystems)
     {
@@ -223,6 +241,7 @@ void Game::Shutdown()
 
     SDL_DestroyWindow(mWindow);
     SDL_DestroyRenderer(mRenderer);
+    Mix_CloseAudio();
 
     SDL_Quit();
 }
@@ -271,11 +290,13 @@ void Game::UpdateGame()
     // If Player is Dead
     if (mPlayer != nullptr && mPlayer->GetState() == Entity::EDead)
     {
+        Mix_PlayChannel(-1, GetChunk("death"), 0);
         new EndScreen(this, false);
     }
     // If Boss is Dead
     if (mBoss != nullptr && mBoss->GetState() == Entity::EDead)
     {
+        Mix_PlayMusic(GetMusic("victory"), -1);
         new EndScreen(this, true);
     }
 

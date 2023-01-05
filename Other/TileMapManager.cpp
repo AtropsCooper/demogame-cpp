@@ -310,5 +310,25 @@ Vector2 TileMapManager::GetSpawnPointAwayFrom(Vector2 pos, float distance)
     {
         spawnPoint = GetSpawnPoint();
     }
+    spawnPoint = MoveToMiddle(spawnPoint);
     return spawnPoint;
+}
+
+Vector2 TileMapManager::MoveToMiddle(Vector2 vec)
+{
+    Vector2 offsets[] = {
+        {-1, -1}, {0, -1}, {1, -1},
+        {-1, 0},           {1, 0},
+        {-1, 1},  {-1, 0}, {1, 1}
+    };
+    Vector2 result = vec;
+    for (auto v : offsets)
+    {
+        if (mTiles[static_cast<int>((vec + v).x)][static_cast<int>((vec + v).y)] != FLOOR_NORMAL)
+        {
+            result -= 0.4 * v;
+            break;
+        }
+    }
+    return result;
 }

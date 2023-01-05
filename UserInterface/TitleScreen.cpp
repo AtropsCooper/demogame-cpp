@@ -62,7 +62,7 @@ std::function<void()> TitleScreen::PlayOnClick()
 {
 	return [this]()
 	{
-		//Mix_PlayChannel(-1, mGame->GetSound("Menu"), 0);
+		Mix_PlayChannel(-1, mGame->GetChunk("button"), 0);
 		Close();
 	};
 }
@@ -71,9 +71,8 @@ std::function<void()> TitleScreen::HelpOnClick()
 {
 	return [this]()
 	{
-		//Mix_PlayChannel(-1, mGame->GetSound("Menu"), 0);
+		Mix_PlayChannel(-1, mGame->GetChunk("button"), 0);;
 		new HelpScreen(mGame);
-        //Close();
 	};
 }
 

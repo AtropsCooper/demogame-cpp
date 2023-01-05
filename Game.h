@@ -3,6 +3,7 @@
 #include <utility>
 #include <string>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 #include "MyMath.h"
 #include "InputSystem.h"
 
@@ -40,6 +41,8 @@ public:
 	class HUD* GetHUD() const { return mHUD; }
     SDL_Texture *GetTexture(const std::string &fileName) const;
     SDL_Renderer *GetRenderer() const { return mRenderer; }
+    Mix_Chunk* GetChunk(const std::string& soundName) const;
+    Mix_Music* GetMusic(const std::string& musicName) const;
     void ComponentMessage(class Component *component, bool isAdd);
     const std::vector<std::pair<class Component *, bool>> *GetComponentMessages() const;
     void CollisionMessage(class Entity *first, class Entity *second);

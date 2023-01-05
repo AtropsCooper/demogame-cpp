@@ -98,6 +98,7 @@ void PlayerControllerSystem::Update(float deltaTime)
 
     if (state->Mouse.GetButtonValue(SDL_BUTTON_LEFT) == 1 && mAttackComponent->cooldown <= 0.0f)
     {
+        Mix_PlayChannel(-1, mGame->GetChunk("arrow"), 0);
         mAttackComponent->cooldown = mAttackComponent->interval;
         // Would be varied by items
         float range = 12.0f;

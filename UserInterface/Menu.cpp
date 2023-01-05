@@ -9,7 +9,7 @@ Menu::Menu(Game* game):
 {
 	// Run into GPaused to process UI input
 	mGame->SetGameState(Game::GameState::EPause);
-	//Mix_PlayChannel(-1, mGame->GetSound("Menu"), 0);
+	Mix_PlayChannel(-1, mGame->GetChunk("button"), 0);
 	
 	// Set background
 	SDL_Renderer* renderer = game->GetRenderer();
@@ -69,7 +69,7 @@ std::function<void()> Menu::ResumeOnClick()
 {
 	return [this]()
 	{
-		//Mix_PlayChannel(-1, mGame->GetSound("Menu"), 0);
+		Mix_PlayChannel(-1, mGame->GetChunk("button"), 0);
 		Close();
 	};
 }
@@ -78,9 +78,8 @@ std::function<void()> Menu::HelpOnClick()
 {
 	return [this]()
 	{
-		//Mix_PlayChannel(-1, mGame->GetSound("Menu"), 0);
+		Mix_PlayChannel(-1, mGame->GetChunk("button"), 0);
 		new HelpScreen(mGame);
-        //Close();
 	};
 }
 

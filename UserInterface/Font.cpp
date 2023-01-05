@@ -13,6 +13,7 @@ Font::~Font()
 	{
 		TTF_CloseFont(font.second);
 	}
+	TTF_Quit();
 }
 
 bool Font::LoadFont(const unsigned char* fontData, int dataSize)

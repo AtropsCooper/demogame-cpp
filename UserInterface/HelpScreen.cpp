@@ -26,7 +26,7 @@ std::function<void()> HelpScreen::OkOnClick()
 {
 	return [this]()
 	{
-		//Mix_PlayChannel(-1, mGame->GetSound("Menu"), 0);
+		Mix_PlayChannel(-1, mGame->GetChunk("button"), 0);
 		Close();
 	};
 }
