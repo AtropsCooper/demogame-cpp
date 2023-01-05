@@ -1,35 +1,38 @@
-MKDIR   := mkdir -p
-RMDIR   := rm -rf
-CC      := clang++
+MKDIR   := mkdir
+RMDIR   := rd /s /q 
+CC      := g++
 PROJECT := DinoDungeon
 MODULES := Component Entity System Tools Other UserInterface
 SRC     := .
-BIN     := build/bin
-OBJ     := build/obj
+BIN     := build\bin
+OBJ     := build\obj
 SRC_DIR := $(addprefix $(SRC)/,$(MODULES)) $(SRC)
 OBJ_DIR := $(addprefix $(OBJ)/,$(MODULES))
-INCLUDE := $(addprefix -I,$(SRC_DIR)) -IAssets
+INCLUDE := $(addprefix -I,$(SRC_DIR)) -IAssets -IC:\MinGW\include\SDL2
 SRCS    := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJS    := $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(SRCS)) 
-EXE     := $(BIN)/$(PROJECT).app
-CFLAGS  := $(INCLUDE) `sdl2-config --cflags` -I/opt/homebrew/include/ -std=c++17 -Wall -g
-LDLIBS  := `sdl2-config --libs` -lSDL2_image -lSDL2_ttf -lSDL2_mixer
+EXE     := $(BIN)/$(PROJECT).exe
+CFLAGS  := $(INCLUDE) -std=c++17 -Wall -g
+LDFLAGS = -LC:\MinGW\lib -LC:\MinGW\bin
+LDLIBS  := -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer
 
 .PHONY: all run clean
 
 all: $(EXE)
 
 $(EXE): $(OBJS) | $(BIN)
-	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS)
+	$(CC) $(LDFLAGS) $^ -o $@ $(LDLIBS) res.res
 
 $(OBJ)/%.o: $(SRC)/%.cpp | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
+	windres res.rc -O coff -o res.res
 
 $(BIN) $(OBJ_DIR):
-	$(MKDIR) $@
+	$(MKDIR) "$@"
 
 run: $(EXE)
 	$<
 
 clean:
-	$(RMDIR) $(OBJ) $(BIN)
+	$(RMDIR) $(OBJ) 
+	$(RMDIR) $(BIN)
