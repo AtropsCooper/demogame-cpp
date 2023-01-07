@@ -15,6 +15,13 @@ EXE     := $(BIN)/$(PROJECT).exe
 CFLAGS  := $(INCLUDE) -std=c++17 -Wall -O3
 LDLIBS  := -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer
 
+RC      := windres
+RCFLAGS := 
+RCS     := $(wildcard *.rc)
+RCOBJS  := $(patsubst %.rc,$(OBJ)/%.o,$(RCS))
+
+OBJS    := $(OBJS) $(RCOBJS)
+
 .PHONY: all run clean
 
 all: $(EXE)
@@ -24,6 +31,9 @@ $(EXE): $(OBJS) | $(BIN)
 
 $(OBJ)/%.o: $(SRC)/%.cpp | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ)/%.o: $(SRC)/%.rc
+	$(RC) $(RCFLAGS) $< -o $@
 
 $(BIN) $(OBJ_DIR):
 	$(MKDIR) "$@"

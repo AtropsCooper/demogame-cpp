@@ -1,0 +1,25 @@
+0 ICON "icon.ico"
+
+1 VERSIONINFO
+FILEVERSION     1,0,0,0
+PRODUCTVERSION  1,0,0,0
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904E4"
+    BEGIN
+      VALUE "CompanyName", ""
+      VALUE "FileDescription", "A Demo Dungeon Game"
+      VALUE "FileVersion", "1.0.0"
+      VALUE "InternalName", "Dino Dungeon"
+      VALUE "LegalCopyright", ""
+      VALUE "OriginalFilename", "DinoDungeon.exe"
+      VALUE "ProductName", "Dino Dungeon"
+      VALUE "ProductVersion", "1.0.0"
+    END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x409, 1252
+  END
+END
