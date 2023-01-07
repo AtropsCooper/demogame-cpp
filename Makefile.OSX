@@ -8,11 +8,11 @@ BIN     := build/bin
 OBJ     := build/obj
 SRC_DIR := $(addprefix $(SRC)/,$(MODULES)) $(SRC)
 OBJ_DIR := $(addprefix $(OBJ)/,$(MODULES))
-INCLUDE := $(addprefix -I,$(SRC_DIR)) -IAssets
+INCLUDE := $(addprefix -I,$(SRC_DIR)) -IAssets -I/opt/homebrew/include/
 SRCS    := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJS    := $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(SRCS)) 
 EXE     := $(BIN)/$(PROJECT).app
-CFLAGS  := $(INCLUDE) `sdl2-config --cflags` -I/opt/homebrew/include/ -std=c++17 -Wall -g
+CFLAGS  := $(INCLUDE) `sdl2-config --cflags`  -std=c++17 -Wall -O3
 LDLIBS  := `sdl2-config --libs` -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
 .PHONY: all run clean

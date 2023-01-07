@@ -4,16 +4,15 @@ CC      := g++
 PROJECT := DinoDungeon
 MODULES := Component Entity System Tools Other UserInterface
 SRC     := .
-BIN     := build\bin
-OBJ     := build\obj
+BIN     := build/bin
+OBJ     := build/obj
 SRC_DIR := $(addprefix $(SRC)/,$(MODULES)) $(SRC)
 OBJ_DIR := $(addprefix $(OBJ)/,$(MODULES))
-INCLUDE := $(addprefix -I,$(SRC_DIR)) -IAssets -IC:\MinGW\include\SDL2
+INCLUDE := $(addprefix -I,$(SRC_DIR)) -IAssets
 SRCS    := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJS    := $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(SRCS)) 
 EXE     := $(BIN)/$(PROJECT).exe
-CFLAGS  := $(INCLUDE) -std=c++17 -Wall -g
-LDFLAGS = -LC:\MinGW\lib
+CFLAGS  := $(INCLUDE) -std=c++17 -Wall -O3
 LDLIBS  := -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer
 
 .PHONY: all run clean
@@ -33,5 +32,5 @@ run: $(EXE)
 	$<
 
 clean:
-	$(RMDIR) $(OBJ) 
-	$(RMDIR) $(BIN)
+	$(RMDIR) "$(OBJ)"
+	$(RMDIR) "$(BIN)"
