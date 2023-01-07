@@ -25,7 +25,7 @@ Windows 10 と macOS Montery では、以下の手順を従ってビルド可能
 
 他の OS でのビルドも可能ですが、サポートはできません。
 
-## Windows MinGW でビルド
+## Windows MinGW
 
 パッケージマネージャー [chocolatey](https://chocolatey.org/) の利用を推奨します。
 以下は、chocolateyが利用可能な環境でのガイドです。
