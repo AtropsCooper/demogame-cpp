@@ -26,7 +26,11 @@ const static float HEALTH_GOBLIN = 15.0f;
 const static float HEALTH_DEMON = 25.0f;
 const static float HEALTH_BOSS = 250.0f;
 
-const static float ENEMY_SPAWN_RANGE = 18.0f;
+const static float ATTACK_INTERVAL = 0.4f;
+const static float ARROW_DAMAGE = 10.0f;
+
+const static int INITIAL_ENEMIES 30;
+const static float ENEMY_SPAWN_RANGE = 16.0f;
 const static float ENEMY_SPAWN_RATE = 0.3f;
 const static float ENEMY_SPAWN_INTERVAL = 1.0f;
 
@@ -34,7 +38,20 @@ const static float PLAYER_MOVE_SPEED = 8.0f;
 const static float SKELETON_MOVE_SPEED = 7.0f;
 const static float GOBLIN_MOVE_SPEED = 4.5f;
 const static float DEMON_MOVE_SPEED = 10.0f;
-const static float BOSS_MOVE_SPEED = 7.6f;
+const static float BOSS_MOVE_SPEED = 7.2f;
+
+
+const static int SYSTEM_ORDER_INPUT = 0;
+const static int SYSTEM_ORDER_ASSETLOAD = 1;
+const static int SYSTEM_ORDER_DRAW = 200;
+const static int SYSTEM_ORDER_ANIMATION = 190;
+const static int SYSTEM_ORDER_AI = 141;
+const static int SYSTEM_ORDER_MOVE = 170;
+const static int SYSTEM_ORDER_PLAYERCONTROLLER = 140;
+const static int SYSTEM_ORDER_ENEMEYSPAWN = 101;
+const static int SYSTEM_ORDER_COLLISION = 160;
+const static int SYSTEM_ORDER_DAMAGE = 150;
+const static int SYSTEM_ORDER_TRANSIENT = 100;
 
 // 0x72_DungeonTilesetII_v1.4.png
 const static SDL_Rect SRRITE_BOW = {325, 180, 7, 25};

@@ -162,21 +162,22 @@ bool Game::Initialize()
 		mFont = font;
 	}
     
-    mInputSystem = new InputSystem(this, 0);
+    mInputSystem = new InputSystem(this, SYSTEM_ORDER_INPUT);
     mInputSystem->Initialize();
     mInputState = &(mInputSystem->GetState());
-    mAssetLoadSystem = new AssetLoadSystem(this, 10, mRenderer);
+    mAssetLoadSystem = new AssetLoadSystem(this, SYSTEM_ORDER_ASSETLOAD, mRenderer);
     mAssetLoadSystem->Initialize();
-    mDrawSystem = new DrawSystem(this, 200, mRenderer);
-    new AnimationSystem(this, 190);
-    mAISystem = new AISystem(this, 180);
-    new MoveSystem(this, 185);
-    mPlayerControllerSystem = new PlayerControllerSystem(this, 170);
-    new TransientSystem(this, 101);
-    mEnemySpawnSystem = new EnemySpawnSystem(this, 100);
-    new CollisionSystem(this, 181);
-    new DamageSystem(this, 179);
+    mDrawSystem = new DrawSystem(this, SYSTEM_ORDER_DRAW, mRenderer);
+    mAISystem = new AISystem(this, SYSTEM_ORDER_AI);
+    mPlayerControllerSystem = new PlayerControllerSystem(this, SYSTEM_ORDER_PLAYERCONTROLLER);
+    mEnemySpawnSystem = new EnemySpawnSystem(this, SYSTEM_ORDER_ENEMEYSPAWN);
     mTileMapManager = new TileMapManager(this);
+    new AnimationSystem(this, SYSTEM_ORDER_ANIMATION);
+    new MoveSystem(this, SYSTEM_ORDER_MOVE);
+    new TransientSystem(this, SYSTEM_ORDER_TRANSIENT);
+    new CollisionSystem(this, SYSTEM_ORDER_COLLISION);
+    new DamageSystem(this, SYSTEM_ORDER_DAMAGE);
+    
     mHUD =  new HUD(this);
     new TitleScreen(this);
 
@@ -206,7 +207,7 @@ void Game::MakeLevel()
     mDrawSystem->SetPlayer(mPlayer);
     mAISystem->SetPlayer(mPlayer);
     mEnemySpawnSystem->SetPlayer(mPlayer);
-    mEnemySpawnSystem->SpawnEnemies(20);
+    mEnemySpawnSystem->SpawnEnemies(INITIAL_ENEMIES);
     mBoss = mEnemySpawnSystem->SpawnBoss();
     mPlayerControllerSystem->SetPlayer(mPlayer);
     mHUD->SetPlayer(mPlayer);

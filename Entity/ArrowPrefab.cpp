@@ -19,6 +19,6 @@ ArrowPrefab::ArrowPrefab(class Game *game, Vector2 position, float life)
     mCollisionBox->mWidth = 0.6f;
     mSpriteComponent->SetTexture(mGame->GetTexture("dungeon"), &SPRITE_ARROW);
     new SuicideComponent(this, 1, life);
-    new DamageComponent(this, 10.0f);
+    new DamageComponent(this, ARROW_DAMAGE);
     new DeadOnCollisionComponent(this);
 }
