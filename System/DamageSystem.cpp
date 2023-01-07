@@ -51,15 +51,16 @@ void DamageSystem::Update(float deltaTime)
             {
                 new HittedComponent(sufferer, 2, 0.6f);
             }
+            if (sufferer == game->mPlayer)
+            {
+                Mix_PlayChannel(-1, game->GetChunk("damage"), 0);
+            }
+            else
+            {
+                Mix_PlayChannel(-1, game->GetChunk("hit"), 0);
+            }
         }
-        if (sufferer == game->mPlayer)
-        {
-            Mix_PlayChannel(-1, game->GetChunk("damage"), 0);
-        }
-        else
-        {
-            Mix_PlayChannel(-1, game->GetChunk("hit"), 0);
-        }
+
     };
 
     for (auto collidePairs : mColliders)
