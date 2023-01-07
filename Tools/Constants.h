@@ -29,7 +29,7 @@ const static float HEALTH_BOSS = 250.0f;
 const static float ATTACK_INTERVAL = 0.4f;
 const static float ARROW_DAMAGE = 10.0f;
 
-const static int INITIAL_ENEMIES 30;
+const static int INITIAL_ENEMIES = 30;
 const static float ENEMY_SPAWN_RANGE = 16.0f;
 const static float ENEMY_SPAWN_RATE = 0.3f;
 const static float ENEMY_SPAWN_INTERVAL = 1.0f;
