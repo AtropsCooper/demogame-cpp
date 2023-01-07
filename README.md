@@ -39,6 +39,7 @@ choco install make mingw -y
 ### ライブラリをインストール
 
 まず、[ライブラリ](#ライブラリ)の mingw 版をダウンロードしてください。
+
 そして、`x86_64-w64-mingw32`フォルダにあるすべてのファイルを`<path_of_chocolatey>\lib\mingw\tools\install\mingw64`にコピーしてください。
 
 ### ソースコード取得
