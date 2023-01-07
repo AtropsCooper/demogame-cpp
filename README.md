@@ -45,7 +45,7 @@ choco install make mingw -y
 ### ソースコード取得
 
 ```powershell
-git clone https://github.com/AtropsCooper/demogame-cpp
+git clone https://github.com/AtropsCooper/demogame-cpp.git
 ```
 
 ### ビルド
@@ -69,7 +69,7 @@ brew install sdl2 sdl_image sdl_ttf sdl_mixer
 ### ソースコード取得
 
 ```bash
-git clone https://github.com/AtropsCooper/demogame-cpp
+git clone https://github.com/AtropsCooper/demogame-cpp.git
 ```
 
 ### ビルド
