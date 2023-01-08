@@ -9,21 +9,16 @@
 #include "DemonPrefab.h"
 #include "BossPrefab.h"
 
-EnemySpawnSystem::EnemySpawnSystem(class Game* game, int order)
-    : System(game, order)
-    , mTimeUntilSpawn(0.0f)
-    , mPlayer(nullptr)
-    , mPlayerPos()
+EnemySpawnSystem::EnemySpawnSystem(class Game *game, int order)
+    : System(game, order), mTimeUntilSpawn(0.0f), mPlayer(nullptr), mPlayerPos()
 {
-
 }
 
-void EnemySpawnSystem::SetPlayer(const Entity* player)
+void EnemySpawnSystem::SetPlayer(const Entity *player)
 {
     mPlayer = player;
     mPlayerPos = mPlayer->mPosition;
 }
-
 
 void EnemySpawnSystem::Update(float deltaTime)
 {
@@ -35,7 +30,7 @@ void EnemySpawnSystem::Update(float deltaTime)
     mTimeUntilSpawn -= deltaTime;
     if (mTimeUntilSpawn <= 0)
     {
-        if ( static_cast<float>(rand()) / static_cast<float>(RAND_MAX) < ENEMY_SPAWN_RATE )
+        if (static_cast<float>(rand()) / static_cast<float>(RAND_MAX) < ENEMY_SPAWN_RATE)
         {
             SpawnEnemies(1);
         }
@@ -46,7 +41,7 @@ void EnemySpawnSystem::Update(float deltaTime)
 
 void EnemySpawnSystem::SpawnEnemies(int number)
 {
-    for (int counter = 0; counter < number; counter ++)
+    for (int counter = 0; counter < number; counter++)
     {
         int roll = rand() % 6;
         switch (roll)
@@ -65,10 +60,9 @@ void EnemySpawnSystem::SpawnEnemies(int number)
             break;
         }
     }
-
 }
 
-Entity* EnemySpawnSystem::SpawnBoss()
+Entity *EnemySpawnSystem::SpawnBoss()
 {
     return new BossPrefab(mGame, mGame->mTileMapManager->GetSpawnPointAwayFrom(mPlayerPos, ENEMY_SPAWN_RANGE * 2));
 }

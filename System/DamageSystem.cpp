@@ -13,7 +13,6 @@
 DamageSystem::DamageSystem(Game *game, int order)
     : System(game, order)
 {
-
 }
 
 void DamageSystem::FetchComponents()
@@ -24,8 +23,7 @@ void DamageSystem::FetchComponents()
     {
         if (msg.first->GetState() == Entity::EActive && msg.second->GetState() == Entity::EActive)
         {
-            if (MyMath::Abs(msg.first->GetComponent<HostilityComponent>()->mHostility
-                + msg.second->GetComponent<HostilityComponent>()->mHostility) != 2)
+            if (MyMath::Abs(msg.first->GetComponent<HostilityComponent>()->mHostility + msg.second->GetComponent<HostilityComponent>()->mHostility) != 2)
             {
                 mColliders.emplace_back(std::make_pair(msg.first, msg.second));
             }
@@ -35,7 +33,7 @@ void DamageSystem::FetchComponents()
 
 void DamageSystem::Update(float deltaTime)
 {
-    auto TakeDamage = [&game=mGame](Entity *attacker, Entity* sufferer)
+    auto TakeDamage = [&game = mGame](Entity *attacker, Entity *sufferer)
     {
         float damage = attacker->GetComponent<DamageComponent>()->mDamage;
         auto suffererState = sufferer->GetComponent<StatusComponent>();
@@ -60,7 +58,6 @@ void DamageSystem::Update(float deltaTime)
                 Mix_PlayChannel(-1, game->GetChunk("hit"), 0);
             }
         }
-
     };
 
     for (auto collidePairs : mColliders)

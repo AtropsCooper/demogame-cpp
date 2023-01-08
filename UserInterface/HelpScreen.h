@@ -5,7 +5,8 @@
 class HelpScreen : public UIScreen
 {
 public:
-    HelpScreen(class Game* game);
+    HelpScreen(class Game *game);
+
 private:
     std::function<void()> OkOnClick();
 };

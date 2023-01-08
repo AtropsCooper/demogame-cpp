@@ -3,7 +3,7 @@
 #include "AIComponent.h"
 #include "Constants.h"
 
-SkeletonPrefab::SkeletonPrefab(Game* game, Vector2 position)
+SkeletonPrefab::SkeletonPrefab(Game *game, Vector2 position)
     : MovablePrefab(game, position)
 {
     mCollisionBox->mWidth = 1.0f;

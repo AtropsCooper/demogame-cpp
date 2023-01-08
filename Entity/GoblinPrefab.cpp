@@ -3,7 +3,7 @@
 #include "AIComponent.h"
 #include "Constants.h"
 
-GoblinPrefab::GoblinPrefab(Game* game, Vector2 position)
+GoblinPrefab::GoblinPrefab(Game *game, Vector2 position)
     : MovablePrefab(game, position)
 {
     mCollisionBox->mWidth = 1.0f;

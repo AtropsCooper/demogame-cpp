@@ -4,12 +4,12 @@
 class TitleScreen : public UIScreen
 {
 public:
-	TitleScreen(class Game* game);
+	TitleScreen(class Game *game);
 	~TitleScreen();
-    void Draw(SDL_Renderer* renderer) override;
+	void Draw(SDL_Renderer *renderer) override;
 
 private:
-    int mEscape;
+	int mEscape;
 	std::function<void()> PlayOnClick();
 	std::function<void()> HelpOnClick();
 	std::function<void()> QuitOnClick();

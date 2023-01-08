@@ -20,17 +20,17 @@ void AISystem::Update(float deltaTime)
             auto entity = ai->GetOwner();
             auto movecomponent = entity->GetComponent<MoveComponent>();
             Vector2 direction = mPlayer->mPosition - entity->mPosition;
-            if (direction.Length() < 16.0f && 
+            if (direction.Length() < 16.0f &&
                 (entity->GetComponent<HittedComponent>() == nullptr ||
                  entity == mGame->mBoss))
             {
                 if (ai->mPattern == AIComponent::EHelix)
                 {
-                    direction = { (direction.x + direction.y) / MyMath::Sqrt2, (direction.y - direction.x) / MyMath::Sqrt2 };
+                    direction = {(direction.x + direction.y) / MyMath::Sqrt2, (direction.y - direction.x) / MyMath::Sqrt2};
                 }
-                else if (ai->mPattern ==AIComponent::ERevHelix)
+                else if (ai->mPattern == AIComponent::ERevHelix)
                 {
-                    direction = { (direction.x - direction.y) / MyMath::Sqrt2, (direction.x + direction.y) / MyMath::Sqrt2 };
+                    direction = {(direction.x - direction.y) / MyMath::Sqrt2, (direction.x + direction.y) / MyMath::Sqrt2};
                 }
                 direction.Normalize();
                 movecomponent->mVelocity = direction * ai->mSpeed;
@@ -40,7 +40,6 @@ void AISystem::Update(float deltaTime)
             {
                 movecomponent->mVelocity = Vector2::Zero;
             }
-
         }
     }
 }

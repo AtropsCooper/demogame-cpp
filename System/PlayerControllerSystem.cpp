@@ -10,7 +10,6 @@
 #include "ArrowPrefab.h"
 #include "Constants.h"
 
-
 PlayerControllerSystem::~PlayerControllerSystem()
 {
     if (mWeapon != nullptr)
@@ -20,7 +19,7 @@ PlayerControllerSystem::~PlayerControllerSystem()
     }
 }
 
-void PlayerControllerSystem::SetPlayer(Entity* player)
+void PlayerControllerSystem::SetPlayer(Entity *player)
 {
     mPlayer = player;
     mPMC = mPlayer->GetComponent<MoveComponent>();
@@ -42,7 +41,7 @@ void PlayerControllerSystem::SetupWeapon(int playerJob)
     }
 }
 
-const Entity* PlayerControllerSystem::GetWeapon() const
+const Entity *PlayerControllerSystem::GetWeapon() const
 {
     return mWeapon;
 }
@@ -64,7 +63,7 @@ void PlayerControllerSystem::Update(float deltaTime)
         Vector2 movement;
         movement.x = (state->KeyBoard.GetKeyValue(SDL_SCANCODE_D) - state->KeyBoard.GetKeyValue(SDL_SCANCODE_A));
         movement.y = (state->KeyBoard.GetKeyValue(SDL_SCANCODE_W) - state->KeyBoard.GetKeyValue(SDL_SCANCODE_S));
-        if (movement.x !=0 && movement.y != 0)
+        if (movement.x != 0 && movement.y != 0)
         {
             movement.Normalize();
         }
@@ -92,7 +91,7 @@ void PlayerControllerSystem::Update(float deltaTime)
 
     Vector2 orientation = Vector2::Normalize(mousePos - mWeapon->mPosition);
     mWeapon->GetComponent<SpriteComponent>()->mOffset = orientation * 0.87f;
-    mWeapon->mRotation = MyMath::Atan2(orientation.y, orientation.x) ;
+    mWeapon->mRotation = MyMath::Atan2(orientation.y, orientation.x);
 
     mAttackComponent->cooldown -= deltaTime;
 
@@ -104,9 +103,8 @@ void PlayerControllerSystem::Update(float deltaTime)
         float range = 12.0f;
         float speed = 20.0f;
         Vector2 arrowPos = mWeapon->mPosition + orientation * 0.87f;
-        ArrowPrefab *arrow = new ArrowPrefab(mGame, arrowPos, range/speed);
+        ArrowPrefab *arrow = new ArrowPrefab(mGame, arrowPos, range / speed);
         arrow->mRotation = mWeapon->mRotation - MyMath::PiOver2;
         arrow->GetComponent<MoveComponent>()->mVelocity = orientation * speed;
     }
-
 }

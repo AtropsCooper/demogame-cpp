@@ -6,10 +6,9 @@
 #include <sstream>
 #include <iomanip>
 
-HUD::HUD(Game* game) :
-	UIScreen(game),
-	mCurHp(6),
-	mPlayer(nullptr)
+HUD::HUD(Game *game) : UIScreen(game),
+					   mCurHp(6),
+					   mPlayer(nullptr)
 {
 	mTexBackground = game->GetTexture("UI");
 	mBackWidth = UI_HUD_WIDTH;
@@ -33,7 +32,7 @@ void HUD::Update()
 	}
 }
 
-void HUD::Draw(SDL_Renderer* renderer)
+void HUD::Draw(SDL_Renderer *renderer)
 {
 	// Draw Background
 	SDL_Rect backRect = {static_cast<int>(mBackPos.x), static_cast<int>(mBackPos.y), mBackWidth, mBackHeight};

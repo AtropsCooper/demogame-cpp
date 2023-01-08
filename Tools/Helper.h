@@ -2,10 +2,10 @@
 
 namespace Helper
 {
-    template<typename T>
-    inline static bool IsComponent(class Component const* c)
+    template <typename T>
+    inline static bool IsComponent(class Component const *c)
     {
-        if (dynamic_cast<const T*>(c) != nullptr)
+        if (dynamic_cast<const T *>(c) != nullptr)
         {
             return true;
         }

@@ -13,9 +13,8 @@
 #include "Helper.h"
 #include <algorithm>
 
-System::System(Game* game, int updateOrder)
-    : mUpdateOrder(updateOrder)
-    , mGame(game)
+System::System(Game *game, int updateOrder)
+    : mUpdateOrder(updateOrder), mGame(game)
 {
     mGame->AddSystem(this);
 }
@@ -34,7 +33,7 @@ void System::DetectComponent(std::vector<T *> *container)
         Component *component = c.first;
         if (Helper::IsComponent<T>(component))
         {
-            if(c.second)
+            if (c.second)
             {
                 int myOrder = component->GetUpdateOrder();
                 auto iter = container->begin();
@@ -59,7 +58,7 @@ void System::DetectComponent(std::vector<T *> *container)
     }
 }
 
-#define tDetect(type) template void System::DetectComponent<class type>(std::vector<class type*> *container)
+#define tDetect(type) template void System::DetectComponent<class type>(std::vector<class type *> * container)
 
 tDetect(SpriteComponent);
 tDetect(AnimComponent);

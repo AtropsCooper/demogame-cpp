@@ -1,9 +1,7 @@
 #include "AnimComponent.h"
 
 AnimComponent::AnimComponent(class Entity *owner, int order)
-    : SpriteComponent(owner, order)
-    , mTime(0)
-    , mState(EIdle)
+    : SpriteComponent(owner, order), mTime(0), mState(EIdle)
 {
 }
 
@@ -23,7 +21,7 @@ void AnimComponent::SetAnimSprites(AnimComponent::State state,
 
 void AnimComponent::SetState(State state)
 {
-    if(mState != state)
+    if (mState != state)
     {
         mState = state;
         mTime = 0.0f;

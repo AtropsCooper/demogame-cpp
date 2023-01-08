@@ -17,14 +17,14 @@ public:
         float frameRate;
     };
 
-    AnimComponent(class Entity* owner, int order);
+    AnimComponent(class Entity *owner, int order);
     void SetAnimSprites(AnimComponent::State state, const SDL_Rect *firstSprite, int sprites, float frameRate);
     void SetState(State state);
     State GetState() const { return mState; }
 
-
     float mTime;
     Anim mAnims[3];
+
 protected:
     State mState;
 };

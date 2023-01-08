@@ -32,7 +32,6 @@
 // font
 #include "dungeonfont.h"
 
-
 Game::Game()
     : mPlayer(nullptr),
       mBoss(nullptr),
@@ -44,11 +43,11 @@ Game::Game()
 {
 }
 
-void Game::AddEntity(class Entity* entity)
+void Game::AddEntity(class Entity *entity)
 {
     mEntities.insert(mEntities.begin(), entity);
 }
-void Game::RemoveEntity(class Entity* entity)
+void Game::RemoveEntity(class Entity *entity)
 {
     auto iter = std::find(mEntities.begin(), mEntities.end(), entity);
     if (iter != mEntities.end())
@@ -56,7 +55,7 @@ void Game::RemoveEntity(class Entity* entity)
         mEntities.erase(iter);
     }
 }
-void Game::AddSystem(class System* system)
+void Game::AddSystem(class System *system)
 {
     int myOrder = system->GetUpdateOrder();
     auto iter = mSystems.begin();
@@ -69,7 +68,7 @@ void Game::AddSystem(class System* system)
     }
     mSystems.insert(iter, system);
 }
-void Game::RemoveSystem(class System* system)
+void Game::RemoveSystem(class System *system)
 {
     auto iter = std::find(mSystems.begin(), mSystems.end(), system);
     if (iter != mSystems.end())
@@ -78,17 +77,17 @@ void Game::RemoveSystem(class System* system)
     }
 }
 
-SDL_Texture* Game::GetTexture(const std::string &fileName) const
+SDL_Texture *Game::GetTexture(const std::string &fileName) const
 {
     return mAssetLoadSystem->GetTexture(fileName);
 }
 
-Mix_Chunk* Game::GetChunk(const std::string& soundName) const
+Mix_Chunk *Game::GetChunk(const std::string &soundName) const
 {
     return mAssetLoadSystem->GetChunk(soundName);
 }
 
-Mix_Music* Game::GetMusic(const std::string& musicName) const
+Mix_Music *Game::GetMusic(const std::string &musicName) const
 {
     return mAssetLoadSystem->GetMusic(musicName);
 }
@@ -108,7 +107,7 @@ void Game::CollisionMessage(class Entity *first, class Entity *second)
     mCollisionMessages.emplace_back(std::make_pair(first, second));
 }
 
-const std::vector<std::pair<class Entity*, class Entity*>> *Game::GetCollisionMessages() const
+const std::vector<std::pair<class Entity *, class Entity *>> *Game::GetCollisionMessages() const
 {
     return &mCollisionMessages;
 }
@@ -146,22 +145,22 @@ bool Game::Initialize()
     }
 
     if (TTF_Init())
-	{
-		SDL_Log("Failed to initialize SDL_ttf");
-		return false;
-	}
+    {
+        SDL_Log("Failed to initialize SDL_ttf");
+        return false;
+    }
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
-	{
-		SDL_Log("Failed to initialize SDL_mixer");
-		return false;
-	}
+    {
+        SDL_Log("Failed to initialize SDL_mixer");
+        return false;
+    }
     // LoadFont
-    Font* font = new Font(this);
-	if (font->LoadFont(FONT, FONT_length))
-	{
-		mFont = font;
-	}
-    
+    Font *font = new Font(this);
+    if (font->LoadFont(FONT, FONT_length))
+    {
+        mFont = font;
+    }
+
     mInputSystem = new InputSystem(this, SYSTEM_ORDER_INPUT);
     mInputSystem->Initialize();
     mInputState = &(mInputSystem->GetState());
@@ -177,8 +176,8 @@ bool Game::Initialize()
     new TransientSystem(this, SYSTEM_ORDER_TRANSIENT);
     new CollisionSystem(this, SYSTEM_ORDER_COLLISION);
     new DamageSystem(this, SYSTEM_ORDER_DAMAGE);
-    
-    mHUD =  new HUD(this);
+
+    mHUD = new HUD(this);
     new TitleScreen(this);
 
     srand((unsigned)clock());
@@ -193,7 +192,7 @@ void Game::ClearEntities()
     {
         delete mEntities.back();
         mEntities.pop_back();
-    }    
+    }
 }
 
 void Game::MakeLevel()
@@ -212,7 +211,7 @@ void Game::MakeLevel()
     mPlayerControllerSystem->SetPlayer(mPlayer);
     mHUD->SetPlayer(mPlayer);
     Mix_PlayMusic(GetMusic("bgm"), -1);
-	Mix_VolumeMusic(60);
+    Mix_VolumeMusic(60);
 }
 
 void Game::Replay()
@@ -279,7 +278,7 @@ void Game::UpdateGame()
     {
         deltaTime = 0.05f;
     }
-    // Refresh Messages 
+    // Refresh Messages
 
     for (auto system : mSystems)
     {
@@ -320,7 +319,6 @@ void Game::UpdateGame()
     {
         system->Update(deltaTime);
     }
-    
 }
 
 void Game::UpdateUI()
@@ -329,16 +327,16 @@ void Game::UpdateUI()
     {
         mUIStack.back()->Update();
     }
-	// Free all dead UIs
-	for (auto iter = mUIStack.begin(); iter != mUIStack.end(); iter++)
-	{
-		if ((*iter)->GetState() == UIScreen::UIState::EDead)
-		{
-			delete *iter;
-			iter = mUIStack.erase(iter);
-			iter--;
-		}
-	}
+    // Free all dead UIs
+    for (auto iter = mUIStack.begin(); iter != mUIStack.end(); iter++)
+    {
+        if ((*iter)->GetState() == UIScreen::UIState::EDead)
+        {
+            delete *iter;
+            iter = mUIStack.erase(iter);
+            iter--;
+        }
+    }
 }
 
 void Game::GenerateOutput()
@@ -351,10 +349,10 @@ void Game::GenerateOutput()
 
     mDrawSystem->Draw();
 
-    	for (auto ui : mUIStack)
-	{
-		ui->Draw(mRenderer);
-	}
+    for (auto ui : mUIStack)
+    {
+        ui->Draw(mRenderer);
+    }
 
     SDL_RenderPresent(mRenderer);
 }

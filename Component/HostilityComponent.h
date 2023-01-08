@@ -10,6 +10,6 @@ public:
         EFriend = 1,
         EEnemy = -1
     };
-    HostilityComponent(Entity* owner, Hostility hostility) : Component(owner, 500), mHostility(hostility){}
+    HostilityComponent(Entity *owner, Hostility hostility) : Component(owner, 500), mHostility(hostility) {}
     Hostility mHostility;
 };

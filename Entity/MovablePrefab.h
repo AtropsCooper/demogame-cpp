@@ -7,17 +7,17 @@
 #include "HostilityComponent.h"
 #include "DamageComponent.h"
 
-
 class MovablePrefab : public Entity
 {
 public:
     MovablePrefab(class Game *game, Vector2 position);
+
 protected:
     class AnimComponent *mAnimComponent;
     class MoveComponent *mMoveComponent;
     class CollisionBoxComponent *mCollisionBox;
     class HostilityComponent *mHostilityComponent;
-    class DamageComponent* mDamageComponent;
+    class DamageComponent *mDamageComponent;
 };
 
 inline MovablePrefab::MovablePrefab(class Game *game, Vector2 position)

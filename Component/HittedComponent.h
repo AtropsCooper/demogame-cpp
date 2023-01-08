@@ -15,11 +15,12 @@ public:
     virtual void Bury() override
     {
         if (mAnimComponent != nullptr)
-        { 
+        {
             mAnimComponent->SetState(AnimComponent::EIdle);
         }
         mOwner->RemoveComponent(this);
     }
+
 private:
-    class AnimComponent* mAnimComponent;
+    class AnimComponent *mAnimComponent;
 };

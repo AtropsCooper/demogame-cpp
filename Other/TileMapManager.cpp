@@ -17,7 +17,6 @@ const char WALL_MID = 11;
 const SDL_Rect R_FLOOR_NORMAL = {16, 64, 16, 16};
 const SDL_Rect R_WALL_MID = {32, 16, 16, 16};
 
-
 TileMapManager::TileMapManager(Game *game) : mGame(game)
 {
     mTileTexture = mGame->GetTexture("dungeon");
@@ -54,7 +53,7 @@ void TileMapManager::GenerateMap()
 
     Connect(unconnectedRoomVec.begin());
     // Helper func for generating hallways
-    auto Hallway = [map=mTiles](int fromX, int fromY, int toX, int toY) -> void
+    auto Hallway = [map = mTiles](int fromX, int fromY, int toX, int toY) -> void
     {
         if (fromX != toX || fromY != toY)
         {
@@ -182,51 +181,62 @@ void TileMapManager::GenerateMap()
     }
 
     // Iterate over the elements of the mTiles for Adding WALL.
-    for (int row = 0; row < MAPSIZE; row++) {
-        for (int col = 0; col < MAPSIZE; col++) {
+    for (int row = 0; row < MAPSIZE; row++)
+    {
+        for (int col = 0; col < MAPSIZE; col++)
+        {
 
             // If the current element has a value of FLOOR, check its adjacent elements.
-            if (mTiles[row][col] == FLOOR_NORMAL) {
+            if (mTiles[row][col] == FLOOR_NORMAL)
+            {
 
-            // Check the element above.
-            if (row > 0 && mTiles[row-1][col] == 0) {
-                mTiles[row-1][col] = WALL_MID;
-            }
+                // Check the element above.
+                if (row > 0 && mTiles[row - 1][col] == 0)
+                {
+                    mTiles[row - 1][col] = WALL_MID;
+                }
 
-            // Check the element below.
-            if (row < MAPSIZE - 1 && mTiles[row+1][col] == 0) {
-                mTiles[row+1][col] = WALL_MID;
-            }
+                // Check the element below.
+                if (row < MAPSIZE - 1 && mTiles[row + 1][col] == 0)
+                {
+                    mTiles[row + 1][col] = WALL_MID;
+                }
 
-            // Check the element to the left.
-            if (col > 0 && mTiles[row][col-1] == 0) {
-                mTiles[row][col-1] = WALL_MID;
-            }
+                // Check the element to the left.
+                if (col > 0 && mTiles[row][col - 1] == 0)
+                {
+                    mTiles[row][col - 1] = WALL_MID;
+                }
 
-            // Check the element to the right.
-            if (col < MAPSIZE - 1 && mTiles[row][col+1] == 0) {
-                mTiles[row][col+1] = WALL_MID;
-            }
+                // Check the element to the right.
+                if (col < MAPSIZE - 1 && mTiles[row][col + 1] == 0)
+                {
+                    mTiles[row][col + 1] = WALL_MID;
+                }
 
-            // Check the top-left diagonal element.
-            if (row > 0 && col > 0 && mTiles[row-1][col-1] == 0) {
-                mTiles[row-1][col-1] = WALL_MID;
-            }
+                // Check the top-left diagonal element.
+                if (row > 0 && col > 0 && mTiles[row - 1][col - 1] == 0)
+                {
+                    mTiles[row - 1][col - 1] = WALL_MID;
+                }
 
-            // Check the top-right diagonal element.
-            if (row > 0 && col < MAPSIZE - 1 && mTiles[row-1][col+1] == 0) {
-                mTiles[row-1][col+1] = WALL_MID;
-            }
+                // Check the top-right diagonal element.
+                if (row > 0 && col < MAPSIZE - 1 && mTiles[row - 1][col + 1] == 0)
+                {
+                    mTiles[row - 1][col + 1] = WALL_MID;
+                }
 
-            // Check the bottom-left diagonal element.
-            if (row < MAPSIZE - 1 && col > 0 && mTiles[row+1][col-1] == 0) {
-                mTiles[row+1][col-1] = WALL_MID;
-            }
+                // Check the bottom-left diagonal element.
+                if (row < MAPSIZE - 1 && col > 0 && mTiles[row + 1][col - 1] == 0)
+                {
+                    mTiles[row + 1][col - 1] = WALL_MID;
+                }
 
-            // Check the bottom-right diagonal element.
-            if (row < MAPSIZE - 1 && col < MAPSIZE - 1 && mTiles[row+1][col+1] == 0) {
-                mTiles[row+1][col+1] = WALL_MID;
-            }
+                // Check the bottom-right diagonal element.
+                if (row < MAPSIZE - 1 && col < MAPSIZE - 1 && mTiles[row + 1][col + 1] == 0)
+                {
+                    mTiles[row + 1][col + 1] = WALL_MID;
+                }
             }
         }
     }
@@ -234,18 +244,18 @@ void TileMapManager::GenerateMap()
 
 void TileMapManager::Instanciate()
 {
-    
+
     for (int i = 0; i < MAPSIZE; i++)
     {
         for (int j = 0; j < MAPSIZE; j++)
         {
             if (mTiles[i][j] != 0)
             {
-                Entity* tile = new Entity(mGame);
+                Entity *tile = new Entity(mGame);
                 tile->mPosition.x = static_cast<float>(i);
                 tile->mPosition.y = static_cast<float>(j);
                 mTileEntities.emplace_back(tile);
-                SpriteComponent* sprite = new SpriteComponent(tile, 0);
+                SpriteComponent *sprite = new SpriteComponent(tile, 0);
                 if (mTiles[i][j] == FLOOR_NORMAL)
                 {
                     sprite->SetTexture(mTileTexture, &R_FLOOR_NORMAL);
@@ -280,7 +290,7 @@ Vector2 TileMapManager::GetSpawnPoint()
         x = rand() % (MAPSIZE - 1);
         y = rand() % (MAPSIZE - 1);
     } while (mTiles[x][y] != FLOOR_NORMAL);
-    return Vector2 (static_cast<float>(x), static_cast<float>(y));
+    return Vector2(static_cast<float>(x), static_cast<float>(y));
 }
 
 Vector2 TileMapManager::GetSpawnPointAwayFrom(Vector2 pos, float distance)
@@ -289,8 +299,8 @@ Vector2 TileMapManager::GetSpawnPointAwayFrom(Vector2 pos, float distance)
     if (distance < MAPSIZE / 2.0f && distance > 0.0f)
     {
         int x, y;
-        Vector2 xbound ( pos.x - distance, pos.x + distance );
-        Vector2 ybound ( pos.y - distance, pos.y + distance );
+        Vector2 xbound(pos.x - distance, pos.x + distance);
+        Vector2 ybound(pos.y - distance, pos.y + distance);
         do
         {
             x = rand() % static_cast<int>(MAPSIZE - 1 - (2 * distance));
@@ -317,10 +327,7 @@ Vector2 TileMapManager::GetSpawnPointAwayFrom(Vector2 pos, float distance)
 Vector2 TileMapManager::MoveToMiddle(Vector2 vec)
 {
     Vector2 offsets[] = {
-        {-1, -1}, {0, -1}, {1, -1},
-        {-1, 0},           {1, 0},
-        {-1, 1},  {-1, 0}, {1, 1}
-    };
+        {-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {-1, 0}, {1, 1}};
     Vector2 result = vec;
     for (auto v : offsets)
     {

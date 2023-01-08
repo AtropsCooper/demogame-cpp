@@ -22,7 +22,7 @@ public:
     ButtonState GetKeyState(SDL_Scancode keyCode) const;
 
 private:
-    const Uint8* mCurrState;
+    const Uint8 *mCurrState;
     Uint8 mPrevState[SDL_NUM_SCANCODES];
 };
 
@@ -31,9 +31,10 @@ class MouseState
 public:
     friend class InputSystem;
 
-    const Vector2& GetMousePosition() const { return mPosition; }
+    const Vector2 &GetMousePosition() const { return mPosition; }
     bool GetButtonValue(int button) const;
     ButtonState GetButtonState(int button) const;
+
 private:
     Vector2 mPosition;
     Uint32 mPrevButtons;
@@ -49,12 +50,12 @@ struct InputState
 class InputSystem : public System
 {
 public:
-    InputSystem(Game* game, int updateOrder);
+    InputSystem(Game *game, int updateOrder);
     void Initialize();
     void PreProcess();
     void ProcessInput();
 
-    const InputState& GetState() const { return mState; }
+    const InputState &GetState() const { return mState; }
 
 private:
     InputState mState;

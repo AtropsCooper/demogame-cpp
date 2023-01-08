@@ -8,25 +8,20 @@
 #include "MyMath.h"
 #include "CollisionBoxComponent.h"
 
-DrawSystem::DrawSystem(class Game* game, int updateOrder, SDL_Renderer* renderer)
-    : System(game, updateOrder)
-    , mRenderer(renderer)
-    , mWindowWidth(1024)
-    , mWindowHeight(768)
-    , mCameraPos(0, 0)
-    , mPixelsPerGrid(32.0f)
+DrawSystem::DrawSystem(class Game *game, int updateOrder, SDL_Renderer *renderer)
+    : System(game, updateOrder), mRenderer(renderer), mWindowWidth(1024), mWindowHeight(768), mCameraPos(0, 0), mPixelsPerGrid(32.0f)
 {
 }
 
 Vector2 DrawSystem::WorldToScreen(const Vector2 &v) const
 {
-    return Vector2((v.x - mCameraPos.x) * mPixelsPerGrid, 
-                    (v.y - mCameraPos.y) * -mPixelsPerGrid + mWindowHeight);
+    return Vector2((v.x - mCameraPos.x) * mPixelsPerGrid,
+                   (v.y - mCameraPos.y) * -mPixelsPerGrid + mWindowHeight);
 }
 Vector2 DrawSystem::ScreenToWorld(const Vector2 &v) const
 {
-    return Vector2(v.x / mPixelsPerGrid + mCameraPos.x, 
-                    (v.y - mWindowHeight) / -mPixelsPerGrid + mCameraPos.y);
+    return Vector2(v.x / mPixelsPerGrid + mCameraPos.x,
+                   (v.y - mWindowHeight) / -mPixelsPerGrid + mCameraPos.y);
 }
 
 void DrawSystem::FetchComponents()
@@ -44,27 +39,26 @@ void DrawSystem::Update(float deltaTime)
         const InputState *mInputState = mGame->GetInputState();
         if (mInputState != nullptr)
         {
-           Vector2 mousePos = ScreenToWorld(mInputState->Mouse.GetMousePosition());
-           float diffX = (mousePos.x - mPlayer->mPosition.x) * 0.3f;
-           float diffY = (mousePos.y - mPlayer->mPosition.y) * 0.3f;
-           if (diffX >= 0.0f)
-           {
+            Vector2 mousePos = ScreenToWorld(mInputState->Mouse.GetMousePosition());
+            float diffX = (mousePos.x - mPlayer->mPosition.x) * 0.3f;
+            float diffY = (mousePos.y - mPlayer->mPosition.y) * 0.3f;
+            if (diffX >= 0.0f)
+            {
                 mCameraPos.x += log(diffX + 1) * 0.5f;
-           }
-           else
-           {
+            }
+            else
+            {
                 mCameraPos.x -= log(MyMath::Abs(diffX - 1)) * 0.5f;
-           }
+            }
             if (diffY >= 0.0f)
-           {
+            {
                 mCameraPos.y += log(diffY + 1) * 0.5f;
-           }
-           else
-           {
+            }
+            else
+            {
                 mCameraPos.y -= log(MyMath::Abs(diffY - 1)) * 0.5f;
-           }
-        } 
-
+            }
+        }
     }
 }
 
@@ -76,14 +70,14 @@ void DrawSystem::Draw() const
         const Vector2 &position = owner->mPosition;
         SDL_Rect imageRect = sprite->mSrcRect;
         SDL_Rect dstRect;
-        
+
         float widthInGrid = sprite->mTexWidth * owner->mScale / 16.0f;
         float heightInGrid = sprite->mTexHeight * owner->mScale / 16.0f;
 
-        if ((position.x + widthInGrid ) > mCameraPos.x &&
-            (position.y + heightInGrid ) > mCameraPos.y &&
-            (position.x - widthInGrid ) < mCameraPos.x + mWindowWidth / mPixelsPerGrid &&
-            (position.y - heightInGrid ) < mCameraPos.y + mWindowHeight / mPixelsPerGrid)
+        if ((position.x + widthInGrid) > mCameraPos.x &&
+            (position.y + heightInGrid) > mCameraPos.y &&
+            (position.x - widthInGrid) < mCameraPos.x + mWindowWidth / mPixelsPerGrid &&
+            (position.y - heightInGrid) < mCameraPos.y + mWindowHeight / mPixelsPerGrid)
         {
             dstRect.w = static_cast<int>(floor(widthInGrid * mPixelsPerGrid));
             dstRect.h = static_cast<int>(floor(heightInGrid * mPixelsPerGrid));
@@ -92,9 +86,9 @@ void DrawSystem::Draw() const
             dstRect.y = static_cast<int>(floor(dstVec.y - 0.5f * dstRect.h));
 
             SDL_RendererFlip flip = sprite->mFaceRight ? SDL_FLIP_NONE : SDL_FLIP_HORIZONTAL;
-            SDL_RenderCopyEx(mRenderer, sprite->GetTexture(), 
-                            &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), nullptr, flip);
-            
+            SDL_RenderCopyEx(mRenderer, sprite->GetTexture(),
+                             &imageRect, &dstRect, -MyMath::ToDegrees(owner->mRotation), nullptr, flip);
+
             // CollisionBoxComponent *CBC = owner->GetComponent<CollisionBoxComponent>();
 
             // if (CBC != nullptr)
@@ -111,13 +105,11 @@ void DrawSystem::Draw() const
             //     SDL_SetRenderDrawColor(mRenderer, 255, 0, 0, 255);
             //     SDL_RenderDrawRect(mRenderer, &CollisionBox);
             // }
-
         }
-
     }
 }
 
-void DrawSystem::SetPlayer(Entity* player)
+void DrawSystem::SetPlayer(Entity *player)
 {
     mPlayer = player;
 }

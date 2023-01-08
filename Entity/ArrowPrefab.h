@@ -10,6 +10,7 @@ class ArrowPrefab : public Entity
 {
 public:
     explicit ArrowPrefab(class Game *game, Vector2 position, float life);
+
 private:
     class SpriteComponent *mSpriteComponent;
     class MoveComponent *mMoveComponent;

@@ -10,7 +10,7 @@ public:
         EHelix,
         ERevHelix
     };
-    AIComponent(class Entity *owner, float speed, Pattern pattern) 
+    AIComponent(class Entity *owner, float speed, Pattern pattern)
         : Component(owner, 100), mSpeed(speed), mPattern(pattern) {}
     float mSpeed;
     Pattern mPattern;

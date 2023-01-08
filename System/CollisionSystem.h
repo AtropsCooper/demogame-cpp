@@ -10,9 +10,13 @@ public:
 
     void FetchComponents() override;
     void Update(float deltaTime) override;
-    void CleanUp() override { mCollisionBoxes.clear(); mBoxesNearby.clear(); }
-private:
+    void CleanUp() override
+    {
+        mCollisionBoxes.clear();
+        mBoxesNearby.clear();
+    }
 
+private:
     bool Contains(SDL_FRect &box, float pointX, float pointY);
     std::vector<class CollisionBoxComponent *> mCollisionBoxes;
     std::vector<class CollisionBoxComponent *> mBoxesNearby;

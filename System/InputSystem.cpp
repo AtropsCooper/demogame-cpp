@@ -8,16 +8,24 @@ ButtonState KeyBoardState::GetKeyState(SDL_Scancode keyCode) const
     if (mPrevState[keyCode] == 0)
     {
         if (mCurrState[keyCode] == 0)
-        { return ENone; }
+        {
+            return ENone;
+        }
         else
-        { return EPressed; }
+        {
+            return EPressed;
+        }
     }
     else
     {
         if (mCurrState[keyCode] == 0)
-        { return EReleased; }
+        {
+            return EReleased;
+        }
         else
-        { return EHeld; }
+        {
+            return EHeld;
+        }
     }
 }
 
@@ -32,16 +40,24 @@ ButtonState MouseState::GetButtonState(int button) const
     if ((mask & mPrevButtons) == 0)
     {
         if ((mask & mCurrButtons) == 0)
-        { return ENone; }
+        {
+            return ENone;
+        }
         else
-        { return EPressed; }
+        {
+            return EPressed;
+        }
     }
     else
     {
         if ((mask & mCurrButtons) == 0)
-        { return EReleased; }
+        {
+            return EReleased;
+        }
         else
-        { return EHeld; }
+        {
+            return EHeld;
+        }
     }
 }
 
@@ -50,7 +66,7 @@ bool MouseState::GetButtonValue(int button) const
     return (SDL_BUTTON(button) & mCurrButtons) == 1;
 }
 
-InputSystem::InputSystem(Game* game, int updateOrder)
+InputSystem::InputSystem(Game *game, int updateOrder)
     : System(game, updateOrder)
 {
 }
@@ -64,7 +80,6 @@ void InputSystem::Initialize()
     // Mouse
     mState.Mouse.mPrevButtons = 0;
     mState.Mouse.mCurrButtons = 0;
-
 }
 
 void InputSystem::PreProcess()
@@ -79,25 +94,23 @@ void InputSystem::ProcessInput()
     SDL_Event event;
     while (SDL_PollEvent(&event))
     {
-       switch (event.type)
-       {
+        switch (event.type)
+        {
         case SDL_QUIT:
             mGame->SetGameState(Game::EQuit);
             break;
 
         default:
             break;
-
-       }
+        }
     }
     if (mState.KeyBoard.GetKeyState(SDL_SCANCODE_ESCAPE) == EPressed && mGame->GetGameState() == Game::EGameplay)
     {
         new Menu(mGame);
     }
-    
+
     int x = 0, y = 0;
     mState.Mouse.mCurrButtons = SDL_GetMouseState(&x, &y);
     mState.Mouse.mPosition.x = static_cast<float>(x);
     mState.Mouse.mPosition.y = static_cast<float>(y);
-
 }

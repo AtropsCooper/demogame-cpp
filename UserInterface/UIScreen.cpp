@@ -2,24 +2,23 @@
 #include "Game.h"
 #include "Font.h"
 
-UIScreen::UIScreen(Game* game):
-	mGame(game),
-	mState(UIState::EActive),
-    mInputState(nullptr),
-	mTexBackground(nullptr),
-	mBackPos(Vector2::Zero),
-	mBackSrcRect(),
-	mText(nullptr),
-	mTextPos(Vector2::Zero),
-	mButtonText(nullptr),
-	mButtonOnRect(),
-    mButtonOffRect(),
-	mTextCenter(true),
-	mCurButton(nullptr)
+UIScreen::UIScreen(Game *game) : mGame(game),
+								 mState(UIState::EActive),
+								 mInputState(nullptr),
+								 mTexBackground(nullptr),
+								 mBackPos(Vector2::Zero),
+								 mBackSrcRect(),
+								 mText(nullptr),
+								 mTextPos(Vector2::Zero),
+								 mButtonText(nullptr),
+								 mButtonOnRect(),
+								 mButtonOffRect(),
+								 mTextCenter(true),
+								 mCurButton(nullptr)
 {
 	mGame->PushUI(this);
 	mFont = mGame->GetFont();
-    mInputState = mGame->GetInputState();
+	mInputState = mGame->GetInputState();
 }
 
 UIScreen::~UIScreen()
@@ -37,9 +36,9 @@ UIScreen::~UIScreen()
 
 void UIScreen::Update()
 {
-    // Select Button
-    ResetButtonPointer();
-    if (!mButtons.empty())
+	// Select Button
+	ResetButtonPointer();
+	if (!mButtons.empty())
 	{
 		// Current mouse cursor position on the screen
 		Vector2 mousePos = mInputState->Mouse.GetMousePosition();
@@ -56,12 +55,12 @@ void UIScreen::Update()
 			}
 		}
 	}
-    // On click
-    if (mInputState->KeyBoard.GetKeyState(SDL_SCANCODE_SPACE) == EPressed ||
-        mInputState->KeyBoard.GetKeyState(SDL_SCANCODE_RETURN) == EPressed ||
-        mInputState->Mouse.GetButtonState(SDL_BUTTON_LEFT) == EPressed)
-    {
-        if (!mButtons.empty())
+	// On click
+	if (mInputState->KeyBoard.GetKeyState(SDL_SCANCODE_SPACE) == EPressed ||
+		mInputState->KeyBoard.GetKeyState(SDL_SCANCODE_RETURN) == EPressed ||
+		mInputState->Mouse.GetButtonState(SDL_BUTTON_LEFT) == EPressed)
+	{
+		if (!mButtons.empty())
 		{
 			for (auto b : mButtons)
 			{
@@ -73,11 +72,10 @@ void UIScreen::Update()
 				}
 			}
 		}
-    }
-
+	}
 }
 
-void UIScreen::Draw(SDL_Renderer* renderer)
+void UIScreen::Draw(SDL_Renderer *renderer)
 // Draw background, main text, and buttons
 {
 	// Draw background
@@ -114,7 +112,7 @@ void UIScreen::Draw(SDL_Renderer* renderer)
 	// Draw buttons
 	for (auto b : mButtons)
 	{
-        SDL_Rect* srcRectB = nullptr;
+		SDL_Rect *srcRectB = nullptr;
 		// Select the button's texture depending on if selected
 		if (b->GetIsSelected())
 			srcRectB = &mButtonOnRect;
@@ -124,13 +122,13 @@ void UIScreen::Draw(SDL_Renderer* renderer)
 		SDL_Rect dstrect = CenterAt(b->GetWidth(), b->GetHeight(), b->GetPosition());
 		SDL_RenderCopy(renderer, mButtonText, srcRectB, &dstrect);
 		// Draw button's text
-		SDL_Texture* texT = b->GetText();
+		SDL_Texture *texT = b->GetText();
 		dstrect = TextureRect(texT, b->GetPosition());
 		SDL_RenderCopy(renderer, texT, nullptr, &dstrect);
 	}
 }
 
-void UIScreen::SetText(const std::string& text, SDL_Renderer* renderer, const Color::Color& color, int size)
+void UIScreen::SetText(const std::string &text, SDL_Renderer *renderer, const Color::Color &color, int size)
 // Set main text
 {
 	if (mText)
@@ -138,7 +136,7 @@ void UIScreen::SetText(const std::string& text, SDL_Renderer* renderer, const Co
 		SDL_DestroyTexture(mText);
 		mText = nullptr;
 	}
-	SDL_Surface* surf = mFont->CreateText(text, color, size);
+	SDL_Surface *surf = mFont->CreateText(text, color, size);
 	if (surf)
 	{
 		mText = SDL_CreateTextureFromSurface(renderer, surf);
@@ -146,7 +144,7 @@ void UIScreen::SetText(const std::string& text, SDL_Renderer* renderer, const Co
 	}
 }
 
-void UIScreen::AddButton(Button* button)
+void UIScreen::AddButton(Button *button)
 {
 	button->SetFont(mFont);
 	int buttonW;
@@ -179,7 +177,7 @@ void UIScreen::Close()
 
 SDL_Rect UIScreen::CenterAt(int w, int h, Vector2 pos)
 {
-    SDL_Rect dstrect;
+	SDL_Rect dstrect;
 	dstrect.w = w;
 	dstrect.h = h;
 	dstrect.x = static_cast<int>(pos.x - w / 2.0f);
@@ -187,7 +185,7 @@ SDL_Rect UIScreen::CenterAt(int w, int h, Vector2 pos)
 	return dstrect;
 }
 
-SDL_Rect UIScreen::TextureRect(SDL_Texture* tex, Vector2 pos)
+SDL_Rect UIScreen::TextureRect(SDL_Texture *tex, Vector2 pos)
 // Use texture and its position to get SDL_Rect of this texture
 {
 	int w;
@@ -201,25 +199,22 @@ SDL_Rect UIScreen::TextureRect(SDL_Texture* tex, Vector2 pos)
 	return dstrect;
 }
 
-
-Button::Button(UIScreen* ui):
-	mOnClick(nullptr),
-	mText(nullptr),
-	mPosition(Vector2::Zero),
-	mWidth(0),
-	mHeight(0),
-	mFont(nullptr),
-	mIsSelected(false)
+Button::Button(UIScreen *ui) : mOnClick(nullptr),
+							   mText(nullptr),
+							   mPosition(Vector2::Zero),
+							   mWidth(0),
+							   mHeight(0),
+							   mFont(nullptr),
+							   mIsSelected(false)
 {
 	ui->AddButton(this);
 }
 
 Button::~Button()
 {
-
 }
 
-void Button::SetText(const std::string& text, SDL_Renderer* renderer, const Color::Color& color, int size)
+void Button::SetText(const std::string &text, SDL_Renderer *renderer, const Color::Color &color, int size)
 // Set button's text
 {
 	if (mText)
@@ -227,7 +222,7 @@ void Button::SetText(const std::string& text, SDL_Renderer* renderer, const Colo
 		SDL_DestroyTexture(mText);
 		mText = nullptr;
 	}
-	SDL_Surface* surf = mFont->CreateText(text, color, size);
+	SDL_Surface *surf = mFont->CreateText(text, color, size);
 	if (surf)
 	{
 		mText = SDL_CreateTextureFromSurface(renderer, surf);

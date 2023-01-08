@@ -1,13 +1,9 @@
 #include "CollisionBoxComponent.h"
 #include "Entity.h"
 
-CollisionBoxComponent::CollisionBoxComponent(class Entity* owner, int updateOrder)
-    : Component(owner, updateOrder)
-    , mWidth(0.0f)
-    , mHeight(0.0f)
-    , mOffset(0, 0)
+CollisionBoxComponent::CollisionBoxComponent(class Entity *owner, int updateOrder)
+    : Component(owner, updateOrder), mWidth(0.0f), mHeight(0.0f), mOffset(0, 0)
 {
-
 }
 
 Vector2 CollisionBoxComponent::GetPosition()

@@ -4,11 +4,11 @@
 class EndScreen : public UIScreen
 {
 public:
-    EndScreen(class Game* game, bool isWin);
+    EndScreen(class Game *game, bool isWin);
     ~EndScreen();
-    void Draw(SDL_Renderer* renderer) override;
+    void Draw(SDL_Renderer *renderer) override;
 
 private:
-	std::function<void()> RetryOnClick();
-	std::function<void()> QuitOnClick();
+    std::function<void()> RetryOnClick();
+    std::function<void()> QuitOnClick();
 };

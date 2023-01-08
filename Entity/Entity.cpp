@@ -12,12 +12,8 @@
 #include "DeadOnCollisionComponent.h"
 #include <algorithm>
 
-Entity::Entity(class Game* game)
-    : mPosition(Vector2::Zero)
-    , mScale(1.0f)
-    , mRotation(0.0f)
-    , mState(EActive)
-    , mGame(game)
+Entity::Entity(class Game *game)
+    : mPosition(Vector2::Zero), mScale(1.0f), mRotation(0.0f), mState(EActive), mGame(game)
 {
     mGame->AddEntity(this);
 }
@@ -30,7 +26,7 @@ Entity::~Entity()
     }
 }
 
-void Entity::AddComponent(Component* component)
+void Entity::AddComponent(Component *component)
 {
     int myOrder = component->GetUpdateOrder();
     auto iter = mComponents.begin();
@@ -48,7 +44,7 @@ void Entity::AddComponent(Component* component)
     }
 }
 
-void Entity::RemoveComponent(Component* component)
+void Entity::RemoveComponent(Component *component)
 {
     auto iter = std::find(mComponents.begin(), mComponents.end(), component);
     if (iter != mComponents.end())
@@ -63,11 +59,12 @@ void Entity::RemoveComponent(Component* component)
 
 // Need change:
 // Deal with multiple components of same class
-template<typename T> T* Entity::GetComponent() const
+template <typename T>
+T *Entity::GetComponent() const
 {
     for (auto c : mComponents)
     {
-        T* component = dynamic_cast<T*>(c);
+        T *component = dynamic_cast<T *>(c);
         if (component != nullptr)
         {
             return component;
@@ -101,7 +98,7 @@ Entity::State Entity::GetState() const
     return mState;
 }
 
-#define tGetComponent(type) template type* Entity::GetComponent<type>() const
+#define tGetComponent(type) template type *Entity::GetComponent<type>() const
 
 tGetComponent(SpriteComponent);
 tGetComponent(MoveComponent);

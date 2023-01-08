@@ -5,6 +5,6 @@
 class MoveComponent : public Component
 {
 public:
-    MoveComponent(Entity* owner, int updateOrder) : Component(owner, updateOrder) {}
+    MoveComponent(Entity *owner, int updateOrder) : Component(owner, updateOrder) {}
     Vector2 mVelocity;
 };

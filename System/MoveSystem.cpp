@@ -23,7 +23,7 @@ void MoveSystem::Update(float deltaTime)
     for (auto c : mMoveComponents)
     {
         c->GetOwner()->mPosition += c->mVelocity * deltaTime;
-        AnimComponent* anim = c->GetOwner()->GetComponent<AnimComponent>();
+        AnimComponent *anim = c->GetOwner()->GetComponent<AnimComponent>();
         if (anim != nullptr && c->GetOwner()->GetComponent<HittedComponent>() == nullptr)
         {
             if (c->mVelocity != Vector2::Zero)

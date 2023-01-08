@@ -40,7 +40,6 @@ const static float GOBLIN_MOVE_SPEED = 4.5f;
 const static float DEMON_MOVE_SPEED = 10.0f;
 const static float BOSS_MOVE_SPEED = 7.2f;
 
-
 const static int SYSTEM_ORDER_INPUT = 0;
 const static int SYSTEM_ORDER_ASSETLOAD = 1;
 const static int SYSTEM_ORDER_DRAW = 200;
@@ -61,7 +60,7 @@ const static SDL_Rect PLAYER_IDLE_ANIM = {128, 196, 16, 28};
 const static int PLAYER_IDLE_LENGTH = 4;
 const static SDL_Rect PLAYER_RUN_ANIM = {192, 196, 16, 28};
 const static int PLAYER_RUN_LENGTH = 4;
-const static SDL_Rect PLAYER_HIT_ANIM = {256, 196, 16, 28};  
+const static SDL_Rect PLAYER_HIT_ANIM = {256, 196, 16, 28};
 const static int PLAYER_HIT_LENGTH = 2;
 
 const static SDL_Rect SKELET_IDLE_ANIM = {368, 80, 16, 16};
@@ -91,7 +90,6 @@ const static SDL_Rect BOSS_RUN_ANIM = {144, 364, 32, 36};
 const static int BOSS_RUN_LENGTH = 4;
 const static SDL_Rect BOSS_HIT_ANIM = {240, 364, 32, 36};
 const static int BOSS_HIT_LENGTH = 2;
-
 
 // UI.png
 const static SDL_Rect UI_MENU_BG = {56, 0, 78, 85};

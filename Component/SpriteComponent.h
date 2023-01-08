@@ -6,11 +6,11 @@
 class SpriteComponent : public Component
 {
 public:
-    SpriteComponent(class Entity* owner, int order = 100);
+    SpriteComponent(class Entity *owner, int order = 100);
 
-    void SetTexture(SDL_Texture* text);
-    void SetTexture(SDL_Texture* text, const SDL_Rect *part);
-    SDL_Texture* GetTexture() const { return mTexture; }
+    void SetTexture(SDL_Texture *text);
+    void SetTexture(SDL_Texture *text, const SDL_Rect *part);
+    SDL_Texture *GetTexture() const { return mTexture; }
 
     int mTexWidth;
     int mTexHeight;
@@ -19,6 +19,5 @@ public:
     bool mFaceRight;
 
 protected:
-    SDL_Texture* mTexture;
-
+    SDL_Texture *mTexture;
 };

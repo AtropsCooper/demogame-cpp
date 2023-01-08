@@ -24,9 +24,9 @@ public:
     void CleanUp() { mTileEntities.clear(); }
 
 private:
-    SDL_Texture* mTileTexture;
-    
-    class Game* mGame;
-    std::vector<class Entity*> mTileEntities;
+    SDL_Texture *mTileTexture;
+
+    class Game *mGame;
+    std::vector<class Entity *> mTileEntities;
     unsigned char mTiles[MAPSIZE][MAPSIZE];
-}; 
+};
