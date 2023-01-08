@@ -38,25 +38,25 @@ Windows 10 と macOS Montery では、以下の手順を従ってビルド可能
 パッケージマネージャー [chocolatey](https://chocolatey.org/) の利用を推奨します。
 以下は、chocolateyが利用可能な環境でのガイドです。
 
-ビルド環境取得:
+**ビルド環境取得:**
 
 ```powershell
 > choco install make mingw -y
 ```
 
-ライブラリをインストール:
+**ライブラリをインストール:**
 
 まず、[ライブラリ](#ライブラリ)の mingw 版をダウンロードしてください。
 
 そして、`x86_64-w64-mingw32`フォルダにあるすべてのファイルを`<path_of_chocolatey>\lib\mingw\tools\install\mingw64`にコピーしてください。
 
-ソースコード取得:
+**ソースコード取得:**
 
 ```powershell
 > git clone https://github.com/AtropsCooper/demogame-cpp.git
 ```
 
-ビルド:
+**ビルド:**
 
 ```powershell
 > cd demogame-cpp
@@ -67,20 +67,20 @@ Windows 10 と macOS Montery では、以下の手順を従ってビルド可能
 
 ### macOS
 
-ライブラリ取得:
+**ライブラリ取得:**
 
 ```bash
 > brew update
 > brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer
 ```
 
-ソースコード取得:
+**ソースコード取得:**
 
 ```bash
 > git clone https://github.com/AtropsCooper/demogame-cpp.git
 ```
 
-ビルド:
+**ビルド:**
 
 ```bash
 > cd demogame-cpp
