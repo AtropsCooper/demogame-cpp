@@ -13,7 +13,7 @@ SRCS    := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJS    := $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(SRCS)) 
 EXE     := $(BIN)/$(PROJECT).exe
 CFLAGS  := $(INCLUDE) -std=c++17 -Wall -O3
-LDLIBS  := -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer
+LDLIBS  := -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer -mwindows
 
 RC      := windres
 RCFLAGS := 
