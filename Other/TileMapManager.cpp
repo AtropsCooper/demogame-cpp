@@ -327,7 +327,7 @@ Vector2 TileMapManager::GetSpawnPointAwayFrom(Vector2 pos, float distance)
 Vector2 TileMapManager::MoveToMiddle(Vector2 vec)
 {
     Vector2 offsets[] = {
-        {-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {-1, 0}, {1, 1}};
+        {-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}};
     Vector2 result = vec;
     for (auto v : offsets)
     {
