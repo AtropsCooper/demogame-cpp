@@ -29,11 +29,11 @@ ESCキーを押すと、ゲームが一時停止し、メニューが表示さ�
 * [Super Dialogue Audio Pack](https://dillonbecker.itch.io/sdap)
 * [Minifantasy - Dungeon Audio Pack](https://leohpaz.itch.io/minifantasy-dungeon-sfx-pack)
 
-Windows 10 と macOS Montery では、以下の手順を従ってビルド可能です。
+## Building the Game
+
+[Windows 10](#windows-mingw) と [macOS Montery](#macos) では、以下の手順を従ってビルド可能です。
 
 他の OS でのビルドも可能ですが、サポートはできません。
-
-## Building the Game
 
 ### Windows MinGW
 
