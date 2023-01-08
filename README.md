@@ -19,7 +19,15 @@ ESCキーを押すと、ゲームが一時停止し、メニューが表示さ�
 * [SDL_ttf](https://github.com/libsdl-org/SDL_ttf)
 * [SDL_image](https://github.com/libsdl-org/SDL_image)
 
-## Building the Game
+## Credit
+
+以下、使われた画像・音声の素材です。
+
+* [Dungeon Tileset II](https://0x72.itch.io/dungeontileset-ii)
+* [Dungeon UI](https://0x72.itch.io/dungeonui)
+* [Rock House Fantasy](https://waldemarcleaver.itch.io/rock-house-fantasy)
+* [Super Dialogue Audio Pack](https://dillonbecker.itch.io/sdap)
+* [Minifantasy - Dungeon Audio Pack](https://leohpaz.itch.io/minifantasy-dungeon-sfx-pack)
 
 Windows 10 と macOS Montery では、以下の手順を従ってビルド可能です。
 
