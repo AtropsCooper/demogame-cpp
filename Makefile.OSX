@@ -11,7 +11,7 @@ OBJ_DIR := $(addprefix $(OBJ)/,$(MODULES))
 INCLUDE := $(addprefix -I,$(SRC_DIR)) -IAssets -I/opt/homebrew/include/
 SRCS    := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
 OBJS    := $(patsubst $(SRC)/%.cpp,$(OBJ)/%.o,$(SRCS)) 
-EXE     := $(BIN)/$(PROJECT).app
+EXE     := $(BIN)/$(PROJECT)
 CFLAGS  := $(INCLUDE) `sdl2-config --cflags`  -std=c++17 -Wall -O3
 LDLIBS  := `sdl2-config --libs` -lSDL2_image -lSDL2_ttf -lSDL2_mixer
 
